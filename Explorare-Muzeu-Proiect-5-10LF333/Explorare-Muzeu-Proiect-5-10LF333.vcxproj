@@ -70,6 +70,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>..\..\_External\glm;..\..\_External\glfw-3.4.bin.WIN64\include\GLFW;..\..\_External\glew-2.1.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\_External\glfw-3.4.bin.WIN64\lib-vc2022;..\..\_External\glew-2.1.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>..\..\_External\glm;..\..\_External\glfw-3.4.bin.WIN64\include\GLFW;..\..\_External\glew-2.1.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\_External\glfw-3.4.bin.WIN64\lib-vc2022;..\..\_External\glew-2.1.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
