@@ -136,9 +136,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Explorare-Muzeu-Proiect-5-10LF333.cpp" />
+    <ClCompile Include="Model.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.gitignore" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Model.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
