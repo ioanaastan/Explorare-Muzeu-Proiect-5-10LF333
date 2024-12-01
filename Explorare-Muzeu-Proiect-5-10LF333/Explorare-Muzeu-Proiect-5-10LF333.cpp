@@ -10,6 +10,8 @@
 
 #include <glfw3.h>
 
+#include"Model.h"
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
