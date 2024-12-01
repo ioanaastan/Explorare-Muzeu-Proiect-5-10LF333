@@ -40,4 +40,18 @@
       <Filter>Resource Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="PhongLight.fs">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="PhongLight.vs">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="PhongLightWithTexture.fs">
+      <Filter>Source Files</Filter>
+    </Text>
+    <Text Include="PhongLightWithTexture.vs">
+      <Filter>Source Files</Filter>
+    </Text>
+  </ItemGroup>
 </Project>

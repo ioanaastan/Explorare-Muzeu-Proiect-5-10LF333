@@ -71,8 +71,8 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..\..\_External\glm;..\..\_External\glfw-3.4.bin.WIN64\include\GLFW;..\..\_External\glew-2.1.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\_External\glfw-3.4.bin.WIN64\lib-vc2022;..\..\_External\glew-2.1.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\..\_external\glm;..\..\_external\glfw-3.4.bin.WIN64\include\GLFW;..\..\_external\glew-2.1.0\include;$(IncludePath)</IncludePath>
+    <LibraryPath>..\..\_external\glfw-3.4.bin.WIN64\lib-vc2022;..\..\_external\glew-2.1.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>..\..\_External\glm;..\..\_External\glfw-3.4.bin.WIN64\include\GLFW;..\..\_External\glew-2.1.0\include;$(IncludePath)</IncludePath>
@@ -141,6 +141,22 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.gitignore" />
+    <Text Include="PhongLight.fs">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+    </Text>
+    <Text Include="PhongLight.vs">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+    </Text>
+    <Text Include="PhongLightWithTexture.fs">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+    </Text>
+    <Text Include="PhongLightWithTexture.vs">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+      <FileType>Document</FileType>
+    </Text>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Mesh.h" />
