@@ -78,7 +78,7 @@ void Mesh::Draw(Shader& shader)
 
         // now set the sampler to the correct texture unit
         std::string textureName = (name + number);
-        int location = glGetUniformLocation(shader.ID, textureName.c_str());
+        int location = glGetUniformLocation(shader.GetID(), textureName.c_str());
         if (location != -1) {
             glUniform1i(location, i);
             // and finally bind the texture

@@ -71,12 +71,13 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>..\..\_external\glm;..\..\_external\glfw-3.4.bin.WIN64\include\GLFW;..\..\_external\glew-2.1.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\_external\glfw-3.4.bin.WIN64\lib-vc2022;..\..\_external\glew-2.1.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\packages\Assimp.3.0.0\build\native\include;..\..\_external\glm;..\..\_external\glfw-3.4.bin.WIN64\include\GLFW;..\..\_external\glew-2.1.0\include;$(IncludePath);..\..\_External\stb</IncludePath>
+    <LibraryPath>..\..\_External\glew-2.1.0\lib\Release\x64;..\..\_External\glfw-3.4.bin.WIN64\lib-vc2022;..\packages\Assimp.3.0.0\build\native\lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>..\..\_External\glm;..\..\_External\glfw-3.4.bin.WIN64\include\GLFW;..\..\_External\glew-2.1.0\include;$(IncludePath)</IncludePath>
-    <LibraryPath>..\..\_External\glfw-3.4.bin.WIN64\lib-vc2022;..\..\_External\glew-2.1.0\lib\Release\x64;$(LibraryPath)</LibraryPath>
+    <IncludePath>..\packages\Assimp.3.0.0\build\native\include;..\..\_External\glm;..\..\_External\glfw-3.4.bin.WIN64\include\GLFW;..\..\_External\glew-2.1.0\include;$(IncludePath);..\..\_External\stb</IncludePath>
+    <LibraryPath>..\..\_External\glew-2.1.0\lib\Release\x64;..\..\_External\glfw-3.4.bin.WIN64\lib-vc2022;..\packages\Assimp.3.0.0\build\native\lib\x64;$(LibraryPath)</LibraryPath>
+    <LinkIncremental>true</LinkIncremental>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -142,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.gitignore" />
+    <None Include="packages.config" />
     <Text Include="PhongLight.fs">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
       <FileType>Document</FileType>
@@ -163,6 +165,8 @@
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

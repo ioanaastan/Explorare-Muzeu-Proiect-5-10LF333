@@ -263,9 +263,9 @@ void key_callback(GLFWwindow* window, int key, int scancode, int action, int mod
 		pCamera->ProcessKeyboard(LEFT, (float)deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
 		pCamera->ProcessKeyboard(RIGHT, (float)deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
 		pCamera->ProcessKeyboard(UP, (float)deltaTime);
-	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 		pCamera->ProcessKeyboard(DOWN, (float)deltaTime);
 
 	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) {

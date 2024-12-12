@@ -24,34 +24,47 @@
     <ClCompile Include="Mesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.gitignore">
       <Filter>Resource Files</Filter>
+    </None>
+    <None Include="packages.config">
+      <Filter>Source Files</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
+    <ClInclude Include="Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Mesh.h">
-      <Filter>Resource Files</Filter>
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="PhongLight.fs">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
     </Text>
     <Text Include="PhongLight.vs">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
     </Text>
     <Text Include="PhongLightWithTexture.fs">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
     </Text>
     <Text Include="PhongLightWithTexture.vs">
-      <Filter>Source Files</Filter>
+      <Filter>Resource Files</Filter>
     </Text>
   </ItemGroup>
 </Project>
