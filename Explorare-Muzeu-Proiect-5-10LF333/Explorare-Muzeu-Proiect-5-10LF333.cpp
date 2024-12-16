@@ -1,3 +1,8 @@
+#include <Windows.h>
+#include <locale>
+#include <codecvt>
+#include<filesystem>
+
 #include <stdlib.h> 
 #include <stdio.h>
 #include <math.h> 
@@ -10,10 +15,11 @@
 
 #include <glfw3.h>
 
-#include"Model.h"
-#include"Shader.h"
-
 #include <iostream>
+#include <fstream>
+#include <sstream>
+#include "Shader.h"
+#include "Model.h"
 
 #pragma comment (lib, "glfw3dll.lib")
 #pragma comment (lib, "glew32.lib")
@@ -237,6 +243,11 @@ GLuint VAOID, VBOID, ColorBufferID, IBOID;
 GLuint ProjMatrixLocation, ViewMatrixLocation, WorldMatrixLocation;
 Camera* pCamera = nullptr;
 
+
+std::string currentPath = std::filesystem::current_path().string();
+std::string piratObjFileName = ("Models\\GrassLawn\\GrassLawn.obj");
+Model piratObjModel(piratObjFileName, false);
+
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
 void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
@@ -400,6 +411,10 @@ void RenderFrame()
 
 	ShaderProgram.SetMat4("projection", pCamera->GetProjectionMatrix());
 	ShaderProgram.SetMat4("view", pCamera->GetViewMatrix());
+
+	glm::mat4 piratModel = glm::scale(glm::mat4(1.0), glm::vec3(50.f, 1.f, 50.f));
+	ShaderProgram.SetMat4("model", piratModel);
+	piratObjModel.Draw(ShaderProgram);
 
 	glm::mat4 model = glm::scale(glm::mat4(1.0), glm::vec3(1.0f));
 	ShaderProgram.SetMat4("model", model);
