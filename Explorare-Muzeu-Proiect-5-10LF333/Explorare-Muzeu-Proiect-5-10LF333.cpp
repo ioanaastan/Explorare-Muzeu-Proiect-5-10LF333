@@ -1,4 +1,4 @@
-﻿#include <Windows.h>
+#include <Windows.h>
 #include <codecvt>
 
 #include <stdlib.h> 
@@ -18,6 +18,8 @@
 #include"Camera.h"
 
 #include <iostream>
+#include <fstream>
+#include <sstream>
 
 #pragma comment (lib, "glfw3dll.lib")
 #pragma comment (lib, "glew32.lib")
@@ -45,6 +47,11 @@ Shader lampShader;
 Shader objShader;
 
 std::vector<Model> models;
+
+
+std::string currentPath = std::filesystem::current_path().string();
+std::string piratObjFileName = ("Models\\GrassLawn\\GrassLawn.obj");
+Model piratObjModel(piratObjFileName, false);
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -196,6 +203,10 @@ void RenderFrame()
 
 	ShaderProgram.SetMat4("projection", pCamera->GetProjectionMatrix());
 	ShaderProgram.SetMat4("view", pCamera->GetViewMatrix());
+
+	glm::mat4 piratModel = glm::scale(glm::mat4(1.0), glm::vec3(50.f, 1.f, 50.f));
+	ShaderProgram.SetMat4("model", piratModel);
+	piratObjModel.Draw(ShaderProgram);
 
 	glm::mat4 model = glm::scale(glm::mat4(1.0), glm::vec3(1.0f));
 	ShaderProgram.SetMat4("model", model);
