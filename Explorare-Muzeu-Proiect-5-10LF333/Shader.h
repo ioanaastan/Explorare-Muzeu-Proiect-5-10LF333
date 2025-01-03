@@ -10,7 +10,9 @@
 class Shader
 {
 public:
+	Shader();
 	Shader(const char* vertexPath, const char* fragmentPath);
+	void Create(const char* vertexPath, const char* fragmentPath);
 
 	~Shader();
 

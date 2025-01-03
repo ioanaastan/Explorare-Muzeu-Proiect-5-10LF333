@@ -1,6 +1,18 @@
 #include "Shader.h"
 
+Shader::Shader()
+{
+	ID = 0;
+}
+
+
+
 Shader::Shader(const char* vertexPath, const char* fragmentPath)
+{
+	Init(vertexPath, fragmentPath);
+}
+
+void Shader::Create(const char* vertexPath, const char* fragmentPath)
 {
 	Init(vertexPath, fragmentPath);
 }
