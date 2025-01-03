@@ -1,4 +1,7 @@
-﻿#include <stdlib.h> 
+﻿#include <Windows.h>
+#include <codecvt>
+
+#include <stdlib.h> 
 #include <stdio.h>
 #include <math.h> 
 
@@ -23,7 +26,9 @@
 const unsigned int SCR_WIDTH = 1280;
 const unsigned int SCR_HEIGHT = 720;
 
-glm::vec3 lightPos(0.0f, 0.0f, 2.0f);
+std::string currentPath;
+
+glm::vec3 lightPos(0.0f, 0.0f, 10.0f);
 
 GLuint cubeVAO, lightVAO, VBO;
 GLuint VertexShaderId, FragmentShaderId, ProgramId;
@@ -31,12 +36,15 @@ GLuint ProjMatrixLocation, ViewMatrixLocation, WorldMatrixLocation;
 GLuint VAOID, VBOID, ColorBufferID, IBOID;
 Camera* pCamera = nullptr;
 
-float g_fKA = 0.5f;
+float g_fKA = 0.2f;
 float g_fKD = 0.5f;
 float g_fKS = 0.5f;
 
 Shader ShaderProgram;
 Shader lampShader;
+Shader objShader;
+
+std::vector<Model> models;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -154,7 +162,7 @@ void RenderFrame()
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
 
-	float lightSpeed = currentFrame * 30.f;
+	float lightSpeed = currentFrame * 1.f;
 	float lightRadius = 2.f; // distanta 
 
 	lightPos.x = lightRadius * glm::sin(glm::radians(lightSpeed));
@@ -180,6 +188,10 @@ void RenderFrame()
 	ShaderProgram.SetVec3("objectColor", 0.5f, 1.0f, 0.31f);
 	ShaderProgram.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
 	ShaderProgram.SetVec3("lightPos", lightPos);
+	ShaderProgram.SetFloat("KA", g_fKA);
+	ShaderProgram.SetFloat("KD", g_fKD);
+	ShaderProgram.SetFloat("KS", g_fKS);
+
 	ShaderProgram.SetVec3("viewPos", pCamera->GetPosition());
 
 	ShaderProgram.SetMat4("projection", pCamera->GetProjectionMatrix());
@@ -210,6 +222,30 @@ void RenderFrame()
 
 		RenderCube();
 	}
+
+	//Here we render the models
+
+	objShader.Use();
+	objShader.SetVec3("objectColor", 0.5f, 1.0f, 0.31f);
+	objShader.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
+	objShader.SetVec3("lightPos", lightPos);
+	objShader.SetFloat("KA", g_fKA);
+	objShader.SetFloat("KD", g_fKD);
+	objShader.SetFloat("KS", g_fKS);
+	objShader.SetInt("texture_diffuse1", 0);
+
+	objShader.SetVec3("viewPos", pCamera->GetPosition());
+	objShader.SetMat4("projection", pCamera->GetProjectionMatrix());
+	objShader.SetMat4("view", pCamera->GetViewMatrix());
+
+	//rendering a pirate
+	glm::mat4 pirateModel = glm::mat4(1.0);
+	pirateModel = glm::translate(pirateModel, glm::vec3(2.f, -1.f, 0.f));
+	pirateModel = glm::scale(pirateModel, glm::vec3(.5f));
+	objShader.SetMat4("model", pirateModel);
+	models[0].Draw(objShader);
+
+	//Here we render the light source
 
 	lampShader.Use();
 	lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
@@ -257,6 +293,16 @@ int main()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
+	wchar_t buffer[MAX_PATH];
+
+	GetCurrentDirectoryW(MAX_PATH, buffer);
+
+	std::wstring executablePath(buffer);
+	std::wstring wscurrentPath = executablePath.substr(0, executablePath.find_last_of(L"\\/"));
+
+	std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+	currentPath = converter.to_bytes(wscurrentPath);
+
 	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Lab 7", NULL, NULL);
 	if (window == NULL) {
 		std::cout << "Failed to create GLFW window" << std::endl;
@@ -278,8 +324,14 @@ int main()
 
 	ShaderProgram.Create("PhongLight.vs", "PhongLight.fs");
 	lampShader.Create("Lamp.vs", "Lamp.fs");
+	objShader.Create("PhongLightWithTexture.vs", "PhongLightWithTexture.fs");
 
 	pCamera = new Camera(SCR_WIDTH, SCR_HEIGHT, glm::vec3(0.0, 0.0, 3.0));
+
+	//Models loading
+
+	std::string PiratePath = currentPath + "\\Models\\Pirat\\Pirat.obj";
+	models.emplace_back(PiratePath, false);
 
 	while (!glfwWindowShouldClose(window)) {
 		//double currentFrame = glfwGetTime();
