@@ -9,6 +9,8 @@ uniform vec3 viewPos;
 uniform vec3 lightColor;
 uniform vec3 objectColor;
 
+
+
 void main()
 {
 	// simple color blending
