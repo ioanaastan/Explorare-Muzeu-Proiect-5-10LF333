@@ -1,4 +1,4 @@
-#include <stdlib.h> 
+﻿#include <stdlib.h> 
 #include <stdio.h>
 #include <math.h> 
 
@@ -23,6 +23,14 @@ const unsigned int SCR_WIDTH = 1280;
 const unsigned int SCR_HEIGHT = 720;
 
 
+GLuint cubeVAO, lightVAO, VBO;
+GLuint VertexShaderId, FragmentShaderId, ProgramId;
+GLuint ProjMatrixLocation, ViewMatrixLocation, WorldMatrixLocation;
+
+float g_fKA = 0.5f;
+float g_fKD = 0.5f;
+float g_fKS = 0.5f;
+
 enum ECameraMovementType
 {
 	UNKNOWN,
@@ -39,7 +47,7 @@ class Camera
 private:
 	// Default camera values
 	const float zNEAR = 0.1f;
-	const float zFAR = 500.f;
+	const float zFAR = 100.f;
 	const float YAW = -90.0f;
 	const float PITCH = 0.0f;
 	const float FOV = 45.0f;
@@ -182,7 +190,7 @@ private:
 		//std::cout << "yaw = " << yaw << std::endl;
 		//std::cout << "pitch = " << pitch << std::endl;
 
-		// Avem grij? s? nu ne d?m peste cap
+		// Avem grijã sã nu ne dãm peste cap
 		if (constrainPitch) {
 			if (pitch > 89.0f)
 				pitch = 89.0f;
@@ -190,7 +198,7 @@ private:
 				pitch = -89.0f;
 		}
 
-		// Se modific? vectorii camerei pe baza unghiurilor Euler
+		// Se modificã vectorii camerei pe baza unghiurilor Euler
 		UpdateCameraVectors();
 	}
 
@@ -508,8 +516,81 @@ int main()
 	/*glEnable(GL_DEPTH_TEST);*/
 	Initialize();
 
+	glGenVertexArrays(1, &lightVAO);
+	glBindVertexArray(lightVAO);
+
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	// note that we update the lamp's position attribute's stride to reflect the updated buffer data
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
+	glEnableVertexAttribArray(0);
+}
+void DestroyVBO()
+{
+	glDisableVertexAttribArray(1);
+	glDisableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+	glDeleteBuffers(1, &VBO);
+	//MEREU STERGI INTAI VBO-uri SI APOI VAO-uri
+	glBindVertexArray(0);
+	glDeleteVertexArrays(1, &cubeVAO);
+}
+
+
+Camera* pCamera = nullptr;
+
+void Cleanup()
+{
+	delete pCamera;
+}
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+void mouse_callback(GLFWwindow* window, double xpos, double ypos);
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
+
+double deltaTime = 0.0f;
+double lastFrame = 0.0f;
+
+void processInput(GLFWwindow* window);
+
+void RenderCube()
+{
+	glBindVertexArray(cubeVAO);
+	glBindBuffer(GL_ARRAY_BUFFER, VBO);
+	glDrawArrays(GL_TRIANGLES, 0, 36);
+}
+
+int main()
+{
+	glfwInit();
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Lab 7", NULL, NULL);
+	if (window == NULL) {
+		std::cout << "Failed to create GLFW window" << std::endl;
+		glfwTerminate();
+		return -1;
+	}
+
+	glfwMakeContextCurrent(window);
+	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+	glfwSetCursorPosCallback(window, mouse_callback);
+	glfwSetScrollCallback(window, scroll_callback);
+	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+	glewInit();
+
+	glEnable(GL_DEPTH_TEST);
+
+	CreateVBO();
 
 	pCamera = new Camera(SCR_WIDTH, SCR_HEIGHT, glm::vec3(0.0, 0.0, 3.0));
+
+	glm::vec3 lightPos(0.0f, 0.0f, 2.0f);
+	Shader lampShader("Lamp.vs", "Lamp.fs");
+	Shader lightingShader("PhongLight.vs", "PhongLight.fs");
 
 	while (!glfwWindowShouldClose(window)) {
 		double currentFrame = glfwGetTime();
@@ -517,8 +598,48 @@ int main()
 		lastFrame = currentFrame;
 
 		processInput(window);
-		RenderFrame();
+    
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	
+		float lightSpeed = currentFrame * 30.f;
+		float lightRadius = 1.f; // distanta 
 
+		lightPos.x = lightRadius * glm::sin(glm::radians(lightSpeed));
+		lightPos.y = lightRadius * glm::sin(glm::radians(lightSpeed));
+		lightPos.z = lightRadius * glm::cos(glm::radians(lightSpeed));
+
+		
+		lightingShader.Use();
+		lightingShader.SetVec3("objectColor", 0.5f, 1.0f, 0.31f);
+		lightingShader.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
+		lightingShader.SetVec3("lightPos", lightPos);
+		lightingShader.SetFloat("KA", g_fKA);
+		lightingShader.SetFloat("KD", g_fKD);
+		lightingShader.SetFloat("KS", g_fKS);
+		
+		lightingShader.SetVec3("viewPos", pCamera->GetPosition());
+		lightingShader.SetMat4("projection", pCamera->GetProjectionMatrix());
+		lightingShader.SetMat4("view", pCamera->GetViewMatrix());
+
+		glm::mat4 model = glm::scale(glm::mat4(1.0), glm::vec3(1.0f));
+		lightingShader.SetMat4("model", model);
+
+		RenderCube();
+
+
+		lampShader.Use();
+		lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
+		lampShader.SetMat4("view", pCamera->GetViewMatrix());
+		model = glm::translate(glm::mat4(1.0), lightPos);
+		model = glm::scale(model, glm::vec3(0.05f)); // a smaller cube
+		lampShader.SetMat4("model", model);
+
+		glBindVertexArray(lightVAO);
+		glDrawArrays(GL_TRIANGLES, 0, 36);
+
+		RenderFrame();
+    
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -543,3 +664,31 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yOffset)
 {
 	pCamera->ProcessMouseScroll((float)yOffset);
 }
+
+
+void processInput(GLFWwindow* window)
+{
+	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, true);
+
+	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+		pCamera->ProcessKeyboard(FORWARD, (float)deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+		pCamera->ProcessKeyboard(BACKWARD, (float)deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+		pCamera->ProcessKeyboard(LEFT, (float)deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+		pCamera->ProcessKeyboard(RIGHT, (float)deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_PAGE_UP) == GLFW_PRESS)
+		pCamera->ProcessKeyboard(UP, (float)deltaTime);
+	if (glfwGetKey(window, GLFW_KEY_PAGE_DOWN) == GLFW_PRESS)
+		pCamera->ProcessKeyboard(DOWN, (float)deltaTime);
+
+	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS) {
+		int width, height;
+		glfwGetWindowSize(window, &width, &height);
+		pCamera->Reset(width, height);
+
+	}
+}
+

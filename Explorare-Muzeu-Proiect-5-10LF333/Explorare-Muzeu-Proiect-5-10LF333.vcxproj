@@ -143,6 +143,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\.gitignore" />
+    <None Include="Blending.fs" />
+    <None Include="Blending.vs" />
+    <None Include="Lamp.fs" />
+    <None Include="lamp.vs" />
     <None Include="packages.config" />
     <Text Include="PhongLight.fs">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
