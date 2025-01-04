@@ -1,3 +1,47 @@
+/*
+TUTORIAL PLASARE OBIECTE:
+
+1. te duci in main si adaugi un nou model in vectorul de modele, ai acolo continuarea la tutorial cu cum se face asta
+
+	//Models loading
+
+	//aici am initializat un model, in cazul asta e un pirat, dar poti sa adaugi oricate modele vrei, doar sa ai fisierele alea in folderul Models, fiecare model sa aiba un folder al lui cu denumire intuitiva
+	//va rog sa respectati formatul cu \\, altfel nu o sa mearga
+	std::string PiratePath = currentPath + "\\Models\\Pirat\\Pirat.obj";
+	
+	//aici adaugi modelul in vectorul de modele, in cazul asta e models, dar poti sa il numesti cum vrei
+	//primul parametru e calea catre model, al doilea e mereu false, simplu
+	models.emplace_back(PiratePath, false);
+
+
+2. in functia RenderFrame() adaugi un nou apel de Draw pentru modelul adaugat, din nou, continuarea e acolo
+
+	//rendering a pirate
+
+	//pentru toate modelele exista intai linia asta ca sa ii setezi pozitie, rotatie, scalare si din astea, aici initializezi pozitia lui
+	glm::mat4 pirateModel = glm::mat4(1.0);
+
+	//cu translate ii setezi pozitia, translate returneaza matrice in 4 dimensiuni cu chestiile noi, tot ce e de stiut e ca ii dai intai variabila pe care vrei sa o modifice si apoi vectorul cu coordonatele
+	//coordonatele alea reprezinta x,y,z, unde x = stanga-, dreapta+, y = jos-, sus+, z = fata-, spate+
+	pirateModel = glm::translate(pirateModel, glm::vec3(2.f, -1.f, 0.f));
+	
+	//scale e pentru scalare, adica cat de mare vrei sa fie modelul, in cazul asta e 0.5, adica jumatate din marimea originala
+	pirateModel = glm::scale(pirateModel, glm::vec3(.5f));
+	
+	//aici ii setezi modelul, spui la shader ce urmeaza sa deseneze, in cazul asta e primul model din vectorul de modele
+	objShader.SetMat4("model", pirateModel);
+	
+	//aici desenezi modelul, destul de bine explicat sper
+	models[0].Draw(objShader);
+
+
+3. daca este nevoie faci un folder de modele de un anumit tip pentru a le pastra separat. Ex:(Models_Objects, Models_Characters, Models_Fences, etc)
+
+	//Asa trebuie initializat un vector de modele, destul de basic
+	std::vector<Model> models;
+*/
+
+
 #include <Windows.h>
 #include <codecvt>
 
@@ -46,6 +90,7 @@ Shader ShaderProgram;
 Shader lampShader;
 Shader objShader;
 
+//Asa trebuie initializat un vector de modele, destul de basic
 std::vector<Model> models;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
@@ -242,10 +287,16 @@ void RenderFrame()
 	objShader.SetMat4("view", pCamera->GetViewMatrix());
 
 	//rendering a pirate
+	//pentru toate modelele exista intai linia asta ca sa ii setezi pozitie, rotatie, scalare si din astea, aici initializezi pozitia lui
 	glm::mat4 pirateModel = glm::mat4(1.0);
+	//cu translate ii setezi pozitia, translate returneaza matrice in 4 dimensiuni cu chestiile noi, tot ce e de stiut e ca ii dai intai variabila pe care vrei sa o modifice si apoi vectorul cu coordonatele
+	//coordonatele alea reprezinta x,y,z, unde x = stanga-, dreapta+, y = jos-, sus+, z = fata-, spate+
 	pirateModel = glm::translate(pirateModel, glm::vec3(2.f, -1.f, 0.f));
+	//scale e pentru scalare, adica cat de mare vrei sa fie modelul, in cazul asta e 0.5, adica jumatate din marimea originala
 	pirateModel = glm::scale(pirateModel, glm::vec3(.5f));
+	//aici ii setezi modelul, spui la shader ce urmeaza sa deseneze, in cazul asta e primul model din vectorul de modele
 	objShader.SetMat4("model", pirateModel);
+	//aici desenezi modelul, destul de bine explicat sper
 	models[0].Draw(objShader);
 
 	//Here we render the light source
@@ -332,8 +383,11 @@ int main()
 	pCamera = new Camera(SCR_WIDTH, SCR_HEIGHT, glm::vec3(0.0, 0.0, 3.0));
 
 	//Models loading
-
+	//aici am initializat un model, in cazul asta e un pirat, dar poti sa adaugi oricate modele vrei, doar sa ai fisierele alea in folderul Models, fiecare model sa aiba un folder al lui cu denumire intuitiva
+	//va rog sa respectati formatul cu \\, altfel nu o sa mearga
 	std::string PiratePath = currentPath + "\\Models\\Pirat\\Pirat.obj";
+	//aici adaugi modelul in vectorul de modele, in cazul asta e models, dar poti sa il numesti cum vrei
+	//primul parametru e calea catre model, al doilea e mereu false, simplu
 	models.emplace_back(PiratePath, false);
 
 	while (!glfwWindowShouldClose(window)) {
