@@ -304,7 +304,7 @@ int main()
 	std::wstring wscurrentPath = executablePath.substr(0, executablePath.find_last_of(L"\\/"));
 
 	std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
-	currentPath = converter.to_bytes(wscurrentPath);
+	currentPath = converter.to_bytes(wscurrentPath) + "\\Explorare-Muzeu-Proiect-5-10LF333";
 
 	GLFWwindow* window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Lab 7", NULL, NULL);
 	if (window == NULL) {
