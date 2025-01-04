@@ -286,7 +286,7 @@ void Cleanup()
 
 	DestroyVBO();
 }
-
+//update
 void processInput(GLFWwindow* window);
 
 int main()
