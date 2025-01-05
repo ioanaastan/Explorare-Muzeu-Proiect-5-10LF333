@@ -401,8 +401,8 @@ int main()
 	models.emplace_back(PiratePath, false);
 
 	// Add this after the existing pirate model loading
-	std::string GiraffePath = currentPath + "\\Models\\Giraffe\\Giraffe.obj";
-	std::string GiraffeTexturePath = currentPath + "\\Models\\Giraffe\\Giraffe.jpg";
+	std::string GiraffePath = currentPath + "\\Models\\Giraffe\\CIL1PYJ81IH0BT4B9ME2F53L7.obj";
+	//std::string GiraffeTexturePath = currentPath + "\\Models\\Giraffe\\Giraffe.jpg";
 
 	models.emplace_back(GiraffePath, false);
 
