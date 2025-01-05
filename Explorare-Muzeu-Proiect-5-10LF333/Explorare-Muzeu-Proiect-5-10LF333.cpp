@@ -299,6 +299,16 @@ void RenderFrame()
 	//aici desenezi modelul, destul de bine explicat sper
 	models[0].Draw(objShader);
 
+	glm::mat4 giraffeModel = glm::mat4(1.0);
+
+	giraffeModel = glm::translate(giraffeModel, glm::vec3(5.0f, -1.0f, -2.0f));
+
+	giraffeModel = glm::scale(giraffeModel, glm::vec3(1.5f));
+
+	objShader.SetMat4("model", giraffeModel);
+
+	models[1].Draw(objShader);
+
 	//Here we render the light source
 
 	lampShader.Use();
@@ -389,6 +399,12 @@ int main()
 	//aici adaugi modelul in vectorul de modele, in cazul asta e models, dar poti sa il numesti cum vrei
 	//primul parametru e calea catre model, al doilea e mereu false, simplu
 	models.emplace_back(PiratePath, false);
+
+	// Add this after the existing pirate model loading
+	std::string GiraffePath = currentPath + "\\Models\\Giraffe\\Giraffe.obj";
+	std::string GiraffeTexturePath = currentPath + "\\Models\\Giraffe\\Giraffe.jpg";
+
+	models.emplace_back(GiraffePath, false);
 
 	while (!glfwWindowShouldClose(window)) {
 		//double currentFrame = glfwGetTime();
