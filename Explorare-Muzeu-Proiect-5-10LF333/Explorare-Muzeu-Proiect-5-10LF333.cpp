@@ -309,6 +309,16 @@ void RenderFrame()
 
 	models[1].Draw(objShader);
 
+	glm::mat4 SeaLionModel = glm::mat4(1.0);
+
+	SeaLionModel = glm::translate(SeaLionModel, glm::vec3(-2.0f, -1.0f, 0.0f));
+	SeaLionModel = glm::scale(SeaLionModel, glm::vec3(0.01f));  // Changed from 0.3f to 0.01f
+
+	// Set the model matrix in the shader
+	objShader.SetMat4("model", SeaLionModel);
+
+	models[2].Draw(objShader);
+
 	//Here we render the light source
 
 	lampShader.Use();
@@ -400,11 +410,13 @@ int main()
 	//primul parametru e calea catre model, al doilea e mereu false, simplu
 	models.emplace_back(PiratePath, false);
 
-	// Add this after the existing pirate model loading
 	std::string GiraffePath = currentPath + "\\Models\\Giraffe\\CIL1PYJ81IH0BT4B9ME2F53L7.obj";
 	//std::string GiraffeTexturePath = currentPath + "\\Models\\Giraffe\\Giraffe.jpg";
-
 	models.emplace_back(GiraffePath, false);
+
+	std::string SeaLionPath = currentPath + "\\Models\\SeaLion\\10041_sealion_v1_L3.obj";
+	models.emplace_back(SeaLionPath, false);
+
 
 	while (!glfwWindowShouldClose(window)) {
 		//double currentFrame = glfwGetTime();
