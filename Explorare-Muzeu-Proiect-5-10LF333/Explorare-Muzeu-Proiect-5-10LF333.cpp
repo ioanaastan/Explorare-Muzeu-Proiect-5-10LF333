@@ -382,7 +382,7 @@ models[4].Draw(objShader);
 	// Set the model matrix in the shader
 	objShader.SetMat4("model", condorModel);
 	// Draw the condor - the index should be the position where you added it in the models vector
-	models[17].Draw(objShader);  // Assuming it's the 18th model (index 17)
+	models[24].Draw(objShader);  // Assuming it's the 18th model (index 17)
 
 	//glm::mat4 horseModel = glm::mat4(1.0);
 	//horseModel = glm::translate(horseModel, glm::vec3(0.f, -1.f, 2.5f));
@@ -471,7 +471,37 @@ models[4].Draw(objShader);
 	objShader.SetMat4("model", kangarooModel);
 	models[19].Draw(objShader);
 
+	// ********************************************************************************************************************
 
+	glm::mat4 hayBaleModel = glm::mat4(1.0);
+	hayBaleModel = glm::translate(hayBaleModel, glm::vec3(7.f, -1.f, 2.f));
+	hayBaleModel = glm::scale(hayBaleModel, glm::vec3(0.5f));
+	objShader.SetMat4("model", hayBaleModel);
+	models[20].Draw(objShader);
+
+
+	glm::mat4 bush2Model = glm::mat4(1.0);
+	bush2Model = glm::translate(bush2Model, glm::vec3(11.f, -1.f, 2.f));
+	bush2Model = glm::scale(bush2Model, glm::vec3(1.f));
+	objShader.SetMat4("model", bush2Model);
+	models[21].Draw(objShader);
+
+	glm::mat4 bushModel = glm::mat4(1.0);
+	bushModel = glm::translate(bushModel, glm::vec3(10.f, -1.f, 2.f));
+	bushModel = glm::scale(bushModel, glm::vec3(0.3f));
+	objShader.SetMat4("model", bushModel);
+	models[22].Draw(objShader);
+
+	glm::mat4 stationModel = glm::mat4(1.0);
+	stationModel = glm::translate(stationModel, glm::vec3(-5.f, -1.f, 5.f));
+	stationModel = glm::rotate(stationModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	stationModel = glm::scale(stationModel, glm::vec3(1.f));
+	objShader.SetMat4("model", stationModel);
+	models[23].Draw(objShader);
+
+
+
+	// ********************************************************************************************************************
 
 	lampShader.Use();
 	lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
@@ -483,6 +513,7 @@ models[4].Draw(objShader);
 	glBindVertexArray(lightVAO);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 }
+
 
 void Initialize()
 {
@@ -606,8 +637,7 @@ int main()
 	std::string zebraPath = currentPath + "\\Models\\zebra\\zebra.obj";
 	models.emplace_back(zebraPath, false);
 
-	std::string CondorPath = currentPath + "\\Models\\Condor\\CONDOR.OBJ";
-	models.emplace_back(CondorPath, false);
+	
 
 	std::string apePath = currentPath + "\\Models\\ape\\ape.obj";
 	models.emplace_back(apePath, false);
@@ -619,7 +649,20 @@ int main()
 	models.emplace_back(kangarooPath, false);
 
 
+	std::string hayBalePath = currentPath + "\\Models\\hayBale\\hayBale.obj";
+	models.emplace_back(hayBalePath, false);
 
+	std::string bush2Path = currentPath + "\\Models\\bush2\\bush2.obj";
+	models.emplace_back(bush2Path, false);
+
+	std::string bushPath = currentPath + "\\Models\\bush\\bush.obj";
+	models.emplace_back(bushPath, false);
+
+	std::string stationPath = currentPath + "\\Models\\station\\station.obj";
+	models.emplace_back(stationPath, false);
+
+	std::string CondorPath = currentPath + "\\Models\\Condor\\CONDOR.OBJ";
+	models.emplace_back(CondorPath, false);
 
 //>>>>>>> 749235484b723036f3b5ace1a4e3545ddb7f4db6
 	while (!glfwWindowShouldClose(window)) {
