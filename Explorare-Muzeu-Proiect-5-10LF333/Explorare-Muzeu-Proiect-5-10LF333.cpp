@@ -375,12 +375,67 @@ void RenderFrame()
 	//objShader.SetMat4("model", horseModel);
 	//models[9].Draw(objShader);
 
-	glm::mat4 terrainModel = glm::mat4(1.0);
-	terrainModel = glm::translate(terrainModel, glm::vec3(0.f, -3.f, 0.f));
-	terrainModel = glm::scale(terrainModel, glm::vec3(0.5f));
-	objShader.SetMat4("model", terrainModel);
-	models[10].Draw(objShader);
 
+	bool move = false;
+	for ( int i = 0;i<5;i++)
+	{
+		glm::mat4 deerModel = glm::mat4(1.0);
+		if (i % 2 == 0)
+			deerModel = glm::translate(deerModel, glm::vec3(i * 0.5f + 5.f, -1.f, 0.5f + move));
+		else
+			deerModel = glm::translate(deerModel, glm::vec3(i * 0.5f + 5.f, -1.f, 1.f + move));
+
+		deerModel = glm::scale(deerModel, glm::vec3(0.03f));
+		deerModel = glm::rotate(deerModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		deerModel = glm::rotate(deerModel, glm::radians(270.0f), glm::vec3(0.f, 0.0f, 1.0f));
+		objShader.SetMat4("model", deerModel);
+		models[10].Draw(objShader);
+		if (i%3==0)
+		move = !move;
+	}
+
+	for (int i = 0; i < 10; i++) {
+		glm::mat4 fenceModel = glm::mat4(1.0);
+		fenceModel = glm::translate(fenceModel, glm::vec3(2.f + (i * 3.2f), -1.2f, 2.5f));
+		fenceModel = glm::scale(fenceModel, glm::vec3(0.5f));
+		objShader.SetMat4("model", fenceModel);
+		models[11].Draw(objShader);
+	}
+
+	glm::mat4 lampModel = glm::mat4(1.0);
+	lampModel = glm::translate(lampModel, glm::vec3(2.f, -1.2f, 2.6f));
+	lampModel = glm::scale(lampModel, glm::vec3(0.1f));
+	objShader.SetMat4("model", lampModel);
+	models[12].Draw(objShader);
+
+
+	glm::mat4 elephantModel = glm::mat4(1.0);
+	elephantModel = glm::translate(elephantModel, glm::vec3(15.f, -1.f, 0.f));
+	elephantModel = glm::scale(elephantModel, glm::vec3(10.f));
+	objShader.SetMat4("model", elephantModel);
+	models[13].Draw(objShader);
+
+
+	glm::mat4 lionModel = glm::mat4(1.0);
+	lionModel = glm::translate(lionModel, glm::vec3(18.f, -1.f, 0.f));
+	lionModel = glm::scale(lionModel, glm::vec3(10.f));
+	objShader.SetMat4("model", lionModel);
+	models[14].Draw(objShader);
+
+	glm::mat4 bearModel = glm::mat4(1.0);
+	bearModel = glm::translate(bearModel, glm::vec3(20.f, -1.f, 0.f));
+	bearModel = glm::scale(bearModel, glm::vec3(15.f));
+	objShader.SetMat4("model", bearModel);
+	models[15].Draw(objShader);
+
+	for (int i = 0; i < 10; i++) {
+		glm::mat4 zebraModel = glm::mat4(1.0);
+		zebraModel = glm::translate(zebraModel, glm::vec3(15.f + (i * 3.2f) , -1.f, 5.f));
+		zebraModel = glm::scale(zebraModel, glm::vec3(10.f));
+		objShader.SetMat4("model", zebraModel);
+		models[16].Draw(objShader);
+
+	}
 	lampShader.Use();
 	lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
 	lampShader.SetMat4("view", pCamera->GetViewMatrix());
@@ -494,9 +549,25 @@ int main()
 	std::string HorsePath = currentPath + "\\Models\\Horse\\horse.obj";
 	models.emplace_back(HorsePath, false);
 
-	std::string TerrainPath = currentPath + "\\Models\\Terrain\\terrainBlender.obj";
-	models.emplace_back(TerrainPath, false);
+	std::string DeerPath = currentPath + "\\Models\\Deer\\deer.obj";
+	models.emplace_back(DeerPath, false);
 
+	std::string FencePath = currentPath + "\\Models\\Fence\\Fence.obj";
+	models.emplace_back(FencePath, false);
+
+	std::string LampPath = currentPath + "\\Models\\Lamp\\lamp.obj";
+	models.emplace_back(LampPath, false);
+
+	std::string ElephantPath = currentPath + "\\Models\\Elephant\\elephant.obj";
+	models.emplace_back(ElephantPath, false);
+
+	std::string lionPath = currentPath + "\\Models\\lion\\lion.obj";
+	models.emplace_back(lionPath, false);
+	std::string bearPath = currentPath + "\\Models\\bear\\bear.obj";
+	models.emplace_back(bearPath, false);
+
+	std::string zebraPath = currentPath + "\\Models\\zebra\\zebra.obj";
+	models.emplace_back(zebraPath, false);
 	while (!glfwWindowShouldClose(window)) {
 		//double currentFrame = glfwGetTime();
 		//deltaTime = currentFrame - lastFrame;
