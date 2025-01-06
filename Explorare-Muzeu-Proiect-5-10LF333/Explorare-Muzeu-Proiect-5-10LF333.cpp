@@ -324,14 +324,11 @@ void RenderFrame()
 	objShader.SetMat4("model", wolfModel);
 	models[3].Draw(objShader);
 
-	/*glm::mat4 treeModel = glm::mat4(1.0);
+	glm::mat4 treeModel = glm::mat4(1.0);
 	treeModel = glm::translate(treeModel, glm::vec3(2.f, -1.f, 2.5f));
 	treeModel = glm::scale(treeModel, glm::vec3(0.2f));
 	objShader.SetMat4("model", treeModel);
 	models[4].Draw(objShader);
-
-
-	*/
 
 	for (int i = 0; i < 10; i++) { // Place 10 instances
 		glm::mat4 grassModel = glm::mat4(1.0);
@@ -378,7 +375,11 @@ void RenderFrame()
 	//objShader.SetMat4("model", horseModel);
 	//models[9].Draw(objShader);
 
-
+	glm::mat4 terrainModel = glm::mat4(1.0);
+	terrainModel = glm::translate(terrainModel, glm::vec3(0.f, -3.f, 0.f));
+	terrainModel = glm::scale(terrainModel, glm::vec3(0.5f));
+	objShader.SetMat4("model", terrainModel);
+	models[10].Draw(objShader);
 
 	lampShader.Use();
 	lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
@@ -478,7 +479,7 @@ int main()
 
 	std::string WolfPath = currentPath + "\\Models\\Wolf\\Wolf_One_obj.obj";
 	models.emplace_back(WolfPath, false);
-	std::string TreePath = currentPath + "\\Models\\Tree\\Tree1.obj";
+	std::string TreePath = currentPath + "\\Models\\Tree\\Tree2.obj";
 	models.emplace_back(TreePath, false);
 	std::string GrassPath = currentPath + "\\Models\\Grass\\Grass.obj";
 	models.emplace_back(GrassPath, false);
@@ -490,9 +491,12 @@ int main()
 	std::string Tree3Path = currentPath + "\\Models\\Tree3\\tree 1.obj";
 	models.emplace_back(Tree3Path, false);
 
-
 	std::string HorsePath = currentPath + "\\Models\\Horse\\horse.obj";
 	models.emplace_back(HorsePath, false);
+
+	std::string TerrainPath = currentPath + "\\Models\\Terrain\\terrainBlender.obj";
+	models.emplace_back(TerrainPath, false);
+
 	while (!glfwWindowShouldClose(window)) {
 		//double currentFrame = glfwGetTime();
 		//deltaTime = currentFrame - lastFrame;
