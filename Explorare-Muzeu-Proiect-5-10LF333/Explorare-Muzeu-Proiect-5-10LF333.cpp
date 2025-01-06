@@ -439,6 +439,28 @@ void RenderFrame()
 		models[16].Draw(objShader);
 
 	}
+
+	glm::mat4 apeModel = glm::mat4(1.0);
+	apeModel = glm::translate(apeModel, glm::vec3(10.f, -1.f, 1.f));
+	apeModel = glm::scale(apeModel, glm::vec3(15.f));
+	objShader.SetMat4("model", apeModel);
+	models[17].Draw(objShader);
+
+	glm::mat4 ape2Model = glm::mat4(1.0);
+	ape2Model = glm::translate(ape2Model, glm::vec3(11.f, -1.f, 1.f));
+	ape2Model = glm::scale(ape2Model, glm::vec3(2.f));
+	objShader.SetMat4("model", ape2Model);
+	models[18].Draw(objShader);
+
+
+	glm::mat4 kangarooModel = glm::mat4(1.0);
+	kangarooModel = glm::translate(kangarooModel, glm::vec3(13.f, -1.f, 1.f));
+	kangarooModel = glm::scale(kangarooModel, glm::vec3(1.f));
+	objShader.SetMat4("model", kangarooModel);
+	models[19].Draw(objShader);
+
+
+
 	lampShader.Use();
 	lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
 	lampShader.SetMat4("view", pCamera->GetViewMatrix());
@@ -572,6 +594,16 @@ int main()
 
 	std::string zebraPath = currentPath + "\\Models\\zebra\\zebra.obj";
 	models.emplace_back(zebraPath, false);
+
+	std::string apePath = currentPath + "\\Models\\ape\\ape.obj";
+	models.emplace_back(apePath, false);
+	std::string ape2Path = currentPath + "\\Models\\ape2\\ape2.obj";
+	models.emplace_back(ape2Path, false);
+	std::string kangarooPath = currentPath + "\\Models\\kangaroo\\kangaroo.obj";
+	models.emplace_back(kangarooPath, false);
+
+
+
 	while (!glfwWindowShouldClose(window)) {
 		//double currentFrame = glfwGetTime();
 		//deltaTime = currentFrame - lastFrame;
