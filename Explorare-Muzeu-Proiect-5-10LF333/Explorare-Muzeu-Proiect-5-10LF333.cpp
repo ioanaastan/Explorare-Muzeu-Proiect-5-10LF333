@@ -203,8 +203,12 @@ void RenderCube()
 	glDisableVertexAttribArray(0);
 }
 
+
 void RenderFrame()
 {
+	glClearColor(0.5f, 0.7f, 1.0f, 1.0f); // Light blue background color
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	double currentFrame = glfwGetTime();
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
@@ -263,13 +267,13 @@ void RenderFrame()
 	view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(ViewMatrixLocation, 1, GL_FALSE, glm::value_ptr(view));*/
 
-	for (unsigned int i = 0; i < sizeof(cubePositions) / sizeof(cubePositions[0]); i++) {
-		// calculate the model matrix for each object and pass it to shader before drawing
-		glm::mat4 worldTransf = glm::translate(glm::mat4(1.0), cubePositions[i]);
-		ShaderProgram.SetMat4("WorldMatrix", worldTransf);
+	//for (unsigned int i = 0; i < sizeof(cubePositions) / sizeof(cubePositions[0]); i++) {
+	//	// calculate the model matrix for each object and pass it to shader before drawing
+	//	glm::mat4 worldTransf = glm::translate(glm::mat4(1.0), cubePositions[i]);
+	//	ShaderProgram.SetMat4("WorldMatrix", worldTransf);
 
-		RenderCube();
-	}
+	//	RenderCube();
+	//}
 
 	//Here we render the models
 
@@ -300,26 +304,81 @@ void RenderFrame()
 	models[0].Draw(objShader);
 
 	glm::mat4 giraffeModel = glm::mat4(1.0);
-
 	giraffeModel = glm::translate(giraffeModel, glm::vec3(5.0f, -1.0f, -2.0f));
-
 	giraffeModel = glm::scale(giraffeModel, glm::vec3(1.5f));
-
 	objShader.SetMat4("model", giraffeModel);
-
 	models[1].Draw(objShader);
-
+	
 	glm::mat4 SeaLionModel = glm::mat4(1.0);
-
 	SeaLionModel = glm::translate(SeaLionModel, glm::vec3(-2.0f, -1.0f, 0.0f));
 	SeaLionModel = glm::scale(SeaLionModel, glm::vec3(0.01f));  // Changed from 0.3f to 0.01f
 
 	// Set the model matrix in the shader
 	objShader.SetMat4("model", SeaLionModel);
-
 	models[2].Draw(objShader);
 
+
+	glm::mat4 wolfModel = glm::mat4(1.0);
+	wolfModel = glm::translate(wolfModel, glm::vec3(2.f, -1.f, 0.5f));
+	wolfModel = glm::scale(wolfModel, glm::vec3(1.f));
+	objShader.SetMat4("model", wolfModel);
+	models[3].Draw(objShader);
+
+	/*glm::mat4 treeModel = glm::mat4(1.0);
+	treeModel = glm::translate(treeModel, glm::vec3(2.f, -1.f, 2.5f));
+	treeModel = glm::scale(treeModel, glm::vec3(0.2f));
+	objShader.SetMat4("model", treeModel);
+	models[4].Draw(objShader);
+
+
+	*/
+
+	for (int i = 0; i < 10; i++) { // Place 10 instances
+		glm::mat4 grassModel = glm::mat4(1.0);
+		// Translate the model along the X-axis based on the loop index
+		grassModel = glm::translate(grassModel, glm::vec3(2.f + (i * 3.f), -1.2f, 0.5f));
+		// Rotate the model
+		grassModel = glm::rotate(grassModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		if (i % 2 == 0)
+			grassModel = glm::rotate(grassModel, glm::radians(270.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		// Scale the model
+		grassModel = glm::scale(grassModel, glm::vec3(0.01f));
+		// Set the transformation matrix
+		objShader.SetMat4("model", grassModel);
+		// Draw the model
+		models[5].Draw(objShader);
+	}
+
+
+	glm::mat4 catModel = glm::mat4(1.0);
+	catModel = glm::translate(catModel, glm::vec3(0.f, -1.f, 2.5f));
+	catModel = glm::scale(catModel, glm::vec3(0.01f));
+	//catModel = glm::rotate(catModel, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));// iti roteste invers modelul
+	//catModel = glm::rotate(catModel, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));// iti roteste introparte  modelul
+	catModel = glm::rotate(catModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));// iti roteste introparte  modelul
+	objShader.SetMat4("model", catModel);
+	models[6].Draw(objShader);
+
+	glm::mat4 tree2Model = glm::mat4(1.0);
+	tree2Model = glm::translate(tree2Model, glm::vec3(0.f, -1.f, 2.5f));
+	//tree2Model = glm::scale(tree2Model, glm::vec3(0.3f));
+	objShader.SetMat4("model", tree2Model);
+	models[7].Draw(objShader);
 	//Here we render the light source
+
+	glm::mat4 tree3Model = glm::mat4(1.0);
+	tree3Model = glm::translate(tree3Model, glm::vec3(0.f, -3.f, 0.f));
+	tree3Model = glm::scale(tree3Model, glm::vec3(0.5f));
+	objShader.SetMat4("model", tree3Model);
+	models[8].Draw(objShader);
+
+	//glm::mat4 horseModel = glm::mat4(1.0);
+	//horseModel = glm::translate(horseModel, glm::vec3(0.f, -1.f, 2.5f));
+	//horseModel = glm::scale(horseModel, glm::vec3(100.0f));
+	//objShader.SetMat4("model", horseModel);
+	//models[9].Draw(objShader);
+
+
 
 	lampShader.Use();
 	lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
@@ -417,7 +476,23 @@ int main()
 	std::string SeaLionPath = currentPath + "\\Models\\SeaLion\\10041_sealion_v1_L3.obj";
 	models.emplace_back(SeaLionPath, false);
 
+	std::string WolfPath = currentPath + "\\Models\\Wolf\\Wolf_One_obj.obj";
+	models.emplace_back(WolfPath, false);
+	std::string TreePath = currentPath + "\\Models\\Tree\\Tree1.obj";
+	models.emplace_back(TreePath, false);
+	std::string GrassPath = currentPath + "\\Models\\Grass\\Grass.obj";
+	models.emplace_back(GrassPath, false);
 
+	std::string CatPath = currentPath + "\\Models\\Cat\\Cat.obj";
+	models.emplace_back(CatPath, false);
+	std::string Tree2Path = currentPath + "\\Models\\Tree2\\Tree.obj";
+	models.emplace_back(Tree2Path, false);
+	std::string Tree3Path = currentPath + "\\Models\\Tree3\\tree 1.obj";
+	models.emplace_back(Tree3Path, false);
+
+
+	std::string HorsePath = currentPath + "\\Models\\Horse\\horse.obj";
+	models.emplace_back(HorsePath, false);
 	while (!glfwWindowShouldClose(window)) {
 		//double currentFrame = glfwGetTime();
 		//deltaTime = currentFrame - lastFrame;
