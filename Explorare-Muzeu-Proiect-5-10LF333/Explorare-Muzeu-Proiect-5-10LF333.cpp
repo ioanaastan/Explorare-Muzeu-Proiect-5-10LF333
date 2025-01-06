@@ -324,6 +324,7 @@ void RenderFrame()
 	objShader.SetMat4("model", wolfModel);
 	models[3].Draw(objShader);
 
+	
 	/*glm::mat4 treeModel = glm::mat4(1.0);
 	treeModel = glm::translate(treeModel, glm::vec3(2.f, -1.f, 2.5f));
 	treeModel = glm::scale(treeModel, glm::vec3(0.2f));
@@ -371,6 +372,18 @@ void RenderFrame()
 	tree3Model = glm::scale(tree3Model, glm::vec3(0.5f));
 	objShader.SetMat4("model", tree3Model);
 	models[8].Draw(objShader);
+
+	glm::mat4 condorModel = glm::mat4(1.0);
+	// Position the condor - adjust these values to place it where you want
+	condorModel = glm::translate(condorModel, glm::vec3(10.0f, 2.0f, 0.0f));  // Placed slightly higher since it's a flying bird
+	// Scale the condor - adjust based on its original size
+	condorModel = glm::scale(condorModel, glm::vec3(0.5f));
+	// You can add rotation if needed, for example to make it face a certain direction:
+	condorModel = glm::rotate(condorModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	// Set the model matrix in the shader
+	objShader.SetMat4("model", condorModel);
+	// Draw the condor - the index should be the position where you added it in the models vector
+	models[17].Draw(objShader);  // Assuming it's the 18th model (index 17)
 
 	//glm::mat4 horseModel = glm::mat4(1.0);
 	//horseModel = glm::translate(horseModel, glm::vec3(0.f, -1.f, 2.5f));
@@ -572,6 +585,9 @@ int main()
 
 	std::string zebraPath = currentPath + "\\Models\\zebra\\zebra.obj";
 	models.emplace_back(zebraPath, false);
+
+	std::string CondorPath = currentPath + "\\Models\\Condor\\CONDOR.OBJ";
+	models.emplace_back(CondorPath, false);
 	while (!glfwWindowShouldClose(window)) {
 		//double currentFrame = glfwGetTime();
 		//deltaTime = currentFrame - lastFrame;
