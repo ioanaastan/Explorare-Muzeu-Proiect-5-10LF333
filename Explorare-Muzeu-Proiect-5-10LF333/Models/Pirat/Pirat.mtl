@@ -12,7 +12,7 @@ d 1.000000
 illum 2
 map_Kd  pirate boots color.jpg
 map_Ns  pirate boots roughness.jpg
-map_Bump  -bm 1.000000 pirate boots normal.jpg
+map_Bump -bm 1.000000 pirate boots normal.jpg
 
 newmtl clothe
 Ns 250.000000
@@ -25,7 +25,7 @@ d 1.000000
 illum 2
 map_Kd  pirate clothe color.jpg
 map_Ns  pirate clothe roughness.jpg
-map_Bump  -bm 1.000000 pirate clothe normal.jpg
+map_Bump -bm 1.000000 pirate clothe normal.jpg
 
 newmtl eye
 Ns 250.000000

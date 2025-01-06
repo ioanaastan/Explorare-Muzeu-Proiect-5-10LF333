@@ -324,14 +324,14 @@ void RenderFrame()
 	objShader.SetMat4("model", wolfModel);
 	models[3].Draw(objShader);
 
-	/*glm::mat4 treeModel = glm::mat4(1.0);
-	treeModel = glm::translate(treeModel, glm::vec3(2.f, -1.f, 2.5f));
-	treeModel = glm::scale(treeModel, glm::vec3(0.2f));
-	objShader.SetMat4("model", treeModel);
-	models[4].Draw(objShader);
+//<<<<<<< HEAD
+	
+	glm::mat4 treeModel = glm::mat4(1.0);
+treeModel = glm::translate(treeModel, glm::vec3(2.f, -1.f, 2.5f));
+treeModel = glm::scale(treeModel, glm::vec3(0.2f));
+objShader.SetMat4("model", treeModel);
+models[4].Draw(objShader);
 
-
-	*/
 
 	for (int i = 0; i < 10; i++) { // Place 10 instances
 		glm::mat4 grassModel = glm::mat4(1.0);
@@ -372,6 +372,18 @@ void RenderFrame()
 	objShader.SetMat4("model", tree3Model);
 	models[8].Draw(objShader);
 
+	glm::mat4 condorModel = glm::mat4(1.0);
+	// Position the condor - adjust these values to place it where you want
+	condorModel = glm::translate(condorModel, glm::vec3(10.0f, 2.0f, 0.0f));  // Placed slightly higher since it's a flying bird
+	// Scale the condor - adjust based on its original size
+	condorModel = glm::scale(condorModel, glm::vec3(0.5f));
+	// You can add rotation if needed, for example to make it face a certain direction:
+	condorModel = glm::rotate(condorModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	// Set the model matrix in the shader
+	objShader.SetMat4("model", condorModel);
+	// Draw the condor - the index should be the position where you added it in the models vector
+	models[24].Draw(objShader);  // Assuming it's the 18th model (index 17)
+
 	//glm::mat4 horseModel = glm::mat4(1.0);
 	//horseModel = glm::translate(horseModel, glm::vec3(0.f, -1.f, 2.5f));
 	//horseModel = glm::scale(horseModel, glm::vec3(100.0f));
@@ -385,6 +397,117 @@ void RenderFrame()
 	models[9].Draw(objShader);
 
 
+	bool move = false;
+	for ( int i = 0;i<5;i++)
+	{
+		glm::mat4 deerModel = glm::mat4(1.0);
+		if (i % 2 == 0)
+			deerModel = glm::translate(deerModel, glm::vec3(i * 0.5f + 5.f, -1.f, 0.5f + move));
+		else
+			deerModel = glm::translate(deerModel, glm::vec3(i * 0.5f + 5.f, -1.f, 1.f + move));
+
+		deerModel = glm::scale(deerModel, glm::vec3(0.03f));
+		deerModel = glm::rotate(deerModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+		deerModel = glm::rotate(deerModel, glm::radians(270.0f), glm::vec3(0.f, 0.0f, 1.0f));
+		objShader.SetMat4("model", deerModel);
+		models[10].Draw(objShader);
+		if (i%3==0)
+		move = !move;
+	}
+
+	for (int i = 0; i < 10; i++) {
+		glm::mat4 fenceModel = glm::mat4(1.0);
+		fenceModel = glm::translate(fenceModel, glm::vec3(2.f + (i * 3.2f), -1.2f, 2.5f));
+		fenceModel = glm::scale(fenceModel, glm::vec3(0.5f));
+		objShader.SetMat4("model", fenceModel);
+		models[11].Draw(objShader);
+	}
+
+	glm::mat4 lampModel = glm::mat4(1.0);
+	lampModel = glm::translate(lampModel, glm::vec3(2.f, -1.2f, 2.6f));
+	lampModel = glm::scale(lampModel, glm::vec3(0.1f));
+	objShader.SetMat4("model", lampModel);
+	models[12].Draw(objShader);
+
+
+	glm::mat4 elephantModel = glm::mat4(1.0);
+	elephantModel = glm::translate(elephantModel, glm::vec3(15.f, -1.f, 0.f));
+	elephantModel = glm::scale(elephantModel, glm::vec3(10.f));
+	objShader.SetMat4("model", elephantModel);
+	models[13].Draw(objShader);
+
+
+	glm::mat4 lionModel = glm::mat4(1.0);
+	lionModel = glm::translate(lionModel, glm::vec3(18.f, -1.f, 0.f));
+	lionModel = glm::scale(lionModel, glm::vec3(10.f));
+	objShader.SetMat4("model", lionModel);
+	models[14].Draw(objShader);
+
+	glm::mat4 bearModel = glm::mat4(1.0);
+	bearModel = glm::translate(bearModel, glm::vec3(20.f, -1.f, 0.f));
+	bearModel = glm::scale(bearModel, glm::vec3(15.f));
+	objShader.SetMat4("model", bearModel);
+	models[15].Draw(objShader);
+
+	for (int i = 0; i < 10; i++) {
+		glm::mat4 zebraModel = glm::mat4(1.0);
+		zebraModel = glm::translate(zebraModel, glm::vec3(15.f + (i * 3.2f) , -1.f, 5.f));
+		zebraModel = glm::scale(zebraModel, glm::vec3(10.f));
+		objShader.SetMat4("model", zebraModel);
+		models[16].Draw(objShader);
+
+	}
+
+	glm::mat4 apeModel = glm::mat4(1.0);
+	apeModel = glm::translate(apeModel, glm::vec3(10.f, -1.f, 1.f));
+	apeModel = glm::scale(apeModel, glm::vec3(15.f));
+	objShader.SetMat4("model", apeModel);
+	models[17].Draw(objShader);
+
+	glm::mat4 ape2Model = glm::mat4(1.0);
+	ape2Model = glm::translate(ape2Model, glm::vec3(11.f, -1.f, 1.f));
+	ape2Model = glm::scale(ape2Model, glm::vec3(2.f));
+	objShader.SetMat4("model", ape2Model);
+	models[18].Draw(objShader);
+
+
+	glm::mat4 kangarooModel = glm::mat4(1.0);
+	kangarooModel = glm::translate(kangarooModel, glm::vec3(13.f, -1.f, 1.f));
+	kangarooModel = glm::scale(kangarooModel, glm::vec3(1.f));
+	objShader.SetMat4("model", kangarooModel);
+	models[19].Draw(objShader);
+
+	// ********************************************************************************************************************
+
+	glm::mat4 hayBaleModel = glm::mat4(1.0);
+	hayBaleModel = glm::translate(hayBaleModel, glm::vec3(7.f, -1.f, 2.f));
+	hayBaleModel = glm::scale(hayBaleModel, glm::vec3(0.5f));
+	objShader.SetMat4("model", hayBaleModel);
+	models[20].Draw(objShader);
+
+
+	glm::mat4 bush2Model = glm::mat4(1.0);
+	bush2Model = glm::translate(bush2Model, glm::vec3(11.f, -1.f, 2.f));
+	bush2Model = glm::scale(bush2Model, glm::vec3(1.f));
+	objShader.SetMat4("model", bush2Model);
+	models[21].Draw(objShader);
+
+	glm::mat4 bushModel = glm::mat4(1.0);
+	bushModel = glm::translate(bushModel, glm::vec3(10.f, -1.f, 2.f));
+	bushModel = glm::scale(bushModel, glm::vec3(0.3f));
+	objShader.SetMat4("model", bushModel);
+	models[22].Draw(objShader);
+
+	glm::mat4 stationModel = glm::mat4(1.0);
+	stationModel = glm::translate(stationModel, glm::vec3(-5.f, -1.f, 5.f));
+	stationModel = glm::rotate(stationModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	stationModel = glm::scale(stationModel, glm::vec3(1.f));
+	objShader.SetMat4("model", stationModel);
+	models[23].Draw(objShader);
+
+
+
+	// ********************************************************************************************************************
 
 	lampShader.Use();
 	lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
@@ -396,6 +519,7 @@ void RenderFrame()
 	glBindVertexArray(lightVAO);
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 }
+
 
 void Initialize()
 {
@@ -453,7 +577,7 @@ int main()
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 	glfwSetCursorPosCallback(window, mouse_callback);
 	glfwSetScrollCallback(window, scroll_callback);
-	//glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 	glewInit();
 
@@ -487,7 +611,7 @@ int main()
 
 	std::string WolfPath = currentPath + "\\Models\\Wolf\\Wolf_One_obj.obj";
 	models.emplace_back(WolfPath, false);
-	std::string TreePath = currentPath + "\\Models\\Tree\\Tree1.obj";
+	std::string TreePath = currentPath + "\\Models\\Tree\\Tree2.obj";
 	models.emplace_back(TreePath, false);
 	std::string GrassPath = currentPath + "\\Models\\Grass\\Grass.obj";
 	models.emplace_back(GrassPath, false);
@@ -499,9 +623,57 @@ int main()
 	std::string Tree3Path = currentPath + "\\Models\\Tree3\\tree 1.obj";
 	models.emplace_back(Tree3Path, false);
 
-
 	std::string HorsePath = currentPath + "\\Models\\Horse\\horse.obj";
 	models.emplace_back(HorsePath, false);
+
+	std::string DeerPath = currentPath + "\\Models\\Deer\\deer.obj";
+	models.emplace_back(DeerPath, false);
+
+	std::string FencePath = currentPath + "\\Models\\Fence\\Fence.obj";
+	models.emplace_back(FencePath, false);
+
+	std::string LampPath = currentPath + "\\Models\\Lamp\\lamp.obj";
+	models.emplace_back(LampPath, false);
+
+	std::string ElephantPath = currentPath + "\\Models\\Elephant\\elephant.obj";
+	models.emplace_back(ElephantPath, false);
+
+	std::string lionPath = currentPath + "\\Models\\lion\\lion.obj";
+	models.emplace_back(lionPath, false);
+	std::string bearPath = currentPath + "\\Models\\bear\\bear.obj";
+	models.emplace_back(bearPath, false);
+
+	std::string zebraPath = currentPath + "\\Models\\zebra\\zebra.obj";
+	models.emplace_back(zebraPath, false);
+
+	
+
+	std::string apePath = currentPath + "\\Models\\ape\\ape.obj";
+	models.emplace_back(apePath, false);
+
+	std::string ape2Path = currentPath + "\\Models\\ape2\\ape2.obj";
+	models.emplace_back(ape2Path, false);
+
+	std::string kangarooPath = currentPath + "\\Models\\kangaroo\\kangaroo.obj";
+	models.emplace_back(kangarooPath, false);
+
+
+	std::string hayBalePath = currentPath + "\\Models\\hayBale\\hayBale.obj";
+	models.emplace_back(hayBalePath, false);
+
+	std::string bush2Path = currentPath + "\\Models\\bush2\\bush2.obj";
+	models.emplace_back(bush2Path, false);
+
+	std::string bushPath = currentPath + "\\Models\\bush\\bush.obj";
+	models.emplace_back(bushPath, false);
+
+	std::string stationPath = currentPath + "\\Models\\station\\station.obj";
+	models.emplace_back(stationPath, false);
+
+	std::string CondorPath = currentPath + "\\Models\\Condor\\CONDOR.OBJ";
+	models.emplace_back(CondorPath, false);
+
+//>>>>>>> 749235484b723036f3b5ace1a4e3545ddb7f4db6
 	while (!glfwWindowShouldClose(window)) {
 		//double currentFrame = glfwGetTime();
 		//deltaTime = currentFrame - lastFrame;
