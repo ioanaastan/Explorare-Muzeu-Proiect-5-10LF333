@@ -18,6 +18,7 @@ Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
+map_Kd Leaves0156_1_S.png
 
 newmtl Leaves.002
 Ns 96.078431
@@ -27,6 +28,7 @@ Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
+map_Kd Leaves0142_4_S.png
 
 newmtl Material.001
 Ns 96.078431
@@ -36,6 +38,7 @@ Ks 0.500000 0.500000 0.500000
 Ni 1.000000
 d 1.000000
 illum 2
+map_Kd BarkDecidious0194_7_S.jpg
 
 newmtl Material.002
 Ns 96.078431

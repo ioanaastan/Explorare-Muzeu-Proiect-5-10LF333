@@ -324,15 +324,14 @@ void RenderFrame()
 	objShader.SetMat4("model", wolfModel);
 	models[3].Draw(objShader);
 
+//<<<<<<< HEAD
 	
-	/*glm::mat4 treeModel = glm::mat4(1.0);
-	treeModel = glm::translate(treeModel, glm::vec3(2.f, -1.f, 2.5f));
-	treeModel = glm::scale(treeModel, glm::vec3(0.2f));
-	objShader.SetMat4("model", treeModel);
-	models[4].Draw(objShader);
+	glm::mat4 treeModel = glm::mat4(1.0);
+treeModel = glm::translate(treeModel, glm::vec3(2.f, -1.f, 2.5f));
+treeModel = glm::scale(treeModel, glm::vec3(0.2f));
+objShader.SetMat4("model", treeModel);
+models[4].Draw(objShader);
 
-
-	*/
 
 	for (int i = 0; i < 10; i++) { // Place 10 instances
 		glm::mat4 grassModel = glm::mat4(1.0);
@@ -452,6 +451,28 @@ void RenderFrame()
 		models[16].Draw(objShader);
 
 	}
+
+	glm::mat4 apeModel = glm::mat4(1.0);
+	apeModel = glm::translate(apeModel, glm::vec3(10.f, -1.f, 1.f));
+	apeModel = glm::scale(apeModel, glm::vec3(15.f));
+	objShader.SetMat4("model", apeModel);
+	models[17].Draw(objShader);
+
+	glm::mat4 ape2Model = glm::mat4(1.0);
+	ape2Model = glm::translate(ape2Model, glm::vec3(11.f, -1.f, 1.f));
+	ape2Model = glm::scale(ape2Model, glm::vec3(2.f));
+	objShader.SetMat4("model", ape2Model);
+	models[18].Draw(objShader);
+
+
+	glm::mat4 kangarooModel = glm::mat4(1.0);
+	kangarooModel = glm::translate(kangarooModel, glm::vec3(13.f, -1.f, 1.f));
+	kangarooModel = glm::scale(kangarooModel, glm::vec3(1.f));
+	objShader.SetMat4("model", kangarooModel);
+	models[19].Draw(objShader);
+
+
+
 	lampShader.Use();
 	lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
 	lampShader.SetMat4("view", pCamera->GetViewMatrix());
@@ -550,7 +571,7 @@ int main()
 
 	std::string WolfPath = currentPath + "\\Models\\Wolf\\Wolf_One_obj.obj";
 	models.emplace_back(WolfPath, false);
-	std::string TreePath = currentPath + "\\Models\\Tree\\Tree1.obj";
+	std::string TreePath = currentPath + "\\Models\\Tree\\Tree2.obj";
 	models.emplace_back(TreePath, false);
 	std::string GrassPath = currentPath + "\\Models\\Grass\\Grass.obj";
 	models.emplace_back(GrassPath, false);
@@ -561,7 +582,6 @@ int main()
 	models.emplace_back(Tree2Path, false);
 	std::string Tree3Path = currentPath + "\\Models\\Tree3\\tree 1.obj";
 	models.emplace_back(Tree3Path, false);
-
 
 	std::string HorsePath = currentPath + "\\Models\\Horse\\horse.obj";
 	models.emplace_back(HorsePath, false);
@@ -588,6 +608,20 @@ int main()
 
 	std::string CondorPath = currentPath + "\\Models\\Condor\\CONDOR.OBJ";
 	models.emplace_back(CondorPath, false);
+
+	std::string apePath = currentPath + "\\Models\\ape\\ape.obj";
+	models.emplace_back(apePath, false);
+
+	std::string ape2Path = currentPath + "\\Models\\ape2\\ape2.obj";
+	models.emplace_back(ape2Path, false);
+
+	std::string kangarooPath = currentPath + "\\Models\\kangaroo\\kangaroo.obj";
+	models.emplace_back(kangarooPath, false);
+
+
+
+
+//>>>>>>> 749235484b723036f3b5ace1a4e3545ddb7f4db6
 	while (!glfwWindowShouldClose(window)) {
 		//double currentFrame = glfwGetTime();
 		//deltaTime = currentFrame - lastFrame;
