@@ -575,15 +575,15 @@ void RenderFrame()
 	objShader.SetMat4("model", stationModel);
 	models[23].Draw(objShader);
 
-	
+
+	glm::mat4 WallModel = glm::mat4(1.0);
+	WallModel = glm::translate(WallModel, glm::vec3(8.0f, 0.0f, 10.0f));
+	WallModel = glm::rotate(WallModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	WallModel = glm::scale(WallModel, glm::vec3(4.f));
+	objShader.SetMat4("model", WallModel);
+	models[25].Draw(objShader);
 
 
-	//glm::mat4 WallModel = glm::mat4(1.0);
-	//WallModel = glm::translate(WallModel, glm::vec3(8.0f, 0.0f, 10.0f));
-	//WallModel = glm::rotate(WallModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	//WallModel = glm::scale(WallModel, glm::vec3(4.f));
-	//objShader.SetMat4("model", WallModel);
-	//models[25].Draw(objShader);
 	glm::mat4 crocodileModel = glm::mat4(1.0);
 	// Keep same position
 	crocodileModel = glm::translate(crocodileModel, glm::vec3(3.0f, -1.0f, 0.0f));
