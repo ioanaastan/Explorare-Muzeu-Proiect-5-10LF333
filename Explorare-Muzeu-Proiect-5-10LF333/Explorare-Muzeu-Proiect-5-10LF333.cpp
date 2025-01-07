@@ -8,7 +8,7 @@ TUTORIAL PLASARE OBIECTE:
 	//aici am initializat un model, in cazul asta e un pirat, dar poti sa adaugi oricate modele vrei, doar sa ai fisierele alea in folderul Models, fiecare model sa aiba un folder al lui cu denumire intuitiva
 	//va rog sa respectati formatul cu \\, altfel nu o sa mearga
 	std::string PiratePath = currentPath + "\\Models\\Pirat\\Pirat.obj";
-	
+
 	//aici adaugi modelul in vectorul de modele, in cazul asta e models, dar poti sa il numesti cum vrei
 	//primul parametru e calea catre model, al doilea e mereu false, simplu
 	models.emplace_back(PiratePath, false);
@@ -24,13 +24,13 @@ TUTORIAL PLASARE OBIECTE:
 	//cu translate ii setezi pozitia, translate returneaza matrice in 4 dimensiuni cu chestiile noi, tot ce e de stiut e ca ii dai intai variabila pe care vrei sa o modifice si apoi vectorul cu coordonatele
 	//coordonatele alea reprezinta x,y,z, unde x = stanga-, dreapta+, y = jos-, sus+, z = fata-, spate+
 	pirateModel = glm::translate(pirateModel, glm::vec3(2.f, -1.f, 0.f));
-	
+
 	//scale e pentru scalare, adica cat de mare vrei sa fie modelul, in cazul asta e 0.5, adica jumatate din marimea originala
 	pirateModel = glm::scale(pirateModel, glm::vec3(.5f));
-	
+
 	//aici ii setezi modelul, spui la shader ce urmeaza sa deseneze, in cazul asta e primul model din vectorul de modele
 	objShader.SetMat4("model", pirateModel);
-	
+
 	//aici desenezi modelul, destul de bine explicat sper
 	models[0].Draw(objShader);
 
@@ -107,106 +107,6 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 double deltaTime = 0.0f;
 double lastFrame = 0.0f;
 
-
-//GLuint skyboxVAO, skyboxVBO;
-//Shader skyboxShader;
-//CubemapTexture skybox;
-//
-//void InitSkybox() {
-//
-//	float skyboxVertices[] = {
-//		-1.0f,  1.0f, -1.0f, -1.0f, -1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f,  1.0f, -1.0f,
-//		1.0f,  1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f,  1.0f,  1.0f, -1.0f, -1.0f, -1.0f,
-//		-1.0f,  1.0f,  1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f,
-//		1.0f, -1.0f,  1.0f, 1.0f, -1.0f,  1.0f, 1.0f,  1.0f,  1.0f, -1.0f,  1.0f,  1.0f,
-//		-1.0f,  1.0f,  1.0f, -1.0f,  1.0f, -1.0f, -1.0f,  1.0f, -1.0f,  1.0f,  1.0f,  1.0f,
-//		1.0f,  1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, -1.0f,  1.0f,  1.0f, -1.0f,  1.0f
-//	};
-//
-//
-//	glGenVertexArrays(1, &skyboxVAO);
-//	glGenBuffers(1, &skyboxVBO);
-//
-//	glBindVertexArray(skyboxVAO);
-//
-//	glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
-//	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
-//
-//	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-//	glEnableVertexAttribArray(0);
-//
-//	glBindBuffer(GL_ARRAY_BUFFER, 0);
-//
-//	glBindVertexArray(0);
-//}
-//
-//void RenderSkybox() {
-//	glBindVertexArray(skyboxVAO);
-//	glDrawArrays(GL_TRIANGLES, 0, 36);
-//	glBindVertexArray(0);
-//}
-//
-//class CubemapTexture {
-//public:
-//	CubemapTexture(const std::string& Directory,
-//		const std::string& PosXFilename,
-//		const std::string& NegXFilename,
-//		const std::string& PosYFilename,
-//		const std::string& NegYFilename,
-//		const std::string& PosZFilename,
-//		const std::string& NegZFilename) {
-//		m_fileNames[0] = Directory + "\\Models\\Skybox\\Box_Right";
-//		m_fileNames[1] = Directory + "\\Models\\Skybox\\Box_Left";
-//		m_fileNames[2] = Directory + "\\Models\\Skybox\\Box_Top";
-//		m_fileNames[3] = Directory + "\\Models\\Skybox\\Box_Bottom";
-//		m_fileNames[4] = Directory + "\\Models\\Skybox\\Box_Back";
-//		m_fileNames[5] = Directory + "\\Models\\Skybox\\Box_Front";
-//	}
-//
-//	~CubemapTexture() {
-//		glDeleteTextures(1, &m_textureObj);
-//	}
-//
-//	bool Load() {
-//		glGenTextures(1, &m_textureObj);
-//		glBindTexture(GL_TEXTURE_CUBE_MAP, m_textureObj);
-//
-//		for (unsigned int i = 0; i < 6; i++) {
-//			int width, height, channels;
-//			unsigned char* data = stbi_load(m_fileNames[i].c_str(), &width, &height, &channels, STBI_rgb_alpha);
-//
-//			if (data == nullptr) {
-//				std::cout << "Error loading texture '" << m_fileNames[i] << "': " << stbi_failure_reason() << std::endl;
-//				return false;
-//			}
-//
-//			glTexImage2D(types[i], 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-//			stbi_image_free(data);
-//		}
-//
-//		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-//		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-//		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-//
-//		return true;
-//	}
-//	void Bind(GLenum TextureUnit) {
-//		glActiveTexture(TextureUnit);
-//		glBindTexture(GL_TEXTURE_CUBE_MAP, m_textureObj);
-//	}
-//
-//private:
-//	GLuint m_textureObj;
-//	std::string m_fileNames[6];
-//	GLenum types[6] = {
-//		GL_TEXTURE_CUBE_MAP_POSITIVE_X, GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
-//		GL_TEXTURE_CUBE_MAP_POSITIVE_Y, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
-//		GL_TEXTURE_CUBE_MAP_POSITIVE_Z, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
-//	};
-//};
-//
 
 void CreateVBO()
 {
@@ -380,14 +280,6 @@ void RenderFrame()
 	view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(ViewMatrixLocation, 1, GL_FALSE, glm::value_ptr(view));*/
 
-	//for (unsigned int i = 0; i < sizeof(cubePositions) / sizeof(cubePositions[0]); i++) {
-	//	// calculate the model matrix for each object and pass it to shader before drawing
-	//	glm::mat4 worldTransf = glm::translate(glm::mat4(1.0), cubePositions[i]);
-	//	ShaderProgram.SetMat4("WorldMatrix", worldTransf);
-
-	//	RenderCube();
-	//}
-
 	//Here we render the models
 
 	objShader.Use();
@@ -421,7 +313,7 @@ void RenderFrame()
 	giraffeModel = glm::scale(giraffeModel, glm::vec3(1.5f));
 	objShader.SetMat4("model", giraffeModel);
 	models[1].Draw(objShader);
-	
+
 	glm::mat4 SeaLionModel = glm::mat4(1.0);
 	SeaLionModel = glm::translate(SeaLionModel, glm::vec3(-2.0f, -1.0f, 0.0f));
 	SeaLionModel = glm::scale(SeaLionModel, glm::vec3(0.01f));  // Changed from 0.3f to 0.01f
@@ -437,13 +329,12 @@ void RenderFrame()
 	objShader.SetMat4("model", wolfModel);
 	models[3].Draw(objShader);
 
-//<<<<<<< HEAD
-	
+
 	glm::mat4 treeModel = glm::mat4(1.0);
-treeModel = glm::translate(treeModel, glm::vec3(2.f, -1.f, 2.5f));
-treeModel = glm::scale(treeModel, glm::vec3(0.2f));
-objShader.SetMat4("model", treeModel);
-models[4].Draw(objShader);
+	treeModel = glm::translate(treeModel, glm::vec3(2.f, -1.f, 2.5f));
+	treeModel = glm::scale(treeModel, glm::vec3(0.2f));
+	objShader.SetMat4("model", treeModel);
+	models[4].Draw(objShader);
 
 
 	for (int i = 0; i < 10; i++) { // Place 10 instances
@@ -472,12 +363,13 @@ models[4].Draw(objShader);
 	objShader.SetMat4("model", catModel);
 	models[6].Draw(objShader);
 
+
 	glm::mat4 tree2Model = glm::mat4(1.0);
 	tree2Model = glm::translate(tree2Model, glm::vec3(0.f, -1.f, 2.5f));
 	//tree2Model = glm::scale(tree2Model, glm::vec3(0.3f));
 	objShader.SetMat4("model", tree2Model);
 	models[7].Draw(objShader);
-	//Here we render the light source
+
 
 	glm::mat4 tree3Model = glm::mat4(1.0);
 	tree3Model = glm::translate(tree3Model, glm::vec3(0.f, -3.f, 0.f));
@@ -504,7 +396,7 @@ models[4].Draw(objShader);
 	//models[9].Draw(objShader);
 
 	bool move = false;
-	for ( int i = 0;i<5;i++)
+	for (int i = 0; i < 5; i++)
 	{
 		glm::mat4 deerModel = glm::mat4(1.0);
 		if (i % 2 == 0)
@@ -517,8 +409,8 @@ models[4].Draw(objShader);
 		deerModel = glm::rotate(deerModel, glm::radians(270.0f), glm::vec3(0.f, 0.0f, 1.0f));
 		objShader.SetMat4("model", deerModel);
 		models[10].Draw(objShader);
-		if (i%3==0)
-		move = !move;
+		if (i % 3 == 0)
+			move = !move;
 	}
 
 
@@ -533,18 +425,29 @@ models[4].Draw(objShader);
 		models[11].Draw(objShader);
 	}
 
-	double aux = 0.0;
-	for (int i = 0; i < 3; i++)
+	double aux = 0.1;
+	double endFence = 36.8;
+	while (endFence > 0)
 	{
-		glm::mat4 fenceModel = glm::mat4(1.0);
-		fenceModel = glm::translate(fenceModel, glm::vec3(13.3f + (i * 4.5f), -1.5f + aux, 37.f));
-		aux += 0.2;
-		fenceModel = glm::scale(fenceModel, glm::vec3(0.7f));
-		fenceModel = glm::rotate(fenceModel, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		for (int i = 0; i < 3; i++)
+		{
+			double x = 13.3f + (i * 4.5f);
+			double y = -1.5f + aux;
+			double z = endFence;
+			aux += 0.5;
 
-		objShader.SetMat4("model", fenceModel);
-		models[11].Draw(objShader);
+			glm::mat4 fenceModel = glm::mat4(1.0);
+			fenceModel = glm::translate(fenceModel, glm::vec3(x, y, z));
+			fenceModel = glm::scale(fenceModel, glm::vec3(0.7f));
+			fenceModel = glm::rotate(fenceModel, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+			objShader.SetMat4("model", fenceModel);
+			models[11].Draw(objShader);
+		}
+		endFence -= 13.5;
+		aux = 0.1;
 	}
+
 
 	//glm::mat4 fenceModel = glm::mat4(1.0);
 	//fenceModel = glm::translate(fenceModel, glm::vec3(10.f, -1.5f, 12.f + (9 * 4.5f)));
@@ -554,7 +457,8 @@ models[4].Draw(objShader);
 	//objShader.SetMat4("model", fenceModel);
 	//models[11].Draw(objShader);
 
-	for (int i = 0; i < 8; i++)
+	// right fence
+	for (int i = 0; i < 6; i++)
 	{
 		glm::mat4 fenceModel = glm::mat4(1.0);
 		fenceModel = glm::translate(fenceModel, glm::vec3(2.f, -1.5f, 12.f + (i * 4.5f)));
@@ -562,6 +466,30 @@ models[4].Draw(objShader);
 		fenceModel = glm::rotate(fenceModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		objShader.SetMat4("model", fenceModel);
 		models[11].Draw(objShader);
+	}
+
+	endFence = 36.8;
+	aux = 0.1;
+	while (endFence > 0)
+	{
+		
+		for (int i = 0; i < 3; i++)
+		{
+			double x = -0.3f - (i * 4.5f);
+			double y = -1.5f + aux;
+			double z = endFence;
+
+			glm::mat4 fenceModel = glm::mat4(1.0);
+			fenceModel = glm::translate(fenceModel, glm::vec3(x, y, z));
+			aux += 0.3;
+			fenceModel = glm::scale(fenceModel, glm::vec3(0.7f));
+			fenceModel = glm::rotate(fenceModel, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+			objShader.SetMat4("model", fenceModel);
+			models[11].Draw(objShader);
+		}
+		endFence -= 13.5;
+		aux = 0.1;
 	}
 
 
@@ -593,7 +521,7 @@ models[4].Draw(objShader);
 
 	for (int i = 0; i < 10; i++) {
 		glm::mat4 zebraModel = glm::mat4(1.0);
-		zebraModel = glm::translate(zebraModel, glm::vec3(15.f + (i * 3.2f) , -1.f, 5.f));
+		zebraModel = glm::translate(zebraModel, glm::vec3(15.f + (i * 3.2f), -1.f, 5.f));
 		zebraModel = glm::scale(zebraModel, glm::vec3(10.f));
 		objShader.SetMat4("model", zebraModel);
 		models[16].Draw(objShader);
@@ -647,6 +575,8 @@ models[4].Draw(objShader);
 	objShader.SetMat4("model", stationModel);
 	models[23].Draw(objShader);
 
+	
+
 
 	//glm::mat4 WallModel = glm::mat4(1.0);
 	//WallModel = glm::translate(WallModel, glm::vec3(8.0f, 0.0f, 10.0f));
@@ -654,12 +584,20 @@ models[4].Draw(objShader);
 	//WallModel = glm::scale(WallModel, glm::vec3(4.f));
 	//objShader.SetMat4("model", WallModel);
 	//models[25].Draw(objShader);
-
-
-
+	glm::mat4 crocodileModel = glm::mat4(1.0);
+	// Keep same position
+	crocodileModel = glm::translate(crocodileModel, glm::vec3(3.0f, -1.0f, 0.0f));
+	// Keep same scale
+	crocodileModel = glm::scale(crocodileModel, glm::vec3(2.0f));
+	// Let's do a single rotation sequence to get it oriented correctly
+	crocodileModel = glm::rotate(crocodileModel, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));  // Turn it to face forward
+	objShader.SetMat4("model", crocodileModel);
+	models[26].Draw(objShader);
 	// ********************************************************************************************************************
 	// the grround must be placed at the end 
 	int index = models.size() - 1;
+
+	
 
 	glm::mat4 terrainModel1 = glm::mat4(1.0);
 	terrainModel1 = glm::translate(terrainModel1, glm::vec3(8.0f, -2.0f, 10.0f));
@@ -688,15 +626,17 @@ models[4].Draw(objShader);
 	objShader.SetMat4("model", terrainModel3);
 	models[index].Draw(objShader);
 
-	glm::mat4 butterflyModel = glm::mat4(1.0);
-	// Position the butterfly above tree2 which is at (0.0, -1.0, 2.5)
-	butterflyModel = glm::translate(butterflyModel, glm::vec3(0.0f, 2.0f, 2.5f));  // Same x and z as tree2, but higher y
-	// Make it visible but not too large
-	butterflyModel = glm::scale(butterflyModel, glm::vec3(0.3f));
-	// Rotate it to face the right direction
-	butterflyModel = glm::rotate(butterflyModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	objShader.SetMat4("model", butterflyModel);
-	models[models.size() - 1].Draw(objShader);
+	
+
+	//glm::mat4 butterflyModel = glm::mat4(1.0);
+	//// Position the butterfly above tree2 which is at (0.0, -1.0, 2.5)
+	//butterflyModel = glm::translate(butterflyModel, glm::vec3(0.0f, 2.0f, 2.5f));  // Same x and z as tree2, but higher y
+	//// Make it visible but not too large
+	//butterflyModel = glm::scale(butterflyModel, glm::vec3(0.3f));
+	//// Rotate it to face the right direction
+	//butterflyModel = glm::rotate(butterflyModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	//objShader.SetMat4("model", butterflyModel);
+	//models[models.size() - 1].Draw(objShader);
 
 	// ********************************************************************************************************************
 
@@ -838,7 +778,7 @@ int main()
 	std::string zebraPath = currentPath + "\\Models\\zebra\\zebra.obj";
 	models.emplace_back(zebraPath, false);
 
-	
+
 
 	std::string apePath = currentPath + "\\Models\\ape\\ape.obj";
 	models.emplace_back(apePath, false);
@@ -868,8 +808,11 @@ int main()
 	std::string WallPath = currentPath + "\\Models\\Wall\\Wall.obj";
 	models.emplace_back(WallPath, false);
 
-	std::string butterflyPath = currentPath + "\\Models\\Butterfly\\ImageToStl.com_monarch butterfly.obj";
-	models.emplace_back(butterflyPath, false);
+	std::string crocodilePath = currentPath + "\\Models\\Crocodile\\ImageToStl.com_crocodile.obj";
+	models.emplace_back(crocodilePath, false);
+
+	/*std::string butterflyPath = currentPath + "\\Models\\Butterfly\\ImageToStl.com_monarch butterfly.obj";
+	models.emplace_back(butterflyPath, false);*/
 
 
 	//********************************************************************************************************************
@@ -883,49 +826,49 @@ int main()
 		//lastFrame = currentFrame;
 
 		processInput(window);
-  //  
-		//glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	
-		//float lightSpeed = currentFrame * 30.f;
-		//float lightRadius = 1.f; // distanta 
+		//  
+			  //glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+			  //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		//lightPos.x = lightRadius * glm::sin(glm::radians(lightSpeed));
-		//lightPos.y = lightRadius * glm::sin(glm::radians(lightSpeed));
-		//lightPos.z = lightRadius * glm::cos(glm::radians(lightSpeed));
+			  //float lightSpeed = currentFrame * 30.f;
+			  //float lightRadius = 1.f; // distanta 
 
-		//
-		//lightingShader.Use();
-		//lightingShader.SetVec3("objectColor", 0.5f, 1.0f, 0.31f);
-		//lightingShader.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
-		//lightingShader.SetVec3("lightPos", lightPos);
-		//lightingShader.SetFloat("KA", g_fKA);
-		//lightingShader.SetFloat("KD", g_fKD);
-		//lightingShader.SetFloat("KS", g_fKS);
-		//
-		//lightingShader.SetVec3("viewPos", pCamera->GetPosition());
-		//lightingShader.SetMat4("projection", pCamera->GetProjectionMatrix());
-		//lightingShader.SetMat4("view", pCamera->GetViewMatrix());
+			  //lightPos.x = lightRadius * glm::sin(glm::radians(lightSpeed));
+			  //lightPos.y = lightRadius * glm::sin(glm::radians(lightSpeed));
+			  //lightPos.z = lightRadius * glm::cos(glm::radians(lightSpeed));
 
-		//glm::mat4 model = glm::scale(glm::mat4(1.0), glm::vec3(1.0f));
-		//lightingShader.SetMat4("model", model);
+			  //
+			  //lightingShader.Use();
+			  //lightingShader.SetVec3("objectColor", 0.5f, 1.0f, 0.31f);
+			  //lightingShader.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
+			  //lightingShader.SetVec3("lightPos", lightPos);
+			  //lightingShader.SetFloat("KA", g_fKA);
+			  //lightingShader.SetFloat("KD", g_fKD);
+			  //lightingShader.SetFloat("KS", g_fKS);
+			  //
+			  //lightingShader.SetVec3("viewPos", pCamera->GetPosition());
+			  //lightingShader.SetMat4("projection", pCamera->GetProjectionMatrix());
+			  //lightingShader.SetMat4("view", pCamera->GetViewMatrix());
 
-		//RenderCube();
+			  //glm::mat4 model = glm::scale(glm::mat4(1.0), glm::vec3(1.0f));
+			  //lightingShader.SetMat4("model", model);
 
-		//lampShader.Use();
-		//lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
-		//lampShader.SetMat4("view", pCamera->GetViewMatrix());
-		//model = glm::translate(glm::mat4(1.0), lightPos);
-		//model = glm::scale(model, glm::vec3(0.05f)); // a smaller cube
-		//lampShader.SetMat4("model", model);
+			  //RenderCube();
 
-		/*glBindVertexArray(lightVAO);
-		glDrawArrays(GL_TRIANGLES, 0, 36);*/
+			  //lampShader.Use();
+			  //lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
+			  //lampShader.SetMat4("view", pCamera->GetViewMatrix());
+			  //model = glm::translate(glm::mat4(1.0), lightPos);
+			  //model = glm::scale(model, glm::vec3(0.05f)); // a smaller cube
+			  //lampShader.SetMat4("model", model);
+
+			  /*glBindVertexArray(lightVAO);
+			  glDrawArrays(GL_TRIANGLES, 0, 36);*/
 
 
 
 		RenderFrame();
-    
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 	}
@@ -956,6 +899,9 @@ void processInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		deltaTime *= 2;
 
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
 		pCamera->ProcessKeyboard(FORWARD, (float)deltaTime);
