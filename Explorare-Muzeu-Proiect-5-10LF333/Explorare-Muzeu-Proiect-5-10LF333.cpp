@@ -50,6 +50,8 @@ TUTORIAL PLASARE OBIECTE:
 #include <stdlib.h> 
 #include <stdio.h>
 #include <math.h> 
+#include <stb_image.h>
+
 
 #include <GL/glew.h>
 
@@ -104,6 +106,107 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 double deltaTime = 0.0f;
 double lastFrame = 0.0f;
+
+
+//GLuint skyboxVAO, skyboxVBO;
+//Shader skyboxShader;
+//CubemapTexture skybox;
+//
+//void InitSkybox() {
+//
+//	float skyboxVertices[] = {
+//		-1.0f,  1.0f, -1.0f, -1.0f, -1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f,  1.0f, -1.0f,
+//		1.0f,  1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f,  1.0f,  1.0f, -1.0f, -1.0f, -1.0f,
+//		-1.0f,  1.0f,  1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f,
+//		1.0f, -1.0f,  1.0f, 1.0f, -1.0f,  1.0f, 1.0f,  1.0f,  1.0f, -1.0f,  1.0f,  1.0f,
+//		-1.0f,  1.0f,  1.0f, -1.0f,  1.0f, -1.0f, -1.0f,  1.0f, -1.0f,  1.0f,  1.0f,  1.0f,
+//		1.0f,  1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, -1.0f,  1.0f,  1.0f, -1.0f,  1.0f
+//	};
+//
+//
+//	glGenVertexArrays(1, &skyboxVAO);
+//	glGenBuffers(1, &skyboxVBO);
+//
+//	glBindVertexArray(skyboxVAO);
+//
+//	glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
+//	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
+//
+//	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+//	glEnableVertexAttribArray(0);
+//
+//	glBindBuffer(GL_ARRAY_BUFFER, 0);
+//
+//	glBindVertexArray(0);
+//}
+//
+//void RenderSkybox() {
+//	glBindVertexArray(skyboxVAO);
+//	glDrawArrays(GL_TRIANGLES, 0, 36);
+//	glBindVertexArray(0);
+//}
+//
+//class CubemapTexture {
+//public:
+//	CubemapTexture(const std::string& Directory,
+//		const std::string& PosXFilename,
+//		const std::string& NegXFilename,
+//		const std::string& PosYFilename,
+//		const std::string& NegYFilename,
+//		const std::string& PosZFilename,
+//		const std::string& NegZFilename) {
+//		m_fileNames[0] = Directory + "\\Models\\Skybox\\Box_Right";
+//		m_fileNames[1] = Directory + "\\Models\\Skybox\\Box_Left";
+//		m_fileNames[2] = Directory + "\\Models\\Skybox\\Box_Top";
+//		m_fileNames[3] = Directory + "\\Models\\Skybox\\Box_Bottom";
+//		m_fileNames[4] = Directory + "\\Models\\Skybox\\Box_Back";
+//		m_fileNames[5] = Directory + "\\Models\\Skybox\\Box_Front";
+//	}
+//
+//	~CubemapTexture() {
+//		glDeleteTextures(1, &m_textureObj);
+//	}
+//
+//	bool Load() {
+//		glGenTextures(1, &m_textureObj);
+//		glBindTexture(GL_TEXTURE_CUBE_MAP, m_textureObj);
+//
+//		for (unsigned int i = 0; i < 6; i++) {
+//			int width, height, channels;
+//			unsigned char* data = stbi_load(m_fileNames[i].c_str(), &width, &height, &channels, STBI_rgb_alpha);
+//
+//			if (data == nullptr) {
+//				std::cout << "Error loading texture '" << m_fileNames[i] << "': " << stbi_failure_reason() << std::endl;
+//				return false;
+//			}
+//
+//			glTexImage2D(types[i], 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+//			stbi_image_free(data);
+//		}
+//
+//		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+//		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+//		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+//		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+//
+//		return true;
+//	}
+//	void Bind(GLenum TextureUnit) {
+//		glActiveTexture(TextureUnit);
+//		glBindTexture(GL_TEXTURE_CUBE_MAP, m_textureObj);
+//	}
+//
+//private:
+//	GLuint m_textureObj;
+//	std::string m_fileNames[6];
+//	GLenum types[6] = {
+//		GL_TEXTURE_CUBE_MAP_POSITIVE_X, GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
+//		GL_TEXTURE_CUBE_MAP_POSITIVE_Y, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
+//		GL_TEXTURE_CUBE_MAP_POSITIVE_Z, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
+//	};
+//};
+//
 
 void CreateVBO()
 {
@@ -335,11 +438,14 @@ void RenderFrame()
 	objShader.SetMat4("model", wolfModel);
 	models[3].Draw(objShader);
 
+//<<<<<<< HEAD
+	
 	glm::mat4 treeModel = glm::mat4(1.0);
-	treeModel = glm::translate(treeModel, glm::vec3(2.f, -1.f, 2.5f));
-	treeModel = glm::scale(treeModel, glm::vec3(0.2f));
-	objShader.SetMat4("model", treeModel);
-	models[4].Draw(objShader);
+treeModel = glm::translate(treeModel, glm::vec3(2.f, -1.f, 2.5f));
+treeModel = glm::scale(treeModel, glm::vec3(0.2f));
+objShader.SetMat4("model", treeModel);
+models[4].Draw(objShader);
+
 
 	for (int i = 0; i < 10; i++) { // Place 10 instances
 		glm::mat4 grassModel = glm::mat4(1.0);
@@ -380,12 +486,23 @@ void RenderFrame()
 	objShader.SetMat4("model", tree3Model);
 	models[8].Draw(objShader);
 
+	glm::mat4 condorModel = glm::mat4(1.0);
+	// Position the condor - adjust these values to place it where you want
+	condorModel = glm::translate(condorModel, glm::vec3(10.0f, 2.0f, 0.0f));  // Placed slightly higher since it's a flying bird
+	// Scale the condor - adjust based on its original size
+	condorModel = glm::scale(condorModel, glm::vec3(0.5f));
+	// You can add rotation if needed, for example to make it face a certain direction:
+	condorModel = glm::rotate(condorModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	// Set the model matrix in the shader
+	objShader.SetMat4("model", condorModel);
+	// Draw the condor - the index should be the position where you added it in the models vector
+	models[24].Draw(objShader);  // Assuming it's the 18th model (index 17)
+
 	//glm::mat4 horseModel = glm::mat4(1.0);
 	//horseModel = glm::translate(horseModel, glm::vec3(0.f, -1.f, 2.5f));
 	//horseModel = glm::scale(horseModel, glm::vec3(100.0f));
 	//objShader.SetMat4("model", horseModel);
 	//models[9].Draw(objShader);
-
 
 	bool move = false;
 	for ( int i = 0;i<5;i++)
@@ -448,6 +565,66 @@ void RenderFrame()
 
 	}
 
+	glm::mat4 apeModel = glm::mat4(1.0);
+	apeModel = glm::translate(apeModel, glm::vec3(10.f, -1.f, 1.f));
+	apeModel = glm::scale(apeModel, glm::vec3(15.f));
+	objShader.SetMat4("model", apeModel);
+	models[17].Draw(objShader);
+
+	glm::mat4 ape2Model = glm::mat4(1.0);
+	ape2Model = glm::translate(ape2Model, glm::vec3(11.f, -1.f, 1.f));
+	ape2Model = glm::scale(ape2Model, glm::vec3(2.f));
+	objShader.SetMat4("model", ape2Model);
+	models[18].Draw(objShader);
+
+
+	glm::mat4 kangarooModel = glm::mat4(1.0);
+	kangarooModel = glm::translate(kangarooModel, glm::vec3(13.f, -1.f, 1.f));
+	kangarooModel = glm::scale(kangarooModel, glm::vec3(1.f));
+	objShader.SetMat4("model", kangarooModel);
+	models[19].Draw(objShader);
+
+	// ********************************************************************************************************************
+
+	glm::mat4 hayBaleModel = glm::mat4(1.0);
+	hayBaleModel = glm::translate(hayBaleModel, glm::vec3(7.f, -1.f, 2.f));
+	hayBaleModel = glm::scale(hayBaleModel, glm::vec3(0.5f));
+	objShader.SetMat4("model", hayBaleModel);
+	models[20].Draw(objShader);
+
+
+	glm::mat4 bush2Model = glm::mat4(1.0);
+	bush2Model = glm::translate(bush2Model, glm::vec3(11.f, -1.f, 2.f));
+	bush2Model = glm::scale(bush2Model, glm::vec3(1.f));
+	objShader.SetMat4("model", bush2Model);
+	models[21].Draw(objShader);
+
+	glm::mat4 bushModel = glm::mat4(1.0);
+	bushModel = glm::translate(bushModel, glm::vec3(10.f, -1.f, 2.f));
+	bushModel = glm::scale(bushModel, glm::vec3(0.3f));
+	objShader.SetMat4("model", bushModel);
+	models[22].Draw(objShader);
+
+	glm::mat4 stationModel = glm::mat4(1.0);
+	stationModel = glm::translate(stationModel, glm::vec3(-5.f, -1.f, 5.f));
+	stationModel = glm::rotate(stationModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	stationModel = glm::scale(stationModel, glm::vec3(1.f));
+	objShader.SetMat4("model", stationModel);
+	models[23].Draw(objShader);
+
+
+
+	// ********************************************************************************************************************
+	// the grround must be placed at the end 
+	glm::mat4 terrainModel = glm::mat4(1.0);
+	terrainModel = glm::translate(terrainModel, glm::vec3(8.0f, -2.0f, -30.0f));
+	terrainModel = glm::scale(terrainModel, glm::vec3(10.0f));
+	objShader.SetMat4("model", terrainModel);
+	int index = models.size() - 1;
+	models[index].Draw(objShader);
+
+	// ********************************************************************************************************************
+
 	lampShader.Use();
 	lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
 	lampShader.SetMat4("view", pCamera->GetViewMatrix());
@@ -459,6 +636,7 @@ void RenderFrame()
 	//glBindVertexArray(lightVAO);
 	//glDrawArrays(GL_TRIANGLES, 0, 36);
 }
+
 
 void Initialize()
 {
@@ -524,6 +702,8 @@ int main()
 
 	CreateVBO();
 
+
+
 	ShaderProgram.Create("PhongLight.vs", "PhongLight.fs");
 	lampShader.Create("Lamp.vs", "Lamp.fs");
 	objShader.Create("PhongLightWithTexture.vs", "PhongLightWithTexture.fs");
@@ -537,6 +717,7 @@ int main()
 	//aici adaugi modelul in vectorul de modele, in cazul asta e models, dar poti sa il numesti cum vrei
 	//primul parametru e calea catre model, al doilea e mereu false, simplu
 	models.emplace_back(PiratePath, false);
+
 
 	std::string GiraffePath = currentPath + "\\Models\\Giraffe\\CIL1PYJ81IH0BT4B9ME2F53L7.obj";
 	//std::string GiraffeTexturePath = currentPath + "\\Models\\Giraffe\\Giraffe.jpg";
@@ -582,6 +763,38 @@ int main()
 	std::string zebraPath = currentPath + "\\Models\\zebra\\zebra.obj";
 	models.emplace_back(zebraPath, false);
 
+	
+
+	std::string apePath = currentPath + "\\Models\\ape\\ape.obj";
+	models.emplace_back(apePath, false);
+
+	std::string ape2Path = currentPath + "\\Models\\ape2\\ape2.obj";
+	models.emplace_back(ape2Path, false);
+
+	std::string kangarooPath = currentPath + "\\Models\\kangaroo\\kangaroo.obj";
+	models.emplace_back(kangarooPath, false);
+
+
+	std::string hayBalePath = currentPath + "\\Models\\hayBale\\hayBale.obj";
+	models.emplace_back(hayBalePath, false);
+
+	std::string bush2Path = currentPath + "\\Models\\bush2\\bush2.obj";
+	models.emplace_back(bush2Path, false);
+
+	std::string bushPath = currentPath + "\\Models\\bush\\bush.obj";
+	models.emplace_back(bushPath, false);
+
+	std::string stationPath = currentPath + "\\Models\\station\\station.obj";
+	models.emplace_back(stationPath, false);
+
+	std::string CondorPath = currentPath + "\\Models\\Condor\\CONDOR.OBJ";
+	models.emplace_back(CondorPath, false);
+
+	//********************************************************************************************************************
+	// Load the terrain model
+	std::string Terrain = currentPath + "\\Models\\Terrain\\terrainBlender.obj";
+	models.emplace_back(Terrain, false);
+
 	while (!glfwWindowShouldClose(window)) {
 		//double currentFrame = glfwGetTime();
 		//deltaTime = currentFrame - lastFrame;
@@ -626,6 +839,8 @@ int main()
 
 		/*glBindVertexArray(lightVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);*/
+
+
 
 		RenderFrame();
     
