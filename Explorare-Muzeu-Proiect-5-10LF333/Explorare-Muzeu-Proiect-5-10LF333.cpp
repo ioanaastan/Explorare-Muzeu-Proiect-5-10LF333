@@ -87,9 +87,9 @@ GLuint ProjMatrixLocation, ViewMatrixLocation, WorldMatrixLocation;
 GLuint VAOID, VBOID, ColorBufferID, IBOID;
 Camera* pCamera = nullptr;
 
-float g_fKA = 0.2f;
-float g_fKD = 0.5f;
-float g_fKS = 0.5f;
+float g_fKA = 0.5f;
+float g_fKD = 0.8f;
+float g_fKS = 0.8f;
 
 bool isCursorVisible = false;
 
@@ -492,12 +492,28 @@ void RenderFrame()
 		aux = 0.1;
 	}
 
+	for (int i = 1;i <=2;i++) {
+		glm::mat4 lampModel = glm::mat4(1.0);
+		lampModel = glm::translate(lampModel, glm::vec3(4.5f, -1.6f,i* 22.6f));
+		lampModel = glm::scale(lampModel, glm::vec3(0.1f));
+		objShader.SetMat4("model", lampModel);
+		models[12].Draw(objShader);
+		glm::vec3 lightPos = glm::vec3(4.5f, -1.6f, i * 22.6f);
+		objShader.SetVec3("lightPos", lightPos);
+		objShader.SetVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+	}
 
-	glm::mat4 lampModel = glm::mat4(1.0);
-	lampModel = glm::translate(lampModel, glm::vec3(2.f, -1.2f, 2.6f));
-	lampModel = glm::scale(lampModel, glm::vec3(0.1f));
-	objShader.SetMat4("model", lampModel);
-	models[12].Draw(objShader);
+	for (int i = 1;i <=3;i++) {
+		glm::mat4 lampModel = glm::mat4(1.0);
+		lampModel = glm::translate(lampModel, glm::vec3(10.f, -1.4f,i* 10.6f));
+		lampModel = glm::scale(lampModel, glm::vec3(0.1f));
+
+		glm::vec3 lightPos = glm::vec3(10.0f, -1.4f, i * 10.6f);
+		objShader.SetVec3("lightPos", lightPos);
+		objShader.SetVec3("lightColor", glm::vec3(1.0f, 1.0f, 1.0f));
+		objShader.SetMat4("model", lampModel);
+		models[12].Draw(objShader);
+	}
 
 
 	glm::mat4 elephantModel = glm::mat4(1.0);
