@@ -64,6 +64,7 @@ TUTORIAL PLASARE OBIECTE:
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <ctime>
 
 #pragma comment (lib, "glfw3dll.lib")
 #pragma comment (lib, "glew32.lib")
@@ -85,6 +86,8 @@ Camera* pCamera = nullptr;
 float g_fKA = 0.2f;
 float g_fKD = 0.5f;
 float g_fKS = 0.5f;
+
+bool isCursorVisible = false;
 
 Shader ShaderProgram;
 Shader lampShader;
@@ -213,7 +216,11 @@ void RenderFrame()
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
 
-	float lightSpeed = currentFrame * 1.f;
+	time_t now = time(NULL);
+	tm localTime;
+	localtime_s(&localTime, &now);
+
+	float lightSpeed = currentFrame * (localTime.tm_hour * localTime.tm_min * .00416f) * 0.016f;
 	float lightRadius = 2.f; // distanta 
 
 	lightPos.x = lightRadius * glm::sin(glm::radians(lightSpeed));
@@ -436,15 +443,17 @@ void RenderFrame()
 		models[16].Draw(objShader);
 
 	}
+
 	lampShader.Use();
 	lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
 	lampShader.SetMat4("view", pCamera->GetViewMatrix());
 	model = glm::translate(glm::mat4(1.0), lightPos);
-	model = glm::scale(model, glm::vec3(0.05f)); // a smaller cube
+	model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
 	lampShader.SetMat4("model", model);
 
-	glBindVertexArray(lightVAO);
-	glDrawArrays(GL_TRIANGLES, 0, 36);
+	RenderCube();
+	//glBindVertexArray(lightVAO);
+	//glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
 void Initialize()
@@ -568,6 +577,7 @@ int main()
 
 	std::string zebraPath = currentPath + "\\Models\\zebra\\zebra.obj";
 	models.emplace_back(zebraPath, false);
+
 	while (!glfwWindowShouldClose(window)) {
 		//double currentFrame = glfwGetTime();
 		//deltaTime = currentFrame - lastFrame;
@@ -663,7 +673,15 @@ void processInput(GLFWwindow* window)
 		int width, height;
 		glfwGetWindowSize(window, &width, &height);
 		pCamera->Reset(width, height);
+	}
 
+	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
+	{
+		if (isCursorVisible)
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		else
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		isCursorVisible = !isCursorVisible;
 	}
 }
 
