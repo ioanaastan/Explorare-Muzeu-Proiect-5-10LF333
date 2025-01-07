@@ -41,6 +41,8 @@ TUTORIAL PLASARE OBIECTE:
 	std::vector<Model> models;
 */
 
+//to not forget, walk animation made with sin function and a timer that goes while moving only
+//make sun go orange and red the closer it gets to 0 and 180 degrees but white-yellow-ish after 5-10 degrees
 
 #include <Windows.h>
 #include <codecvt>
@@ -220,12 +222,14 @@ void RenderFrame()
 	tm localTime;
 	localtime_s(&localTime, &now);
 
-	float lightSpeed = currentFrame * (localTime.tm_hour * localTime.tm_min * .00416f) * 0.016f;
-	float lightRadius = 2.f; // distanta 
+	float lightSpeed = (localTime.tm_sec + (localTime.tm_hour * 60 + localTime.tm_min) * 60) * .0416f * 0.016f;
+	float lightRadius = 10.f; // distanta 
 
 	lightPos.x = lightRadius * glm::sin(glm::radians(lightSpeed));
 	lightPos.y = lightRadius * glm::sin(glm::radians(lightSpeed));
 	lightPos.z = lightRadius * glm::cos(glm::radians(lightSpeed));
+
+	std::cout << lightSpeed << "\n";
 
 	glm::vec3 cubePositions[] = {
 	 glm::vec3(0.0f,  0.0f,   0.0f),
