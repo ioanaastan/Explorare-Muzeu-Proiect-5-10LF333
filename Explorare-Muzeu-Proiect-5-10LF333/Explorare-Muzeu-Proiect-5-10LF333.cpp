@@ -282,6 +282,31 @@ std::vector<glm::vec3> treePostions{
 {26.500000, -0.012589, 9.878562},
 
 
+{-11.800000, -0.041814, 92.068269},
+{-11.600000, -0.661467, 53.050247},
+{-11.400000, -0.794454, 91.292793},
+{-11.000000, -0.847032, 96.675356},
+{-9.600000, -0.782750, 82.656487},
+{-8.800000, -0.092506, 66.411127},
+{-8.200000, -0.214220, 96.471143},
+{-8.000000, 0.192254, 55.442307},
+{-7.800000, 0.198500, 95.612717},
+{-7.600000, -0.699712, 84.652673},
+{-6.800000, -0.425941, 103.904138},
+{-6.400000, 0.094728, 66.010068},
+{-6.200000, -0.586335, 65.863078},
+{-5.200000, -0.833973, 59.283847},
+{-4.400000, -1.158782, 82.714023},
+{-4.000000, -1.107201, 85.910046},
+{-3.600000, -1.110696, 77.183173},
+{-3.400000, -1.023838, 82.330119},
+{-3.000000, -1.449471, 62.978949},
+{-2.800000, -1.176213, 87.016262},
+{-2.000000, -1.109283, 94.428050},
+{-1.400000, -1.368909, 72.736598},
+{-1.000000, -1.067667, 102.041489},
+{-0.600000, -1.517938, 85.815596},
+{-0.400000, -1.066262, 99.397442},
 
 
 };
@@ -303,7 +328,6 @@ void generateTrees()
 		{
 			glm::mat4 tree2Model = glm::mat4(1.0);
 			tree2Model = glm::translate(tree2Model, glm::vec3(treePostions[i]));
-			//tree2Model = glm::scale(tree2Model, glm::vec3(0.3f));
 			objShader.SetMat4("model", tree2Model);
 			models[7].Draw(objShader);
 		}
@@ -323,7 +347,7 @@ void generateFences()
 		models[11].Draw(objShader);
 	}
 
-	for (int i = 12; i < 21; i++)
+	for (int i = 12; i < 19; i++)
 	{
 		glm::mat4 fenceModel = glm::mat4(1.0);
 		fenceModel = glm::translate(fenceModel, glm::vec3(11.f, -1.5f, 12.f + (i * 4.5f)));
@@ -425,6 +449,22 @@ void generateFences()
 		}
 		endFence -= 27;
 		aux = 0.1;
+	}
+
+	for (int i = 0; i < 3; i++)
+	{
+		double x = -0.3f - (i * 4.5f);
+		double y = -1.5f + aux;
+		double z = endFence + 13.5;
+
+		glm::mat4 fenceModel = glm::mat4(1.0);
+		fenceModel = glm::translate(fenceModel, glm::vec3(x, y, z));
+		aux += 0.3;
+		fenceModel = glm::scale(fenceModel, glm::vec3(0.7f));
+		fenceModel = glm::rotate(fenceModel, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+		objShader.SetMat4("model", fenceModel);
+		models[11].Draw(objShader);
 	}
 
 }
