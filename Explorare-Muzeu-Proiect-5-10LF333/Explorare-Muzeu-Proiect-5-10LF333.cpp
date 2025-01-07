@@ -289,7 +289,6 @@ std::vector<glm::vec3> treePostions{
 {-9.600000, -0.782750, 82.656487},
 {-8.800000, -0.092506, 66.411127},
 {-8.200000, -0.214220, 96.471143},
-{-8.000000, 0.192254, 55.442307},
 {-7.800000, 0.198500, 95.612717},
 {-7.600000, -0.699712, 84.652673},
 {-6.800000, -0.425941, 103.904138},
@@ -314,9 +313,9 @@ std::vector<glm::vec3> treePostions{
 void generateTrees()
 {
 	double scale = 0.05;
-	for (int i = 0;i < treePostions.size();i++)
+	for (int i = 0; i < treePostions.size(); i++)
 	{
-		if (i<35)
+		if (i < 35)
 		{
 			glm::mat4 treeModel = glm::mat4(1.0);
 			treeModel = glm::translate(treeModel, glm::vec3(treePostions[i]));
@@ -332,6 +331,12 @@ void generateTrees()
 			models[7].Draw(objShader);
 		}
 	}
+
+	glm::mat4 tree2Model = glm::mat4(1.0);
+	tree2Model = glm::translate(tree2Model, glm::vec3(-8.f, -0.5f, 55.442307f));
+	tree2Model = glm::scale(tree2Model, glm::vec3(1.2f));
+	objShader.SetMat4("model", tree2Model);
+	models[7].Draw(objShader);
 }
 
 void generateFences()
@@ -566,9 +571,18 @@ void RenderFrame()
 	models[0].Draw(objShader);
 
 	glm::mat4 giraffeModel = glm::mat4(1.0);
-	giraffeModel = glm::translate(giraffeModel, glm::vec3(5.0f, -1.0f, -2.0f));
-	giraffeModel = glm::scale(giraffeModel, glm::vec3(1.5f));
+	giraffeModel = glm::translate(giraffeModel, glm::vec3( - 3.f, 1.2f, 53.0f));
+	giraffeModel = glm::rotate(giraffeModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	giraffeModel = glm::scale(giraffeModel, glm::vec3(1.9f));
 	objShader.SetMat4("model", giraffeModel);
+	models[1].Draw(objShader);
+
+	glm::mat4 babygiraffeModel = glm::mat4(1.0);
+	babygiraffeModel = glm::translate(babygiraffeModel, glm::vec3(-3.5f, -0.1f, 53.0f));
+	babygiraffeModel = glm::rotate(babygiraffeModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	babygiraffeModel = glm::rotate(babygiraffeModel, glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	babygiraffeModel = glm::scale(babygiraffeModel, glm::vec3(0.8f));
+	objShader.SetMat4("model", babygiraffeModel);
 	models[1].Draw(objShader);
 
 	glm::mat4 SeaLionModel = glm::mat4(1.0);
