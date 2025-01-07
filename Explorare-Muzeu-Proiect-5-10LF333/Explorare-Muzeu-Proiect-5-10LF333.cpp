@@ -325,14 +325,13 @@ void RenderFrame()
 	tm localTime;
 	localtime_s(&localTime, &now);
 
-	float lightSpeed = (localTime.tm_sec + (localTime.tm_hour * 60 + localTime.tm_min) * 60) * .0416f * 0.016f;
+	float lightSpeed = (localTime.tm_sec + (localTime.tm_hour * 60 + localTime.tm_min) * 60) * .0416f * 0.048f;
 	float lightRadius = 10.f; // distanta 
 
 	lightPos.x = lightRadius * glm::sin(glm::radians(lightSpeed));
 	lightPos.y = lightRadius * glm::sin(glm::radians(lightSpeed));
 	lightPos.z = lightRadius * glm::cos(glm::radians(lightSpeed));
 
-	std::cout << lightSpeed << "\n";
 
 	glm::vec3 cubePositions[] = {
 	 glm::vec3(0.0f,  0.0f,   0.0f),
@@ -725,6 +724,15 @@ void RenderFrame()
 	objShader.SetMat4("model", terrainModel3);
 	models[index].Draw(objShader);
 
+	glm::mat4 butterflyModel = glm::mat4(1.0);
+	// Position the butterfly above tree2 which is at (0.0, -1.0, 2.5)
+	butterflyModel = glm::translate(butterflyModel, glm::vec3(0.0f, 2.0f, 2.5f));  // Same x and z as tree2, but higher y
+	// Make it visible but not too large
+	butterflyModel = glm::scale(butterflyModel, glm::vec3(0.3f));
+	// Rotate it to face the right direction
+	butterflyModel = glm::rotate(butterflyModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	objShader.SetMat4("model", butterflyModel);
+	models[models.size() - 1].Draw(objShader);
 
 	// ********************************************************************************************************************
 
@@ -895,6 +903,9 @@ int main()
 
 	std::string WallPath = currentPath + "\\Models\\Wall\\Wall.obj";
 	models.emplace_back(WallPath, false);
+
+	std::string butterflyPath = currentPath + "\\Models\\Butterfly\\ImageToStl.com_monarch butterfly.obj";
+	models.emplace_back(butterflyPath, false);
 
 
 	//********************************************************************************************************************
