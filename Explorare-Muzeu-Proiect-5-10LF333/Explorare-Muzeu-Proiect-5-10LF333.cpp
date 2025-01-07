@@ -312,6 +312,223 @@ void RenderCube()
 }
 
 
+std::vector<glm::vec3> treePostions{
+	{2.f, -1.f, 2.5f},
+	{2.f, -1.f, 6.5f},
+	{0.f, -1.5f, 12.f},
+	{0.f, -1.5f, 9.f},
+	{0.f, -1.5f, 10.5f},
+{-10.000000, -1.346646, 18.111554},
+{-9.800000, -1.122772, 9.551964},
+{-9.600000, -0.211960, 34.342767},
+{-9.200000, -0.838879, 22.943361},
+{-8.200000, -0.719646, 14.492779},
+{-8.000000, -0.846338, 34.066363},
+{-7.600000, -1.171284, 27.976573},
+{-6.800000, -0.556925, 23.946574},
+{-6.600000, 0.099945, 22.466574},
+{-5.800000, -1.076061, 29.462464},
+{-5.400000, -0.882336, 18.744073},
+{-5.200000, -1.127739, 18.716882},
+{-5.000000, -2.026368, 9.691571},
+{-4.800000, -0.599670, 9.398526},
+{-4.600000, -1.396008, 30.895869},
+{-4.400000, -1.731190, 26.174317},
+{-4.000000, -0.251676, 25.789227},
+{-3.000000, -1.390358, 33.677923},
+{-2.200000, -1.250061, 13.035035},
+{-2.000000, -1.007390, 26.420884},
+{-1.800000, -1.482487, 25.764499},
+{-1.600000, -1.113837, 18.960118},
+{-1.400000, -1.767291, 15.338562},
+{-1.000000, -2.591976, 31.895439},
+{-0.800000, -0.676334, 29.351990},
+{-0.600000, -0.640694, 36.621535},
+{-0.200000, -1.138618, 23.607306},
+{-0.000000, -0.632756, 25.645149},
+{0.200000, -1.114014, 9.620693},
+{0.400000, -1.637895, 15.416776},
+
+
+{13.500000, -1.379707, 21.194847},
+{13.700000, -1.267365, 16.204368},
+{14.100000, -1.420285, 35.919143},
+{14.900000, -0.967572, 23.212594},
+{15.100000, -0.811116, 9.390420},
+{15.300000, -0.101410, 15.934450},
+{15.500000, -0.487200, 27.786048},
+{15.900000, -0.399102, 15.612950},
+{16.900000, -0.449054, 12.585816},
+{17.300000, 0.092728, 26.180203},
+{18.300000, 0.165961, 30.290041},
+{18.700000, -0.601062, 18.048049},
+{19.100000, -0.592329, 36.269791},
+{19.300000, -0.731511, 35.569631},
+{19.500000, -0.966829, 36.560820},
+{19.900000, -0.559012, 28.737279},
+{20.100000, -0.303764, 30.441375},
+{20.900000, 0.000665, 11.021459},
+{21.300000, -0.840972, 16.095096},
+{21.900000, -0.306067, 31.991234},
+{22.100000, 0.200000, 29.264241},
+{22.300000, 0.043170, 15.914124},
+{22.700000, -0.877967, 12.781286},
+{23.300000, -0.459367, 31.284772},
+{23.500000, -0.711440, 13.636387},
+{23.700000, -0.514812, 27.155240},
+{24.900000, -0.317980, 15.070709},
+{25.500000, -0.862291, 22.655835},
+{26.300000, -0.479031, 35.299343},
+{26.500000, -0.012589, 9.878562},
+
+
+
+
+};
+
+void generateTrees()
+{
+	double scale = 0.05;
+	for (int i = 0;i < treePostions.size();i++)
+	{
+		if (i<35)
+		{
+			glm::mat4 treeModel = glm::mat4(1.0);
+			treeModel = glm::translate(treeModel, glm::vec3(treePostions[i]));
+			treeModel = glm::scale(treeModel, glm::vec3(0.2f));
+			objShader.SetMat4("model", treeModel);
+			models[4].Draw(objShader);
+		}
+		else
+		{
+			glm::mat4 tree2Model = glm::mat4(1.0);
+			tree2Model = glm::translate(tree2Model, glm::vec3(treePostions[i]));
+			//tree2Model = glm::scale(tree2Model, glm::vec3(0.3f));
+			objShader.SetMat4("model", tree2Model);
+			models[7].Draw(objShader);
+		}
+	}
+}
+
+void generateFences()
+{
+	for (int i = 0; i < 6; i++)
+	{
+		glm::mat4 fenceModel = glm::mat4(1.0);
+		fenceModel = glm::translate(fenceModel, glm::vec3(11.f, -1.5f, 12.f + (i * 4.5f)));
+		fenceModel = glm::scale(fenceModel, glm::vec3(0.7f));
+		fenceModel = glm::rotate(fenceModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		fenceModel = glm::rotate(fenceModel, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		objShader.SetMat4("model", fenceModel);
+		models[11].Draw(objShader);
+	}
+
+	for (int i = 12; i < 21; i++)
+	{
+		glm::mat4 fenceModel = glm::mat4(1.0);
+		fenceModel = glm::translate(fenceModel, glm::vec3(11.f, -1.5f, 12.f + (i * 4.5f)));
+		fenceModel = glm::scale(fenceModel, glm::vec3(0.7f));
+		fenceModel = glm::rotate(fenceModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		fenceModel = glm::rotate(fenceModel, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		objShader.SetMat4("model", fenceModel);
+		models[11].Draw(objShader);
+	}
+
+	double aux = 0.1;
+	double endFence = 36.8;
+	while (endFence > 0)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			double x = 13.3f + (i * 4.5f);
+			double y = -1.5f + aux;
+			double z = endFence;
+			aux += 0.5;
+
+			glm::mat4 fenceModel = glm::mat4(1.0);
+			fenceModel = glm::translate(fenceModel, glm::vec3(x, y, z));
+			fenceModel = glm::scale(fenceModel, glm::vec3(0.7f));
+			fenceModel = glm::rotate(fenceModel, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+			objShader.SetMat4("model", fenceModel);
+			models[11].Draw(objShader);
+		}
+		endFence -= 13.5;
+		aux = 0.1;
+	}
+
+	endFence = 90.8;
+	aux = 0.1;
+	for (int i = 0; i < 5; i++)
+	{
+		for (int i = 0; i < 3; i++)
+		{
+			double x = 13.3f + (i * 4.5f);
+			double y = -1.5f + aux;
+			double z = endFence;
+			aux += 0.5;
+
+			glm::mat4 fenceModel = glm::mat4(1.0);
+			fenceModel = glm::translate(fenceModel, glm::vec3(x, y, z));
+			fenceModel = glm::scale(fenceModel, glm::vec3(0.7f));
+			fenceModel = glm::rotate(fenceModel, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+			objShader.SetMat4("model", fenceModel);
+			models[11].Draw(objShader);
+		}
+		endFence -= 27;
+		
+		aux = 0.1;
+	}
+
+
+	//glm::mat4 fenceModel = glm::mat4(1.0);
+	//fenceModel = glm::translate(fenceModel, glm::vec3(10.f, -1.5f, 12.f + (9 * 4.5f)));
+	//fenceModel = glm::scale(fenceModel, glm::vec3(0.7f));
+	//fenceModel = glm::rotate(fenceModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//fenceModel = glm::rotate(fenceModel, glm::radians(5.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//objShader.SetMat4("model", fenceModel);
+	//models[11].Draw(objShader);
+
+	// right fence
+	for (int i = 0; i < 21; i++)
+	{
+		glm::mat4 fenceModel = glm::mat4(1.0);
+		fenceModel = glm::translate(fenceModel, glm::vec3(2.f, -1.5f, 12.f + (i * 4.5f)));
+		fenceModel = glm::scale(fenceModel, glm::vec3(0.7f));
+		fenceModel = glm::rotate(fenceModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		objShader.SetMat4("model", fenceModel);
+		models[11].Draw(objShader);
+	}
+
+
+	// erase the lat 2
+	endFence = 104,3;
+	aux = 0.1;
+	while (endFence > 0)
+	{
+
+		for (int i = 0; i < 3; i++)
+		{
+			double x = -0.3f - (i * 4.5f);
+			double y = -1.5f + aux;
+			double z = endFence;
+
+			glm::mat4 fenceModel = glm::mat4(1.0);
+			fenceModel = glm::translate(fenceModel, glm::vec3(x, y, z));
+			aux += 0.3;
+			fenceModel = glm::scale(fenceModel, glm::vec3(0.7f));
+			fenceModel = glm::rotate(fenceModel, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+			objShader.SetMat4("model", fenceModel);
+			models[11].Draw(objShader);
+		}
+		endFence -= 27;
+		aux = 0.1;
+	}
+
+}
+
 void RenderFrame()
 {
 	glClearColor(0.5f, 0.7f, 1.0f, 1.0f); // Light blue background color
@@ -439,11 +656,8 @@ void RenderFrame()
 
 	//<<<<<<< HEAD
 
-	glm::mat4 treeModel = glm::mat4(1.0);
-	treeModel = glm::translate(treeModel, glm::vec3(2.f, -1.f, 2.5f));
-	treeModel = glm::scale(treeModel, glm::vec3(0.2f));
-	objShader.SetMat4("model", treeModel);
-	models[4].Draw(objShader);
+	generateTrees();
+
 
 
 	for (int i = 0; i < 10; i++) { // Place 10 instances
@@ -477,7 +691,6 @@ void RenderFrame()
 	//tree2Model = glm::scale(tree2Model, glm::vec3(0.3f));
 	objShader.SetMat4("model", tree2Model);
 	models[7].Draw(objShader);
-	//Here we render the light source
 
 	glm::mat4 tree3Model = glm::mat4(1.0);
 	tree3Model = glm::translate(tree3Model, glm::vec3(0.f, -3.f, 0.f));
@@ -508,13 +721,14 @@ void RenderFrame()
 	{
 		glm::mat4 deerModel = glm::mat4(1.0);
 		if (i % 2 == 0)
-			deerModel = glm::translate(deerModel, glm::vec3(i * 0.5f + 5.f, -1.f, 0.5f + move));
+			deerModel = glm::translate(deerModel, glm::vec3(i * 0.6f + 12.f, -1.f, 15.5f + move));
 		else
-			deerModel = glm::translate(deerModel, glm::vec3(i * 0.5f + 5.f, -1.f, 1.f + move));
+			deerModel = glm::translate(deerModel, glm::vec3(i * 0.6f + 12.f, -1.f, 15.f + move));
 
-		deerModel = glm::scale(deerModel, glm::vec3(0.03f));
+		deerModel = glm::scale(deerModel, glm::vec3(0.04f));
 		deerModel = glm::rotate(deerModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 		deerModel = glm::rotate(deerModel, glm::radians(270.0f), glm::vec3(0.f, 0.0f, 1.0f));
+		deerModel = glm::rotate(deerModel, glm::radians(-90.0f), glm::vec3(0.f, 0.0f, 1.0f));
 		objShader.SetMat4("model", deerModel);
 		models[10].Draw(objShader);
 		if (i % 3 == 0)
@@ -522,84 +736,7 @@ void RenderFrame()
 	}
 
 
-	for (int i = 0; i < 6; i++)
-	{
-		glm::mat4 fenceModel = glm::mat4(1.0);
-		fenceModel = glm::translate(fenceModel, glm::vec3(11.f, -1.5f, 12.f + (i * 4.5f)));
-		fenceModel = glm::scale(fenceModel, glm::vec3(0.7f));
-		fenceModel = glm::rotate(fenceModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		fenceModel = glm::rotate(fenceModel, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		objShader.SetMat4("model", fenceModel);
-		models[11].Draw(objShader);
-	}
-
-	double aux = 0.1;
-	double endFence = 36.8;
-	while (endFence > 0)
-	{
-		for (int i = 0; i < 3; i++)
-		{
-			double x = 13.3f + (i * 4.5f);
-			double y = -1.5f + aux;
-			double z = endFence;
-			aux += 0.5;
-
-			glm::mat4 fenceModel = glm::mat4(1.0);
-			fenceModel = glm::translate(fenceModel, glm::vec3(x, y, z));
-			fenceModel = glm::scale(fenceModel, glm::vec3(0.7f));
-			fenceModel = glm::rotate(fenceModel, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-
-			objShader.SetMat4("model", fenceModel);
-			models[11].Draw(objShader);
-		}
-		endFence -= 13.5;
-		aux = 0.1;
-	}
-
-
-	//glm::mat4 fenceModel = glm::mat4(1.0);
-	//fenceModel = glm::translate(fenceModel, glm::vec3(10.f, -1.5f, 12.f + (9 * 4.5f)));
-	//fenceModel = glm::scale(fenceModel, glm::vec3(0.7f));
-	//fenceModel = glm::rotate(fenceModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	//fenceModel = glm::rotate(fenceModel, glm::radians(5.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	//objShader.SetMat4("model", fenceModel);
-	//models[11].Draw(objShader);
-
-	// right fence
-	for (int i = 0; i < 6; i++)
-	{
-		glm::mat4 fenceModel = glm::mat4(1.0);
-		fenceModel = glm::translate(fenceModel, glm::vec3(2.f, -1.5f, 12.f + (i * 4.5f)));
-		fenceModel = glm::scale(fenceModel, glm::vec3(0.7f));
-		fenceModel = glm::rotate(fenceModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		objShader.SetMat4("model", fenceModel);
-		models[11].Draw(objShader);
-	}
-
-	endFence = 36.8;
-	aux = 0.1;
-	while (endFence > 0)
-	{
-		
-		for (int i = 0; i < 3; i++)
-		{
-			double x = -0.3f - (i * 4.5f);
-			double y = -1.5f + aux;
-			double z = endFence;
-
-			glm::mat4 fenceModel = glm::mat4(1.0);
-			fenceModel = glm::translate(fenceModel, glm::vec3(x, y, z));
-			aux += 0.3;
-			fenceModel = glm::scale(fenceModel, glm::vec3(0.7f));
-			fenceModel = glm::rotate(fenceModel, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-
-			objShader.SetMat4("model", fenceModel);
-			models[11].Draw(objShader);
-		}
-		endFence -= 13.5;
-		aux = 0.1;
-	}
-
+	generateFences();
 
 	glm::mat4 lampModel = glm::mat4(1.0);
 	lampModel = glm::translate(lampModel, glm::vec3(2.f, -1.2f, 2.6f));
@@ -683,6 +820,8 @@ void RenderFrame()
 	objShader.SetMat4("model", stationModel);
 	models[23].Draw(objShader);
 
+	// condor 
+
 
 	//glm::mat4 WallModel = glm::mat4(1.0);
 	//WallModel = glm::translate(WallModel, glm::vec3(8.0f, 0.0f, 10.0f));
@@ -690,6 +829,15 @@ void RenderFrame()
 	//WallModel = glm::scale(WallModel, glm::vec3(4.f));
 	//objShader.SetMat4("model", WallModel);
 	//models[25].Draw(objShader);
+
+
+	//glm::mat4 fence2Model = glm::mat4(1.0);
+	//fence2Model = glm::translate(fence2Model, glm::vec3(1.f, -1.5f, 40.f));
+	//fence2Model = glm::rotate(fence2Model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+
+	//fence2Model = glm::scale(fence2Model, glm::vec3(0.01f));
+	//objShader.SetMat4("model", fence2Model);
+	//models[26].Draw(objShader);
 
 
 
@@ -720,19 +868,19 @@ void RenderFrame()
 	glm::mat4 terrainModel3 = glm::mat4(1.0);
 	terrainModel3 = glm::translate(terrainModel3, glm::vec3(8.0f, -2.0f, 100.f));
 	terrainModel3 = glm::scale(terrainModel3, glm::vec3(-5.0f, 5.0f, 5.0f));
-	//terrainModel3 = glm::rotate(terrainModel3, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//terrainModel3 = glm::rotate(terrainModel3, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	objShader.SetMat4("model", terrainModel3);
 	models[index].Draw(objShader);
 
-	glm::mat4 butterflyModel = glm::mat4(1.0);
-	// Position the butterfly above tree2 which is at (0.0, -1.0, 2.5)
-	butterflyModel = glm::translate(butterflyModel, glm::vec3(0.0f, 2.0f, 2.5f));  // Same x and z as tree2, but higher y
-	// Make it visible but not too large
-	butterflyModel = glm::scale(butterflyModel, glm::vec3(0.3f));
-	// Rotate it to face the right direction
-	butterflyModel = glm::rotate(butterflyModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	objShader.SetMat4("model", butterflyModel);
-	models[models.size() - 1].Draw(objShader);
+	//glm::mat4 butterflyModel = glm::mat4(1.0);
+	//// Position the butterfly above tree2 which is at (0.0, -1.0, 2.5)
+	//butterflyModel = glm::translate(butterflyModel, glm::vec3(0.0f, 2.0f, 2.5f));  // Same x and z as tree2, but higher y
+	//// Make it visible but not too large
+	//butterflyModel = glm::scale(butterflyModel, glm::vec3(0.3f));
+	//// Rotate it to face the right direction
+	//butterflyModel = glm::rotate(butterflyModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	//objShader.SetMat4("model", butterflyModel);
+	//models[models.size() - 1].Draw(objShader);
 
 	// ********************************************************************************************************************
 
@@ -904,14 +1052,25 @@ int main()
 	std::string WallPath = currentPath + "\\Models\\Wall\\Wall.obj";
 	models.emplace_back(WallPath, false);
 
+
+	std::string Fence2Path = currentPath + "\\Models\\Fence2\\Fence2.obj";
+	models.emplace_back(Fence2Path, false);
+
+
 	std::string butterflyPath = currentPath + "\\Models\\Butterfly\\ImageToStl.com_monarch butterfly.obj";
 	models.emplace_back(butterflyPath, false);
+
+
 
 
 	//********************************************************************************************************************
 	// Load the terrain model
 	std::string Terrain = currentPath + "\\Models\\Terrain\\terrainBlender.obj";
 	models.emplace_back(Terrain, false);
+
+	//**********************************************
+	// initiate the tree vector 
+
 
 	while (!glfwWindowShouldClose(window)) {
 		//double currentFrame = glfwGetTime();
