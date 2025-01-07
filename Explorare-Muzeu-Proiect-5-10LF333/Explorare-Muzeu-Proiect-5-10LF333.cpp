@@ -108,106 +108,6 @@ double deltaTime = 0.0f;
 double lastFrame = 0.0f;
 
 
-//GLuint skyboxVAO, skyboxVBO;
-//Shader skyboxShader;
-//CubemapTexture skybox;
-//
-//void InitSkybox() {
-//
-//	float skyboxVertices[] = {
-//		-1.0f,  1.0f, -1.0f, -1.0f, -1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f,  1.0f, -1.0f,
-//		1.0f,  1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f,  1.0f,  1.0f, -1.0f, -1.0f, -1.0f,
-//		-1.0f,  1.0f,  1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f,
-//		1.0f, -1.0f,  1.0f, 1.0f, -1.0f,  1.0f, 1.0f,  1.0f,  1.0f, -1.0f,  1.0f,  1.0f,
-//		-1.0f,  1.0f,  1.0f, -1.0f,  1.0f, -1.0f, -1.0f,  1.0f, -1.0f,  1.0f,  1.0f,  1.0f,
-//		1.0f,  1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, -1.0f,  1.0f,  1.0f, -1.0f,  1.0f
-//	};
-//
-//
-//	glGenVertexArrays(1, &skyboxVAO);
-//	glGenBuffers(1, &skyboxVBO);
-//
-//	glBindVertexArray(skyboxVAO);
-//
-//	glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
-//	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
-//
-//	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
-//	glEnableVertexAttribArray(0);
-//
-//	glBindBuffer(GL_ARRAY_BUFFER, 0);
-//
-//	glBindVertexArray(0);
-//}
-//
-//void RenderSkybox() {
-//	glBindVertexArray(skyboxVAO);
-//	glDrawArrays(GL_TRIANGLES, 0, 36);
-//	glBindVertexArray(0);
-//}
-//
-//class CubemapTexture {
-//public:
-//	CubemapTexture(const std::string& Directory,
-//		const std::string& PosXFilename,
-//		const std::string& NegXFilename,
-//		const std::string& PosYFilename,
-//		const std::string& NegYFilename,
-//		const std::string& PosZFilename,
-//		const std::string& NegZFilename) {
-//		m_fileNames[0] = Directory + "\\Models\\Skybox\\Box_Right";
-//		m_fileNames[1] = Directory + "\\Models\\Skybox\\Box_Left";
-//		m_fileNames[2] = Directory + "\\Models\\Skybox\\Box_Top";
-//		m_fileNames[3] = Directory + "\\Models\\Skybox\\Box_Bottom";
-//		m_fileNames[4] = Directory + "\\Models\\Skybox\\Box_Back";
-//		m_fileNames[5] = Directory + "\\Models\\Skybox\\Box_Front";
-//	}
-//
-//	~CubemapTexture() {
-//		glDeleteTextures(1, &m_textureObj);
-//	}
-//
-//	bool Load() {
-//		glGenTextures(1, &m_textureObj);
-//		glBindTexture(GL_TEXTURE_CUBE_MAP, m_textureObj);
-//
-//		for (unsigned int i = 0; i < 6; i++) {
-//			int width, height, channels;
-//			unsigned char* data = stbi_load(m_fileNames[i].c_str(), &width, &height, &channels, STBI_rgb_alpha);
-//
-//			if (data == nullptr) {
-//				std::cout << "Error loading texture '" << m_fileNames[i] << "': " << stbi_failure_reason() << std::endl;
-//				return false;
-//			}
-//
-//			glTexImage2D(types[i], 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-//			stbi_image_free(data);
-//		}
-//
-//		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-//		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-//		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-//		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-//		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-//
-//		return true;
-//	}
-//	void Bind(GLenum TextureUnit) {
-//		glActiveTexture(TextureUnit);
-//		glBindTexture(GL_TEXTURE_CUBE_MAP, m_textureObj);
-//	}
-//
-//private:
-//	GLuint m_textureObj;
-//	std::string m_fileNames[6];
-//	GLenum types[6] = {
-//		GL_TEXTURE_CUBE_MAP_POSITIVE_X, GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
-//		GL_TEXTURE_CUBE_MAP_POSITIVE_Y, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
-//		GL_TEXTURE_CUBE_MAP_POSITIVE_Z, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
-//	};
-//};
-//
-
 void CreateVBO()
 {
 	// indexurile cubului
@@ -597,14 +497,6 @@ void RenderFrame()
 	view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	glUniformMatrix4fv(ViewMatrixLocation, 1, GL_FALSE, glm::value_ptr(view));*/
 
-	//for (unsigned int i = 0; i < sizeof(cubePositions) / sizeof(cubePositions[0]); i++) {
-	//	// calculate the model matrix for each object and pass it to shader before drawing
-	//	glm::mat4 worldTransf = glm::translate(glm::mat4(1.0), cubePositions[i]);
-	//	ShaderProgram.SetMat4("WorldMatrix", worldTransf);
-
-	//	RenderCube();
-	//}
-
 	//Here we render the models
 
 	objShader.Use();
@@ -654,7 +546,6 @@ void RenderFrame()
 	objShader.SetMat4("model", wolfModel);
 	models[3].Draw(objShader);
 
-	//<<<<<<< HEAD
 
 	generateTrees();
 
@@ -685,6 +576,7 @@ void RenderFrame()
 	catModel = glm::rotate(catModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));// iti roteste introparte  modelul
 	objShader.SetMat4("model", catModel);
 	models[6].Draw(objShader);
+
 
 	glm::mat4 tree2Model = glm::mat4(1.0);
 	tree2Model = glm::translate(tree2Model, glm::vec3(0.f, -1.f, 2.5f));
@@ -829,6 +721,15 @@ void RenderFrame()
 	//WallModel = glm::scale(WallModel, glm::vec3(4.f));
 	//objShader.SetMat4("model", WallModel);
 	//models[25].Draw(objShader);
+	glm::mat4 crocodileModel = glm::mat4(1.0);
+	// Keep same position
+	crocodileModel = glm::translate(crocodileModel, glm::vec3(3.0f, -1.0f, 0.0f));
+	// Keep same scale
+	crocodileModel = glm::scale(crocodileModel, glm::vec3(2.0f));
+	// Let's do a single rotation sequence to get it oriented correctly
+	crocodileModel = glm::rotate(crocodileModel, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));  // Turn it to face forward
+	objShader.SetMat4("model", crocodileModel);
+	models[26].Draw(objShader);
 
 
 	//glm::mat4 fence2Model = glm::mat4(1.0);
@@ -844,6 +745,8 @@ void RenderFrame()
 	// ********************************************************************************************************************
 	// the grround must be placed at the end 
 	int index = models.size() - 1;
+
+	
 
 	glm::mat4 terrainModel1 = glm::mat4(1.0);
 	terrainModel1 = glm::translate(terrainModel1, glm::vec3(8.0f, -2.0f, 10.0f));
@@ -871,6 +774,8 @@ void RenderFrame()
 	//terrainModel3 = glm::rotate(terrainModel3, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	objShader.SetMat4("model", terrainModel3);
 	models[index].Draw(objShader);
+
+	
 
 	//glm::mat4 butterflyModel = glm::mat4(1.0);
 	//// Position the butterfly above tree2 which is at (0.0, -1.0, 2.5)
@@ -1052,6 +957,11 @@ int main()
 	std::string WallPath = currentPath + "\\Models\\Wall\\Wall.obj";
 	models.emplace_back(WallPath, false);
 
+	std::string crocodilePath = currentPath + "\\Models\\Crocodile\\ImageToStl.com_crocodile.obj";
+	models.emplace_back(crocodilePath, false);
+
+	/*std::string butterflyPath = currentPath + "\\Models\\Butterfly\\ImageToStl.com_monarch butterfly.obj";
+	models.emplace_back(butterflyPath, false);*/
 
 	std::string Fence2Path = currentPath + "\\Models\\Fence2\\Fence2.obj";
 	models.emplace_back(Fence2Path, false);
@@ -1067,10 +977,6 @@ int main()
 	// Load the terrain model
 	std::string Terrain = currentPath + "\\Models\\Terrain\\terrainBlender.obj";
 	models.emplace_back(Terrain, false);
-
-	//**********************************************
-	// initiate the tree vector 
-
 
 	while (!glfwWindowShouldClose(window)) {
 		//double currentFrame = glfwGetTime();
@@ -1151,6 +1057,9 @@ void processInput(GLFWwindow* window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, true);
+
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		deltaTime *= 2;
 
 	if (glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
 		pCamera->ProcessKeyboard(FORWARD, (float)deltaTime);
