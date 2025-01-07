@@ -325,14 +325,13 @@ void RenderFrame()
 	tm localTime;
 	localtime_s(&localTime, &now);
 
-	float lightSpeed = (localTime.tm_sec + (localTime.tm_hour * 60 + localTime.tm_min) * 60) * .0416f * 0.016f;
+	float lightSpeed = (localTime.tm_sec + (localTime.tm_hour * 60 + localTime.tm_min) * 60) * .0416f * 0.048f;
 	float lightRadius = 10.f; // distanta 
 
 	lightPos.x = lightRadius * glm::sin(glm::radians(lightSpeed));
 	lightPos.y = lightRadius * glm::sin(glm::radians(lightSpeed));
 	lightPos.z = lightRadius * glm::cos(glm::radians(lightSpeed));
 
-	std::cout << lightSpeed << "\n";
 
 	glm::vec3 cubePositions[] = {
 	 glm::vec3(0.0f,  0.0f,   0.0f),
