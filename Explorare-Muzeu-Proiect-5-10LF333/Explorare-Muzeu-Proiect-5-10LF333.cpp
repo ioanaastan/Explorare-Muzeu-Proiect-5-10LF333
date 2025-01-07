@@ -493,13 +493,6 @@ models[4].Draw(objShader);
 	//objShader.SetMat4("model", horseModel);
 	//models[9].Draw(objShader);
 
-	glm::mat4 terrainModel = glm::mat4(1.0);
-	terrainModel = glm::translate(terrainModel, glm::vec3(8.0f, -2.0f, -30.0f));
-	terrainModel = glm::scale(terrainModel, glm::vec3(10.0f));
-	objShader.SetMat4("model", terrainModel);
-	models[9].Draw(objShader);
-
-
 	bool move = false;
 	for ( int i = 0;i<5;i++)
 	{
@@ -611,6 +604,15 @@ models[4].Draw(objShader);
 
 
 	// ********************************************************************************************************************
+	// the grround must be placed at the end 
+	glm::mat4 terrainModel = glm::mat4(1.0);
+	terrainModel = glm::translate(terrainModel, glm::vec3(8.0f, -2.0f, -30.0f));
+	terrainModel = glm::scale(terrainModel, glm::vec3(10.0f));
+	objShader.SetMat4("model", terrainModel);
+	int index = models.size() - 1;
+	models[index].Draw(objShader);
+
+	// ********************************************************************************************************************
 
 	lampShader.Use();
 	lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
@@ -704,8 +706,6 @@ int main()
 	//primul parametru e calea catre model, al doilea e mereu false, simplu
 	models.emplace_back(PiratePath, false);
 
-	std::string Terrain = currentPath + "\\Models\\Terrain\\terrainBlender.obj";
-	models.emplace_back(Terrain, false);
 
 	std::string GiraffePath = currentPath + "\\Models\\Giraffe\\CIL1PYJ81IH0BT4B9ME2F53L7.obj";
 	//std::string GiraffeTexturePath = currentPath + "\\Models\\Giraffe\\Giraffe.jpg";
@@ -777,6 +777,11 @@ int main()
 
 	std::string CondorPath = currentPath + "\\Models\\Condor\\CONDOR.OBJ";
 	models.emplace_back(CondorPath, false);
+
+	//********************************************************************************************************************
+	// Load the terrain model
+	std::string Terrain = currentPath + "\\Models\\Terrain\\terrainBlender.obj";
+	models.emplace_back(Terrain, false);
 
 //>>>>>>> 749235484b723036f3b5ace1a4e3545ddb7f4db6
 	while (!glfwWindowShouldClose(window)) {
