@@ -647,6 +647,8 @@ models[4].Draw(objShader);
 	objShader.SetMat4("model", stationModel);
 	models[23].Draw(objShader);
 
+	
+
 
 	//glm::mat4 WallModel = glm::mat4(1.0);
 	//WallModel = glm::translate(WallModel, glm::vec3(8.0f, 0.0f, 10.0f));
@@ -654,12 +656,20 @@ models[4].Draw(objShader);
 	//WallModel = glm::scale(WallModel, glm::vec3(4.f));
 	//objShader.SetMat4("model", WallModel);
 	//models[25].Draw(objShader);
-
-
-
+	glm::mat4 crocodileModel = glm::mat4(1.0);
+	// Keep same position
+	crocodileModel = glm::translate(crocodileModel, glm::vec3(3.0f, -1.0f, 0.0f));
+	// Keep same scale
+	crocodileModel = glm::scale(crocodileModel, glm::vec3(2.0f));
+	// Let's do a single rotation sequence to get it oriented correctly
+	crocodileModel = glm::rotate(crocodileModel, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));  // Turn it to face forward
+	objShader.SetMat4("model", crocodileModel);
+	models[26].Draw(objShader);
 	// ********************************************************************************************************************
 	// the grround must be placed at the end 
 	int index = models.size() - 1;
+
+	
 
 	glm::mat4 terrainModel1 = glm::mat4(1.0);
 	terrainModel1 = glm::translate(terrainModel1, glm::vec3(8.0f, -2.0f, 10.0f));
@@ -688,15 +698,17 @@ models[4].Draw(objShader);
 	objShader.SetMat4("model", terrainModel3);
 	models[index].Draw(objShader);
 
-	glm::mat4 butterflyModel = glm::mat4(1.0);
-	// Position the butterfly above tree2 which is at (0.0, -1.0, 2.5)
-	butterflyModel = glm::translate(butterflyModel, glm::vec3(0.0f, 2.0f, 2.5f));  // Same x and z as tree2, but higher y
-	// Make it visible but not too large
-	butterflyModel = glm::scale(butterflyModel, glm::vec3(0.3f));
-	// Rotate it to face the right direction
-	butterflyModel = glm::rotate(butterflyModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	objShader.SetMat4("model", butterflyModel);
-	models[models.size() - 1].Draw(objShader);
+	
+
+	//glm::mat4 butterflyModel = glm::mat4(1.0);
+	//// Position the butterfly above tree2 which is at (0.0, -1.0, 2.5)
+	//butterflyModel = glm::translate(butterflyModel, glm::vec3(0.0f, 2.0f, 2.5f));  // Same x and z as tree2, but higher y
+	//// Make it visible but not too large
+	//butterflyModel = glm::scale(butterflyModel, glm::vec3(0.3f));
+	//// Rotate it to face the right direction
+	//butterflyModel = glm::rotate(butterflyModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	//objShader.SetMat4("model", butterflyModel);
+	//models[models.size() - 1].Draw(objShader);
 
 	// ********************************************************************************************************************
 
@@ -868,8 +880,11 @@ int main()
 	std::string WallPath = currentPath + "\\Models\\Wall\\Wall.obj";
 	models.emplace_back(WallPath, false);
 
-	std::string butterflyPath = currentPath + "\\Models\\Butterfly\\ImageToStl.com_monarch butterfly.obj";
-	models.emplace_back(butterflyPath, false);
+	std::string crocodilePath = currentPath + "\\Models\\Crocodile\\ImageToStl.com_crocodile.obj";
+	models.emplace_back(crocodilePath, false);
+
+	/*std::string butterflyPath = currentPath + "\\Models\\Butterfly\\ImageToStl.com_monarch butterfly.obj";
+	models.emplace_back(butterflyPath, false);*/
 
 
 	//********************************************************************************************************************
