@@ -522,13 +522,49 @@ models[4].Draw(objShader);
 		move = !move;
 	}
 
-	for (int i = 0; i < 10; i++) {
+
+	for (int i = 0; i < 6; i++)
+	{
 		glm::mat4 fenceModel = glm::mat4(1.0);
-		fenceModel = glm::translate(fenceModel, glm::vec3(2.f + (i * 3.2f), -1.2f, 2.5f));
-		fenceModel = glm::scale(fenceModel, glm::vec3(0.5f));
+		fenceModel = glm::translate(fenceModel, glm::vec3(11.f, -1.5f, 12.f + (i * 4.5f)));
+		fenceModel = glm::scale(fenceModel, glm::vec3(0.7f));
+		fenceModel = glm::rotate(fenceModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		fenceModel = glm::rotate(fenceModel, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		objShader.SetMat4("model", fenceModel);
 		models[11].Draw(objShader);
 	}
+
+	double aux = 0.0;
+	for (int i = 0; i < 3; i++)
+	{
+		glm::mat4 fenceModel = glm::mat4(1.0);
+		fenceModel = glm::translate(fenceModel, glm::vec3(13.3f + (i * 4.5f), -1.5f + aux, 37.f));
+		aux += 0.2;
+		fenceModel = glm::scale(fenceModel, glm::vec3(0.7f));
+		fenceModel = glm::rotate(fenceModel, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+
+		objShader.SetMat4("model", fenceModel);
+		models[11].Draw(objShader);
+	}
+
+	//glm::mat4 fenceModel = glm::mat4(1.0);
+	//fenceModel = glm::translate(fenceModel, glm::vec3(10.f, -1.5f, 12.f + (9 * 4.5f)));
+	//fenceModel = glm::scale(fenceModel, glm::vec3(0.7f));
+	//fenceModel = glm::rotate(fenceModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//fenceModel = glm::rotate(fenceModel, glm::radians(5.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//objShader.SetMat4("model", fenceModel);
+	//models[11].Draw(objShader);
+
+	for (int i = 0; i < 8; i++)
+	{
+		glm::mat4 fenceModel = glm::mat4(1.0);
+		fenceModel = glm::translate(fenceModel, glm::vec3(2.f, -1.5f, 12.f + (i * 4.5f)));
+		fenceModel = glm::scale(fenceModel, glm::vec3(0.7f));
+		fenceModel = glm::rotate(fenceModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		objShader.SetMat4("model", fenceModel);
+		models[11].Draw(objShader);
+	}
+
 
 	glm::mat4 lampModel = glm::mat4(1.0);
 	lampModel = glm::translate(lampModel, glm::vec3(2.f, -1.2f, 2.6f));
@@ -613,15 +649,46 @@ models[4].Draw(objShader);
 	models[23].Draw(objShader);
 
 
+	//glm::mat4 WallModel = glm::mat4(1.0);
+	//WallModel = glm::translate(WallModel, glm::vec3(8.0f, 0.0f, 10.0f));
+	//WallModel = glm::rotate(WallModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//WallModel = glm::scale(WallModel, glm::vec3(4.f));
+	//objShader.SetMat4("model", WallModel);
+	//models[25].Draw(objShader);
+
+
 
 	// ********************************************************************************************************************
 	// the grround must be placed at the end 
-	glm::mat4 terrainModel = glm::mat4(1.0);
-	terrainModel = glm::translate(terrainModel, glm::vec3(8.0f, -2.0f, -30.0f));
-	terrainModel = glm::scale(terrainModel, glm::vec3(10.0f));
-	objShader.SetMat4("model", terrainModel);
 	int index = models.size() - 1;
+
+	glm::mat4 terrainModel1 = glm::mat4(1.0);
+	terrainModel1 = glm::translate(terrainModel1, glm::vec3(8.0f, -2.0f, 10.0f));
+	terrainModel1 = glm::scale(terrainModel1, glm::vec3(5.0f));
+	terrainModel1 = glm::rotate(terrainModel1, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	objShader.SetMat4("model", terrainModel1);
+
 	models[index].Draw(objShader);
+	glm::mat4 terrainModel = glm::mat4(1.0);
+	terrainModel = glm::translate(terrainModel, glm::vec3(8.0f, -2.0f, 40.f));
+	terrainModel = glm::scale(terrainModel, glm::vec3(-5.0f, 5.0f, 5.0f));
+	objShader.SetMat4("model", terrainModel);
+	models[index].Draw(objShader);
+
+	glm::mat4 terrainModel2 = glm::mat4(1.0);
+	terrainModel2 = glm::translate(terrainModel2, glm::vec3(8.0f, -2.0f, 70.0f));
+	terrainModel2 = glm::scale(terrainModel2, glm::vec3(5.0f));
+	terrainModel2 = glm::rotate(terrainModel2, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	objShader.SetMat4("model", terrainModel2);
+	models[index].Draw(objShader);
+
+	glm::mat4 terrainModel3 = glm::mat4(1.0);
+	terrainModel3 = glm::translate(terrainModel3, glm::vec3(8.0f, -2.0f, 100.f));
+	terrainModel3 = glm::scale(terrainModel3, glm::vec3(-5.0f, 5.0f, 5.0f));
+	//terrainModel3 = glm::rotate(terrainModel3, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	objShader.SetMat4("model", terrainModel3);
+	models[index].Draw(objShader);
+
 
 	// ********************************************************************************************************************
 
@@ -789,6 +856,10 @@ int main()
 
 	std::string CondorPath = currentPath + "\\Models\\Condor\\CONDOR.OBJ";
 	models.emplace_back(CondorPath, false);
+
+	std::string WallPath = currentPath + "\\Models\\Wall\\Wall.obj";
+	models.emplace_back(WallPath, false);
+
 
 	//********************************************************************************************************************
 	// Load the terrain model
