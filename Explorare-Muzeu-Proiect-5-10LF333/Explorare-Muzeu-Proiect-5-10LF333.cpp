@@ -41,6 +41,8 @@ TUTORIAL PLASARE OBIECTE:
 	std::vector<Model> models;
 */
 
+//to not forget, walk animation made with sin function and a timer that goes while moving only
+//make sun go orange and red the closer it gets to 0 and 180 degrees but white-yellow-ish after 5-10 degrees
 
 #include <Windows.h>
 #include <codecvt>
@@ -48,6 +50,8 @@ TUTORIAL PLASARE OBIECTE:
 #include <stdlib.h> 
 #include <stdio.h>
 #include <math.h> 
+#include <stb_image.h>
+
 
 #include <GL/glew.h>
 
@@ -64,6 +68,7 @@ TUTORIAL PLASARE OBIECTE:
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <ctime>
 
 #pragma comment (lib, "glfw3dll.lib")
 #pragma comment (lib, "glew32.lib")
@@ -86,6 +91,8 @@ float g_fKA = 0.2f;
 float g_fKD = 0.5f;
 float g_fKS = 0.5f;
 
+bool isCursorVisible = false;
+
 Shader ShaderProgram;
 Shader lampShader;
 Shader objShader;
@@ -99,6 +106,107 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 double deltaTime = 0.0f;
 double lastFrame = 0.0f;
+
+
+//GLuint skyboxVAO, skyboxVBO;
+//Shader skyboxShader;
+//CubemapTexture skybox;
+//
+//void InitSkybox() {
+//
+//	float skyboxVertices[] = {
+//		-1.0f,  1.0f, -1.0f, -1.0f, -1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f,  1.0f, -1.0f,
+//		1.0f,  1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f,  1.0f,  1.0f, -1.0f, -1.0f, -1.0f,
+//		-1.0f,  1.0f,  1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f,
+//		1.0f, -1.0f,  1.0f, 1.0f, -1.0f,  1.0f, 1.0f,  1.0f,  1.0f, -1.0f,  1.0f,  1.0f,
+//		-1.0f,  1.0f,  1.0f, -1.0f,  1.0f, -1.0f, -1.0f,  1.0f, -1.0f,  1.0f,  1.0f,  1.0f,
+//		1.0f,  1.0f, -1.0f, 1.0f, -1.0f, -1.0f, 1.0f, -1.0f,  1.0f,  1.0f, -1.0f,  1.0f
+//	};
+//
+//
+//	glGenVertexArrays(1, &skyboxVAO);
+//	glGenBuffers(1, &skyboxVBO);
+//
+//	glBindVertexArray(skyboxVAO);
+//
+//	glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
+//	glBufferData(GL_ARRAY_BUFFER, sizeof(skyboxVertices), &skyboxVertices, GL_STATIC_DRAW);
+//
+//	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+//	glEnableVertexAttribArray(0);
+//
+//	glBindBuffer(GL_ARRAY_BUFFER, 0);
+//
+//	glBindVertexArray(0);
+//}
+//
+//void RenderSkybox() {
+//	glBindVertexArray(skyboxVAO);
+//	glDrawArrays(GL_TRIANGLES, 0, 36);
+//	glBindVertexArray(0);
+//}
+//
+//class CubemapTexture {
+//public:
+//	CubemapTexture(const std::string& Directory,
+//		const std::string& PosXFilename,
+//		const std::string& NegXFilename,
+//		const std::string& PosYFilename,
+//		const std::string& NegYFilename,
+//		const std::string& PosZFilename,
+//		const std::string& NegZFilename) {
+//		m_fileNames[0] = Directory + "\\Models\\Skybox\\Box_Right";
+//		m_fileNames[1] = Directory + "\\Models\\Skybox\\Box_Left";
+//		m_fileNames[2] = Directory + "\\Models\\Skybox\\Box_Top";
+//		m_fileNames[3] = Directory + "\\Models\\Skybox\\Box_Bottom";
+//		m_fileNames[4] = Directory + "\\Models\\Skybox\\Box_Back";
+//		m_fileNames[5] = Directory + "\\Models\\Skybox\\Box_Front";
+//	}
+//
+//	~CubemapTexture() {
+//		glDeleteTextures(1, &m_textureObj);
+//	}
+//
+//	bool Load() {
+//		glGenTextures(1, &m_textureObj);
+//		glBindTexture(GL_TEXTURE_CUBE_MAP, m_textureObj);
+//
+//		for (unsigned int i = 0; i < 6; i++) {
+//			int width, height, channels;
+//			unsigned char* data = stbi_load(m_fileNames[i].c_str(), &width, &height, &channels, STBI_rgb_alpha);
+//
+//			if (data == nullptr) {
+//				std::cout << "Error loading texture '" << m_fileNames[i] << "': " << stbi_failure_reason() << std::endl;
+//				return false;
+//			}
+//
+//			glTexImage2D(types[i], 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+//			stbi_image_free(data);
+//		}
+//
+//		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+//		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+//		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+//		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+//		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+//
+//		return true;
+//	}
+//	void Bind(GLenum TextureUnit) {
+//		glActiveTexture(TextureUnit);
+//		glBindTexture(GL_TEXTURE_CUBE_MAP, m_textureObj);
+//	}
+//
+//private:
+//	GLuint m_textureObj;
+//	std::string m_fileNames[6];
+//	GLenum types[6] = {
+//		GL_TEXTURE_CUBE_MAP_POSITIVE_X, GL_TEXTURE_CUBE_MAP_NEGATIVE_X,
+//		GL_TEXTURE_CUBE_MAP_POSITIVE_Y, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y,
+//		GL_TEXTURE_CUBE_MAP_POSITIVE_Z, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
+//	};
+//};
+//
 
 void CreateVBO()
 {
@@ -213,12 +321,18 @@ void RenderFrame()
 	deltaTime = currentFrame - lastFrame;
 	lastFrame = currentFrame;
 
-	float lightSpeed = currentFrame * 1.f;
-	float lightRadius = 2.f; // distanta 
+	time_t now = time(NULL);
+	tm localTime;
+	localtime_s(&localTime, &now);
+
+	float lightSpeed = (localTime.tm_sec + (localTime.tm_hour * 60 + localTime.tm_min) * 60) * .0416f * 0.016f;
+	float lightRadius = 10.f; // distanta 
 
 	lightPos.x = lightRadius * glm::sin(glm::radians(lightSpeed));
 	lightPos.y = lightRadius * glm::sin(glm::radians(lightSpeed));
 	lightPos.z = lightRadius * glm::cos(glm::radians(lightSpeed));
+
+	std::cout << lightSpeed << "\n";
 
 	glm::vec3 cubePositions[] = {
 	 glm::vec3(0.0f,  0.0f,   0.0f),
@@ -515,11 +629,12 @@ models[4].Draw(objShader);
 	lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
 	lampShader.SetMat4("view", pCamera->GetViewMatrix());
 	model = glm::translate(glm::mat4(1.0), lightPos);
-	model = glm::scale(model, glm::vec3(0.05f)); // a smaller cube
+	model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
 	lampShader.SetMat4("model", model);
 
-	glBindVertexArray(lightVAO);
-	glDrawArrays(GL_TRIANGLES, 0, 36);
+	RenderCube();
+	//glBindVertexArray(lightVAO);
+	//glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
 
@@ -586,6 +701,8 @@ int main()
 	glEnable(GL_DEPTH_TEST);
 
 	CreateVBO();
+
+
 
 	ShaderProgram.Create("PhongLight.vs", "PhongLight.fs");
 	lampShader.Create("Lamp.vs", "Lamp.fs");
@@ -678,7 +795,6 @@ int main()
 	std::string Terrain = currentPath + "\\Models\\Terrain\\terrainBlender.obj";
 	models.emplace_back(Terrain, false);
 
-//>>>>>>> 749235484b723036f3b5ace1a4e3545ddb7f4db6
 	while (!glfwWindowShouldClose(window)) {
 		//double currentFrame = glfwGetTime();
 		//deltaTime = currentFrame - lastFrame;
@@ -723,6 +839,8 @@ int main()
 
 		/*glBindVertexArray(lightVAO);
 		glDrawArrays(GL_TRIANGLES, 0, 36);*/
+
+
 
 		RenderFrame();
     
@@ -774,7 +892,15 @@ void processInput(GLFWwindow* window)
 		int width, height;
 		glfwGetWindowSize(window, &width, &height);
 		pCamera->Reset(width, height);
+	}
 
+	if (glfwGetKey(window, GLFW_KEY_C) == GLFW_PRESS)
+	{
+		if (isCursorVisible)
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		else
+			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		isCursorVisible = !isCursorVisible;
 	}
 }
 
