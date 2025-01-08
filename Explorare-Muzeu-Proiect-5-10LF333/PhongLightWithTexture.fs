@@ -20,8 +20,11 @@ uniform float KS;
 void main()
 {
 	 // simple color blending
-    vec3 texColor = texture(texture_diffuse1, TexCoords).rgb;
-	
+    vec4 texColor = texture(texture_diffuse1, TexCoords);
+
+    if (texColor.a < 0.1)
+        discard;
+
 	 // ambient
     vec3 ambient = KA * lightColor;
   	
@@ -36,7 +39,7 @@ void main()
     vec3 reflectDir = reflect(-lightDir, norm);  
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
     vec3 specular = KS * spec * lightColor;  
-        
-    vec3 result = (ambient + diffuse + specular) * texColor;
-    FragColor = vec4(result, 1.0);
+    
+    vec3 result = (ambient + diffuse + specular) * texColor.rgb;
+    FragColor = vec4(result, texColor.a);
 } 

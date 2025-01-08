@@ -103,6 +103,8 @@ std::vector<Model> animals;
 std::vector<Model> characters;
 std::vector<Model> plants;
 std::unique_ptr<Model> terrain;
+std::unique_ptr<Model> sun;
+std::unique_ptr<Model> moon;
 
 void framebuffer_size_callback(GLFWwindow* window, int width, int height);
 void mouse_callback(GLFWwindow* window, double xpos, double ypos);
@@ -978,6 +980,9 @@ void Initialize()
 	glEnable(GL_COLOR_MATERIAL);
 	glDisable(GL_LIGHTING);
 
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
 	glFrontFace(GL_CCW);
 	glCullFace(GL_BACK);
 
@@ -1137,6 +1142,11 @@ int main()
 	std::string butterflyPath = currentPath + "\\Models\\Butterfly\\ImageToStl.com_monarch butterfly.obj";
 	animals.emplace_back(butterflyPath, false);
 
+	std::string sunPath = currentPath + "\\Models\\Sun\\ImageToStl.com_sun.obj";
+	sun = std::make_unique<Model>(sunPath, false);
+
+	std::string moonPath = currentPath + "\\Models\\Moon\\moon.obj";
+	moon = std::make_unique<Model>(moonPath, false);
 
 	//********************************************************************************************************************
 	// Load the terrain model
