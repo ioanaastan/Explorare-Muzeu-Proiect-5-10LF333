@@ -1,4 +1,4 @@
-/*
+﻿/*
 TUTORIAL PLASARE OBIECTE:
 
 1. te duci in main si adaugi un nou model in vectorul de modele, ai acolo continuarea la tutorial cu cum se face asta
@@ -649,6 +649,71 @@ void placeWolf()
 		animals[2].Draw(objShader);
 	}
 
+void generateBush() {
+	for (int i = 0; i < 2; ++i) {
+		glm::vec3 position = glm::vec3(18.5f, -0.2f, 60.f - i * 21.f);
+		glm::mat4 bushModel = glm::mat4(1.0);
+		bushModel = glm::translate(bushModel, position);
+		bushModel = glm::scale(bushModel, glm::vec3(0.5f));
+		objShader.SetMat4("model", bushModel);
+		plants[6].Draw(objShader);
+	}
+
+	for (int i = 0; i < 7; ++i) {
+
+		float offsetX = (i % 2 == 0) ? -1.0f : 1.0f;
+		float posX = 0.f + offsetX;
+		float posZ = -3.f + i * 2.0f;
+
+
+		glm::vec3 position = glm::vec3(posX, -1.5f, posZ);
+		glm::mat4 bushModel = glm::mat4(1.0f);
+		bushModel = glm::translate(bushModel, position);
+		bushModel = glm::scale(bushModel, glm::vec3(0.5f));
+
+		objShader.SetMat4("model", bushModel);
+		plants[6].Draw(objShader);
+	}
+
+	for (int i = 0; i < 7; ++i) {
+
+		float offsetX = (i % 2 == 0) ? -1.0f : 1.0f;
+		float posX = 19.f + offsetX;
+		float posZ = -3.5f + i * 2.0f;
+
+
+		glm::vec3 position = glm::vec3(posX, -1.5f, posZ);
+		glm::mat4 bushModel = glm::mat4(1.0f);
+		bushModel = glm::translate(bushModel, position);
+		bushModel = glm::scale(bushModel, glm::vec3(0.5f));
+
+		objShader.SetMat4("model", bushModel);
+		plants[6].Draw(objShader);
+	}
+
+}
+
+void generateLamps() {
+	for (int i = 1;i <= 10;i += 2) {
+		glm::mat4 lampModel = glm::mat4(1.0);
+		lampModel = glm::translate(lampModel, glm::vec3(10.f, -1.5f, i * 10.2f));
+		lampModel = glm::scale(lampModel, glm::vec3(0.1f));
+
+		objShader.SetMat4("model", lampModel);
+		structures[1].Draw(objShader);
+	}
+
+	for (int i = 1;i <= 10;i++) {
+		if (i % 2 != 0) {
+			glm::mat4 lampModel = glm::mat4(1.0);
+			lampModel = glm::translate(lampModel, glm::vec3(3.f, -1.5f, i * 10.2f));
+			lampModel = glm::scale(lampModel, glm::vec3(0.1f));
+			objShader.SetMat4("model", lampModel);
+			structures[1].Draw(objShader);
+		}
+	}
+}
+
 void RenderFrame()
 {
 	glClearColor(0.5f, 0.7f, 1.0f, 1.0f); // Light blue background color
@@ -662,33 +727,67 @@ void RenderFrame()
 	tm localTime;
 	localtime_s(&localTime, &now);
 
-	inGameTime = localTime;
-	inGameTime.tm_hour += offsetGlobal;
+	// Adjust time with offsetGlobal and handle wrapping around 24 hours
+	int adjustedHour = (localTime.tm_hour + offsetGlobal + 24) % 24;
+	int adjustedMinute = localTime.tm_min;
+	int adjustedSecond = localTime.tm_sec;
 
-	if (inGameTime.tm_hour >= 6 && inGameTime.tm_hour < 18)
+	int totalSeconds = adjustedHour * 3600 + adjustedMinute * 60 + adjustedSecond;
+
+	// Define times for sunrise and sunset in seconds since midnight
+	const int sunriseStart = 5 * 3600;   // 5:00 AM
+	const int sunriseEnd = 7 * 3600;     // 7:00 AM
+	const int sunsetStart = 17 * 3600;   // 5:00 PM
+	const int sunsetEnd = 19 * 3600;     // 7:00 PM
+
+	float t = 0.0f; 
+
+	if (totalSeconds >= sunriseStart && totalSeconds <= sunriseEnd)
 	{
-		glClearColor(0.5f, 0.7f, 1.0f, 1.0f); // Light blue background color
-		g_fKA = 0.5f;
-		g_fKD = 0.5f;
-		g_fKS = 0.5f;
+		// Sunrise: t goes from 0.0 to 1.0
+		t = (float)(totalSeconds - sunriseStart) / (sunriseEnd - sunriseStart);
+	}
+	else if (totalSeconds > sunriseEnd && totalSeconds < sunsetStart)
+	{
+		// Daytime: t = 1.0
+		t = 1.0f;
+	}
+	else if (totalSeconds >= sunsetStart && totalSeconds <= sunsetEnd)
+	{
+		// Sunset: t goes from 1.0 to 0.0
+		t = 1.0f - (float)(totalSeconds - sunsetStart) / (sunsetEnd - sunsetStart);
 	}
 	else
 	{
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black background color
-		g_fKA = 0.1f;
-		g_fKD = 0.1f;
-		g_fKS = 0.1f;
+		// Nighttime: t = 0.0
+		t = 0.0f;
 	}
-	float lightSpeed = (localTime.tm_sec + ((inGameTime.tm_hour - 6) * 60 + localTime.tm_min) * 60)/ 1648.f * glm::two_pi<float>();
-	float lightRadius = 50.f; // distanta 
 
-	sunPos.x = lightRadius * glm::sin(glm::radians(lightSpeed));
-	sunPos.y = lightRadius * glm::sin(glm::radians(lightSpeed));
-	sunPos.z = lightRadius * glm::cos(glm::radians(lightSpeed));
+	glm::vec4 dayColor(0.5f, 0.7f, 1.0f, 1.0f);   // Light blue
+	glm::vec4 nightColor(0.0f, 0.0f, 0.0f, 1.0f); // Black
 
-	moonPos.x = lightRadius * glm::sin(glm::radians(lightSpeed + 180));
-	moonPos.y = lightRadius * glm::sin(glm::radians(lightSpeed + 180));
-	moonPos.z = lightRadius * glm::cos(glm::radians(lightSpeed + 180));
+	glm::vec4 clearColor = glm::mix(nightColor, dayColor, t);
+	glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
+
+	float dayKA = 0.5f, dayKD = 0.5f, dayKS = 0.5f;
+	float nightKA = 0.1f, nightKD = 0.1f, nightKS = 0.1f;
+
+	g_fKA = glm::mix(nightKA, dayKA, t);
+	g_fKD = glm::mix(nightKD, dayKD, t);
+	g_fKS = glm::mix(nightKS, dayKS, t);
+
+	float normalizedTime = (localTime.tm_hour + offsetGlobal) / 24.0f+ localTime.tm_min / 1440.0f+ localTime.tm_sec / 86400.0f;
+	float lightSpeed = normalizedTime * glm::two_pi<float>();
+	float lightRadius = 60.f; // Larger distance
+
+	sunPos.x = 10.0f; // Fixed x for rotation around x-axis
+	sunPos.y = lightRadius * glm::sin(lightSpeed); // y oscillates
+	sunPos.z = 50 + lightRadius * glm::cos(lightSpeed); // z oscillates
+
+	moonPos.x = 0.0f; // Fixed x for rotation around x-axis
+	moonPos.y = lightRadius * glm::sin(lightSpeed + glm::pi<float>());
+	moonPos.z = 50 + lightRadius * glm::cos(lightSpeed + glm::pi<float>());
+
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -788,6 +887,8 @@ void RenderFrame()
 
 	placeDeer();
 	generateFences();
+	generateBush();
+	generateLamps();
 
 	for (int i = 1;i <=3;i++) {
 		glm::mat4 lampModel = glm::mat4(1.0);
@@ -927,7 +1028,7 @@ void RenderFrame()
 
 	glm::mat4 sunModel = glm::mat4(1.0);
 	sunModel = glm::translate(sunModel, sunPos);
-	sunModel = glm::scale(sunModel, glm::vec3(10.0f));
+	sunModel = glm::scale(sunModel, glm::vec3(8.0f));
 	objShader.SetMat4("model", sunModel);
 	sun->Draw(objShader);
 
@@ -1209,17 +1310,11 @@ void processInput(GLFWwindow* window)
 
 	if (glfwGetKey(window, GLFW_KEY_N) == GLFW_PRESS)
 	{
-		if (inGameTime.tm_hour < 24)
-			offsetGlobal++;
-		else
-			offsetGlobal -= 24;
+		offsetGlobal = ++offsetGlobal %24;
 	}
 	if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS)
 	{
-		if (inGameTime.tm_hour > 0)
-			offsetGlobal--;
-		else
-			offsetGlobal += 24;
+		offsetGlobal = --offsetGlobal %24;
 	}
 
 }
