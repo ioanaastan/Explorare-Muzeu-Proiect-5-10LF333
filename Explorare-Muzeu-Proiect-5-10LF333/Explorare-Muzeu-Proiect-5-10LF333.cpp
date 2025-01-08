@@ -340,7 +340,7 @@ void generateTrees()
 	tree2Model = glm::translate(tree2Model, glm::vec3(-8.f, -0.5f, 55.442307f));
 	tree2Model = glm::scale(tree2Model, glm::vec3(1.2f));
 	objShader.SetMat4("model", tree2Model);
-	models[7].Draw(objShader);
+	plants[2].Draw(objShader);
 }
 
 void generateFences()
@@ -587,7 +587,7 @@ void RenderFrame()
 	babygiraffeModel = glm::rotate(babygiraffeModel, glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	babygiraffeModel = glm::scale(babygiraffeModel, glm::vec3(0.8f));
 	objShader.SetMat4("model", babygiraffeModel);
-	models[1].Draw(objShader);
+	animals[0].Draw(objShader);
 
 	glm::mat4 SeaLionModel = glm::mat4(1.0);
 	SeaLionModel = glm::translate(SeaLionModel, glm::vec3(-2.0f, -1.0f, 0.0f));
