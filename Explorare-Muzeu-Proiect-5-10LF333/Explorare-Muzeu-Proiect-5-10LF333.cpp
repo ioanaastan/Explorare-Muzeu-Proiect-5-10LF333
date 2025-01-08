@@ -592,6 +592,30 @@ void placeDeer()
 	animals[5].Draw(objShader);
 }
 
+void placeKangaroo() {
+
+	glm::mat4 kangarooModel1 = glm::mat4(1.0);
+	kangarooModel1 = glm::translate(kangarooModel1, glm::vec3(16.f, -1.f, 100.f));
+	kangarooModel1 = glm::rotate(kangarooModel1, glm::radians(-90.f), glm::vec3(0.f, 1.0f, 0.0f));
+	kangarooModel1 = glm::scale(kangarooModel1, glm::vec3(1.f));
+	objShader.SetMat4("model", kangarooModel1);
+	animals[12].Draw(objShader);
+
+
+	glm::mat4 kangarooModel2 = glm::mat4(1.0);
+	kangarooModel2 = glm::translate(kangarooModel2, glm::vec3(14.f, -1.f, 98.f)); 
+	kangarooModel2 = glm::rotate(kangarooModel2, glm::radians(0.f), glm::vec3(0.f, 1.0f, 0.0f)); 
+	kangarooModel2 = glm::scale(kangarooModel2, glm::vec3(1.f));
+	objShader.SetMat4("model", kangarooModel2);
+	animals[12].Draw(objShader);
+
+	glm::mat4 kangarooModel3 = glm::mat4(1.0);
+	kangarooModel3 = glm::translate(kangarooModel3, glm::vec3(18.f, 0.0f, 93.f)); 
+	kangarooModel3 = glm::rotate(kangarooModel3, glm::radians(90.f), glm::vec3(0.f, 1.0f, 0.0f)); 
+	kangarooModel3 = glm::scale(kangarooModel3, glm::vec3(1.f));
+	objShader.SetMat4("model", kangarooModel3);
+	animals[12].Draw(objShader);
+}
 
 void RenderFrame()
 {
@@ -827,8 +851,9 @@ void RenderFrame()
 	
 
 	glm::mat4 lionModel = glm::mat4(1.0);
-	lionModel = glm::translate(lionModel, glm::vec3(18.f, -1.f, 0.f));
-	lionModel = glm::scale(lionModel, glm::vec3(10.f));
+	lionModel = glm::translate(lionModel, glm::vec3(14.f, -0.8f, 67.f));
+	lionModel = glm::scale(lionModel, glm::vec3(7.f));
+	lionModel = glm::rotate(lionModel, glm::radians(-60.f), glm::vec3(0.f, 1.0f, 0.0f));
 	objShader.SetMat4("model", lionModel);
 	animals[7].Draw(objShader);//14
 
@@ -848,23 +873,21 @@ void RenderFrame()
 	}
 
 	glm::mat4 apeModel = glm::mat4(1.0);
-	apeModel = glm::translate(apeModel, glm::vec3(10.f, -1.f, 1.f));
-	apeModel = glm::scale(apeModel, glm::vec3(15.f));
+	apeModel = glm::translate(apeModel, glm::vec3(15.f, -1.f, 80.f));
+	apeModel = glm::scale(apeModel, glm::vec3(11.f));
 	objShader.SetMat4("model", apeModel);
 	animals[10].Draw(objShader);
 
 	glm::mat4 ape2Model = glm::mat4(1.0);
-	ape2Model = glm::translate(ape2Model, glm::vec3(11.f, -1.f, 1.f));
-	ape2Model = glm::scale(ape2Model, glm::vec3(2.f));
+	ape2Model = glm::translate(ape2Model, glm::vec3(17.f, -0.8f, 85.f));
+	ape2Model = glm::rotate(ape2Model, glm::radians(-90.f), glm::vec3(0.f, 1.0f, 0.0f));
+	ape2Model = glm::scale(ape2Model, glm::vec3(1.6f));
 	objShader.SetMat4("model", ape2Model);
 	animals[11].Draw(objShader);
 
 
-	glm::mat4 kangarooModel = glm::mat4(1.0);
-	kangarooModel = glm::translate(kangarooModel, glm::vec3(13.f, -1.f, 1.f));
-	kangarooModel = glm::scale(kangarooModel, glm::vec3(1.f));
-	objShader.SetMat4("model", kangarooModel);
-	animals[12].Draw(objShader);
+	placeKangaroo();
+
 
 	// ********************************************************************************************************************
 
@@ -888,9 +911,9 @@ void RenderFrame()
 	plants[6].Draw(objShader);
 
 	glm::mat4 stationModel = glm::mat4(1.0);
-	stationModel = glm::translate(stationModel, glm::vec3(-5.f, -1.f, 5.f));
-	stationModel = glm::rotate(stationModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	stationModel = glm::scale(stationModel, glm::vec3(1.f));
+	stationModel = glm::translate(stationModel, glm::vec3(20.5f, -1.2f, 50.f));
+	stationModel = glm::rotate(stationModel, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	stationModel = glm::scale(stationModel, glm::vec3(3.f));
 	objShader.SetMat4("model", stationModel);
 	structures[2].Draw(objShader);
 
