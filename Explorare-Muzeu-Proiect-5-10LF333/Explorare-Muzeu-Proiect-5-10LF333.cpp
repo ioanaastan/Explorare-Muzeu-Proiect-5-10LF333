@@ -79,7 +79,8 @@ const unsigned int SCR_HEIGHT = 720;
 
 std::string currentPath;
 
-glm::vec3 lightPos(0.0f, 0.0f, 10.0f);
+glm::vec3 sunPos(0.0f, 0.0f, 25.0f);
+glm::vec3 moonPos(0.0f, 0.0f, -25.0f);
 
 GLuint cubeVAO, lightVAO, VBO;
 GLuint VertexShaderId, FragmentShaderId, ProgramId;
@@ -112,7 +113,6 @@ void scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 double deltaTime = 0.0f;
 double lastFrame = 0.0f;
-
 
 void CreateVBO()
 {
@@ -633,10 +633,13 @@ void RenderFrame()
 	float lightSpeed = (localTime.tm_sec + (localTime.tm_hour * 60 + localTime.tm_min) * 60) * .0416f * 0.048f;
 	float lightRadius = 10.f; // distanta 
 
-	lightPos.x = lightRadius * glm::sin(glm::radians(lightSpeed));
-	lightPos.y = lightRadius * glm::sin(glm::radians(lightSpeed));
-	lightPos.z = lightRadius * glm::cos(glm::radians(lightSpeed));
+	sunPos.x = lightRadius * glm::sin(glm::radians(lightSpeed));
+	sunPos.y = lightRadius * glm::sin(glm::radians(lightSpeed));
+	sunPos.z = lightRadius * glm::cos(glm::radians(lightSpeed));
 
+	moonPos.x = lightRadius * glm::sin(glm::radians(lightSpeed + 180));
+	moonPos.y = lightRadius * glm::sin(glm::radians(lightSpeed + 180));
+	moonPos.z = lightRadius * glm::cos(glm::radians(lightSpeed + 180));
 
 	glm::vec3 cubePositions[] = {
 	 glm::vec3(0.0f,  0.0f,   0.0f),
@@ -656,7 +659,7 @@ void RenderFrame()
 	ShaderProgram.Use();
 	ShaderProgram.SetVec3("objectColor", 0.5f, 1.0f, 0.31f);
 	ShaderProgram.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
-	ShaderProgram.SetVec3("lightPos", lightPos);
+	ShaderProgram.SetVec3("lightPos", sunPos);
 	ShaderProgram.SetFloat("KA", g_fKA);
 	ShaderProgram.SetFloat("KD", g_fKD);
 	ShaderProgram.SetFloat("KS", g_fKS);
@@ -690,7 +693,7 @@ void RenderFrame()
 	objShader.Use();
 	objShader.SetVec3("objectColor", 0.5f, 1.0f, 0.31f);
 	objShader.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
-	objShader.SetVec3("lightPos", lightPos);
+	objShader.SetVec3("lightPos", sunPos);
 	objShader.SetFloat("KA", g_fKA);
 	objShader.SetFloat("KD", g_fKD);
 	objShader.SetFloat("KS", g_fKS);
@@ -980,18 +983,26 @@ void RenderFrame()
 	//objShader.SetMat4("model", butterflyModel);
 	//models[models.size() - 1].Draw(objShader);
 
+	glm::mat4 sunModel = glm::mat4(1.0);
+	sunModel = glm::translate(sunModel, sunPos);
+	sunModel = glm::scale(sunModel, glm::vec3(5.0f));
+	objShader.SetMat4("model", sunModel);
+	sun->Draw(objShader);
+
+	glm::mat4 moonModel = glm::mat4(1.0);
+	moonModel = glm::translate(moonModel, moonPos);
+	moonModel = glm::scale(moonModel, glm::vec3(0.01f));
+	objShader.SetMat4("model", moonModel);
+	moon->Draw(objShader);
+
 	// ********************************************************************************************************************
 
 	lampShader.Use();
 	lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
 	lampShader.SetMat4("view", pCamera->GetViewMatrix());
-	model = glm::translate(glm::mat4(1.0), lightPos);
+	model = glm::translate(glm::mat4(1.0), sunPos);
 	model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
 	lampShader.SetMat4("model", model);
-
-	RenderCube();
-	//glBindVertexArray(lightVAO);
-	//glDrawArrays(GL_TRIANGLES, 0, 36);
 }
 
 
