@@ -546,8 +546,6 @@ void placeDeer()
 	objShader.SetMat4("model", deerModel);
 	animals[5].Draw(objShader);
 
-	
-
 
 	// Place deer2
 	glm::mat4 deer2Model = glm::mat4(1.0);
@@ -590,6 +588,36 @@ void placeDeer()
 	animals[5].Draw(objShader);
 }
 
+
+void placeWolf()
+	{
+		glm::mat4 wolf1Model = glm::mat4(1.0);
+		wolf1Model = glm::translate(wolf1Model, glm::vec3(-7.f, -0.5f, 30.5f));
+		wolf1Model = glm::scale(wolf1Model, glm::vec3(2.5f));
+		objShader.SetMat4("model", wolf1Model);
+		animals[2].Draw(objShader);
+
+		glm::mat4 wolf2Model = glm::mat4(1.0);
+		wolf2Model = glm::translate(wolf2Model, glm::vec3(-2.f, -1.f, 42.5f));
+		wolf2Model = glm::scale(wolf2Model, glm::vec3(2.5f));
+		wolf2Model = glm::rotate(wolf2Model, glm::radians(90.0f), glm::vec3(0.f, 1.0f, 0.0f));
+		objShader.SetMat4("model", wolf2Model);
+		animals[2].Draw(objShader);
+
+		glm::mat4 wolf3Model = glm::mat4(1.0);
+		wolf3Model = glm::translate(wolf3Model, glm::vec3(-8.f, 0.f, 40.5f));
+		wolf3Model = glm::scale(wolf3Model, glm::vec3(2.5f));
+		wolf3Model = glm::rotate(wolf3Model, glm::radians(180.0f), glm::vec3(0.f, 1.0f, 0.0f));
+		objShader.SetMat4("model", wolf3Model);
+		animals[2].Draw(objShader);
+
+		glm::mat4 wolf4Model = glm::mat4(1.0);
+		wolf4Model = glm::translate(wolf4Model, glm::vec3(-5.f, -0.5f, 28.5f));
+		//wolf4Model = glm::rotate(wolf4Model, glm::radians(15.0f), glm::vec3(0.f, 0.0f, 1.0f));
+		wolf4Model = glm::scale(wolf4Model, glm::vec3(2.5f));
+		objShader.SetMat4("model", wolf4Model);
+		animals[2].Draw(objShader);
+	}
 
 void RenderFrame()
 {
@@ -718,13 +746,7 @@ void RenderFrame()
 	objShader.SetMat4("model", SeaLionModel);
 	animals[1].Draw(objShader);
 
-
-	glm::mat4 wolfModel = glm::mat4(1.0);
-	wolfModel = glm::translate(wolfModel, glm::vec3(2.f, -1.f, 0.5f));
-	wolfModel = glm::scale(wolfModel, glm::vec3(1.f));
-	objShader.SetMat4("model", wolfModel);
-	animals[2].Draw(objShader);
-
+	placeWolf();
 
 	generateTrees();
 
