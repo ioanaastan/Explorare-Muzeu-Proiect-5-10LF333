@@ -841,12 +841,6 @@ void RenderFrame()
 	objShader.SetMat4("model", crocodileModel);
 	animals[14].Draw(objShader);
 
-	glm::mat4 pondModel = glm::mat4(1.0);
-	pondModel = glm::translate(pondModel, glm::vec3(3.0f, 5.0f, 0.0f));
-	pondModel = glm::scale(pondModel, glm::vec3(0.01f));
-	objShader.SetMat4("model", pondModel);
-	structures[5].Draw(objShader);
-
 	//glm::mat4 fence2Model = glm::mat4(1.0);
 	//fence2Model = glm::translate(fence2Model, glm::vec3(1.f, -1.5f, 40.f));
 	//fence2Model = glm::rotate(fence2Model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
@@ -1080,8 +1074,6 @@ int main()
 	std::string butterflyPath = currentPath + "\\Models\\Butterfly\\ImageToStl.com_monarch butterfly.obj";
 	animals.emplace_back(butterflyPath, false);
 
-	std::string pondPath = currentPath + "\\Models\\Pond\\Pond_FBX.obj";
-	structures.emplace_back(pondPath, false);
 
 	//********************************************************************************************************************
 	// Load the terrain model
