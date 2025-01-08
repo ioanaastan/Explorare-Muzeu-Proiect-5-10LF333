@@ -94,6 +94,8 @@ float g_fKS = 0.8f;
 
 int offsetGlobal = 0;
 
+tm inGameTime;
+
 bool isCursorVisible = false;
 
 Shader ShaderProgram;
@@ -791,55 +793,7 @@ void RenderFrame()
 	moonPos.z = 50 + lightRadius * glm::cos(lightSpeed + glm::pi<float>());
 
 
-
-	//glm::vec3 cubePositions[] = {
-	// glm::vec3(0.0f,  0.0f,   0.0f),
-	// glm::vec3(-5.0f,  5.0f,  5.0f),
-	// glm::vec3(-5.0f, -5.0f,  5.0f),
-	// glm::vec3(5.0f, -5.0f,  5.0f),
-	// glm::vec3(5.0f,  5.0f,  5.0f),
-	// glm::vec3(-5.0f,  5.0f, -5.0f),
-	// glm::vec3(-5.0f, -5.0f, -5.0f),
-	// glm::vec3(5.0f, -5.0f, -5.0f),
-	// glm::vec3(5.0f,  5.0f, -5.0f),
-	//};
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	//ShaderProgram.Use();
-	//ShaderProgram.Use();
-	//ShaderProgram.SetVec3("objectColor", 0.5f, 1.0f, 0.31f);
-	//ShaderProgram.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
-	//ShaderProgram.SetVec3("lightPos", sunPos);
-	//ShaderProgram.SetFloat("KA", g_fKA);
-	//ShaderProgram.SetFloat("KD", g_fKD);
-	//ShaderProgram.SetFloat("KS", g_fKS);
-
-	//ShaderProgram.SetVec3("viewPos", pCamera->GetPosition());
-
-	//ShaderProgram.SetMat4("projection", pCamera->GetProjectionMatrix());
-	//ShaderProgram.SetMat4("view", pCamera->GetViewMatrix());
-
-
-	//glm::mat4 model = glm::scale(glm::mat4(1.0), glm::vec3(1.0f));
-	//ShaderProgram.SetMat4("model", model);
-
-	//glm::mat4 projection = pCamera->GetProjectionMatrix();
-	//ShaderProgram.SetMat4("projection", projection);
-
-	////astea se comenteaza si se invarte
-	//glm::mat4 view = pCamera->GetViewMatrix();
-	//ShaderProgram.SetMat4("view", view);
-
-	//asta face invartirea
-	/*glm::mat4 view;
-	float radius = 10.0f;
-	float camX = (float)sin(glfwGetTime()) * radius;
-	float camZ = (float)cos(glfwGetTime()) * radius;
-	view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(ViewMatrixLocation, 1, GL_FALSE, glm::value_ptr(view));*/
-
-	//Here we render the models
 
 	objShader.Use();
 	objShader.SetVec3("objectColor", 0.5f, 1.0f, 0.31f);
@@ -922,7 +876,7 @@ void RenderFrame()
 	generateTrees();
 
 	glm::mat4 catModel = glm::mat4(1.0);
-	catModel = glm::translate(catModel, glm::vec3(2.f, -1.f, 12.5f));
+	catModel = glm::translate(catModel, glm::vec3(3.0f, -1.2f, 12.5f));
 	catModel = glm::scale(catModel, glm::vec3(0.01f));
 	//catModel = glm::rotate(catModel, glm::radians(10.0f), glm::vec3(0.0f, 0.0f, 1.0f));// iti roteste invers modelul
 	//catModel = glm::rotate(catModel, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));// iti roteste introparte  modelul
@@ -1092,12 +1046,12 @@ void RenderFrame()
 	lampShader.SetMat4("view", pCamera->GetViewMatrix());
 	glm::mat4 sunLightModel = glm::mat4(1.0);
 	sunLightModel = glm::translate(sunLightModel, sunPos);
-	sunLightModel = glm::scale(sunLightModel, glm::vec3(0.2f)); // a smaller cube
+	sunLightModel = glm::scale(sunLightModel, glm::vec3(5.0f)); // a smaller cube
 	lampShader.SetMat4("model", sunLightModel);
 
 	glm::mat4 moonLightModel = glm::mat4(1.0);
 	moonLightModel = glm::translate(moonLightModel, moonPos);
-	moonLightModel = glm::scale(moonLightModel, glm::vec3(0.2f)); // a smaller cube
+	moonLightModel = glm::scale(moonLightModel, glm::vec3(2.0f)); // a smaller cube
 	lampShader.SetMat4("model", moonLightModel);
 	
 }
