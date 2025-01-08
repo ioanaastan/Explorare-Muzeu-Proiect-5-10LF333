@@ -1,4 +1,4 @@
-/*
+﻿/*
 TUTORIAL PLASARE OBIECTE:
 
 1. te duci in main si adaugi un nou model in vectorul de modele, ai acolo continuarea la tutorial cu cum se face asta
@@ -660,32 +660,68 @@ void RenderFrame()
 	tm localTime;
 	localtime_s(&localTime, &now);
 
-	if (localTime.tm_hour >= 6 && localTime.tm_hour < 18)
+	// Adjust time with offsetGlobal and handle wrapping around 24 hours
+	int adjustedHour = (localTime.tm_hour + offsetGlobal + 24) % 24;
+	int adjustedMinute = localTime.tm_min;
+	int adjustedSecond = localTime.tm_sec;
+
+	int totalSeconds = adjustedHour * 3600 + adjustedMinute * 60 + adjustedSecond;
+
+	// Define times for sunrise and sunset in seconds since midnight
+	const int sunriseStart = 5 * 3600;   // 5:00 AM
+	const int sunriseEnd = 7 * 3600;     // 7:00 AM
+	const int sunsetStart = 17 * 3600;   // 5:00 PM
+	const int sunsetEnd = 19 * 3600;     // 7:00 PM
+
+	float t = 0.0f; 
+
+	if (totalSeconds >= sunriseStart && totalSeconds <= sunriseEnd)
 	{
-		glClearColor(0.5f, 0.7f, 1.0f, 1.0f); // Light blue background color
-		g_fKA = 0.5f;
-		g_fKD = 0.5f;
-		g_fKS = 0.5f;
+		// Sunrise: t goes from 0.0 to 1.0
+		t = (float)(totalSeconds - sunriseStart) / (sunriseEnd - sunriseStart);
+	}
+	else if (totalSeconds > sunriseEnd && totalSeconds < sunsetStart)
+	{
+		// Daytime: t = 1.0
+		t = 1.0f;
+	}
+	else if (totalSeconds >= sunsetStart && totalSeconds <= sunsetEnd)
+	{
+		// Sunset: t goes from 1.0 to 0.0
+		t = 1.0f - (float)(totalSeconds - sunsetStart) / (sunsetEnd - sunsetStart);
 	}
 	else
 	{
-		glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black background color
-		g_fKA = 0.1f;
-		g_fKD = 0.1f;
-		g_fKS = 0.1f;
+		// Nighttime: t = 0.0
+		t = 0.0f;
 	}
-	float lightSpeed = ((localTime.tm_sec + (localTime.tm_hour+ offsetGlobal) * 60  +localTime.tm_min) * 60)/ 86400.f * glm::two_pi<float>();
-	float lightRadius = 10.f; // distanta 
 
-	sunPos.x = lightRadius * glm::sin(glm::radians(lightSpeed));
-	sunPos.y = lightRadius * glm::sin(glm::radians(lightSpeed));
-	sunPos.z = lightRadius * glm::cos(glm::radians(lightSpeed));
+	glm::vec4 dayColor(0.5f, 0.7f, 1.0f, 1.0f);   // Light blue
+	glm::vec4 nightColor(0.0f, 0.0f, 0.0f, 1.0f); // Black
 
-	moonPos.x = lightRadius * glm::sin(glm::radians(lightSpeed + 180));
-	moonPos.y = lightRadius * glm::sin(glm::radians(lightSpeed + 180));
-	moonPos.z = lightRadius * glm::cos(glm::radians(lightSpeed + 180));
+	glm::vec4 clearColor = glm::mix(nightColor, dayColor, t);
+	glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 
-	std::cout << sunPos.y << "\n";
+	float dayKA = 0.5f, dayKD = 0.5f, dayKS = 0.5f;
+	float nightKA = 0.1f, nightKD = 0.1f, nightKS = 0.1f;
+
+	g_fKA = glm::mix(nightKA, dayKA, t);
+	g_fKD = glm::mix(nightKD, dayKD, t);
+	g_fKS = glm::mix(nightKS, dayKS, t);
+
+	float normalizedTime = (localTime.tm_hour + offsetGlobal) / 24.0f+ localTime.tm_min / 1440.0f+ localTime.tm_sec / 86400.0f;
+	float lightSpeed = normalizedTime * glm::two_pi<float>();
+	float lightRadius = 60.f; // Larger distance
+
+	sunPos.x = 10.0f; // Fixed x for rotation around x-axis
+	sunPos.y = lightRadius * glm::sin(lightSpeed); // y oscillates
+	sunPos.z = 50 + lightRadius * glm::cos(lightSpeed); // z oscillates
+
+	moonPos.x = 0.0f; // Fixed x for rotation around x-axis
+	moonPos.y = lightRadius * glm::sin(lightSpeed + glm::pi<float>());
+	moonPos.z = 50 + lightRadius * glm::cos(lightSpeed + glm::pi<float>());
+
+
 
 	//glm::vec3 cubePositions[] = {
 	// glm::vec3(0.0f,  0.0f,   0.0f),
@@ -971,13 +1007,13 @@ void RenderFrame()
 
 	glm::mat4 sunModel = glm::mat4(1.0);
 	sunModel = glm::translate(sunModel, sunPos);
-	sunModel = glm::scale(sunModel, glm::vec3(5.0f));
+	sunModel = glm::scale(sunModel, glm::vec3(8.0f));
 	objShader.SetMat4("model", sunModel);
 	sun->Draw(objShader);
 
 	glm::mat4 moonModel = glm::mat4(1.0);
 	moonModel = glm::translate(moonModel, moonPos);
-	moonModel = glm::scale(moonModel, glm::vec3(0.01f));
+	moonModel = glm::scale(moonModel, glm::vec3(0.02f));
 	objShader.SetMat4("model", moonModel);
 	moon->Draw(objShader);
 
@@ -1253,11 +1289,11 @@ void processInput(GLFWwindow* window)
 
 	if (glfwGetKey(window, GLFW_KEY_N) == GLFW_PRESS)
 	{
-		offsetGlobal++;
+		offsetGlobal = ++offsetGlobal %24;
 	}
 	if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS)
 	{
-		offsetGlobal--;
+		offsetGlobal = --offsetGlobal %24;
 	}
 
 }
