@@ -217,6 +217,19 @@ void RenderCube()
 
 
 std::vector<glm::vec3> treePostions{
+
+{13.300000, -0.2, 83.5},
+{14.000000, -1.338057, 99.466332},
+{16.100000, -1.436723, 96.326366},
+
+{20.100000, -0.298570, 86.346414},
+{20.100000, -0.298570, 86.346414},
+{23.500000, -0.083629, 82.822970},
+{20.300000, 0., 78.000000},
+{21.100000, 0., 76.349912},
+
+
+
 	{2.f, -1.f, 2.5f},
 	{2.f, -1.f, 6.5f},
 	{0.f, -1.5f, 12.f},
@@ -286,30 +299,20 @@ std::vector<glm::vec3> treePostions{
 {26.500000, -0.012589, 9.878562},
 
 
-{-11.800000, -0.041814, 92.068269},
-{-11.600000, -0.661467, 53.050247},
-{-11.400000, -0.794454, 91.292793},
-{-11.000000, -0.847032, 96.675356},
-{-9.600000, -0.782750, 82.656487},
-{-8.800000, -0.092506, 66.411127},
-{-8.200000, -0.214220, 96.471143},
-{-7.800000, 0.198500, 95.612717},
-{-7.600000, -0.699712, 84.652673},
 {-6.800000, -0.425941, 103.904138},
+
+{-11.000000, -0.847032, 96.675356},
+{-8.200000, -0.214220, 96.471143},
+
+{-11.800000, -0.041814, 92.068269},
+{-7.600000, -0.699712, 84.},
+{-9.600000, -0.782750, 82.656487},
+{-3.400000, -1.023838, 82.330119},
+{-3.600000, -1.110696, 77.183173},
+{-8.800000, -0.092506, 66.411127},
 {-6.400000, 0.094728, 66.010068},
 {-6.200000, -0.586335, 65.863078},
-{-5.200000, -0.833973, 59.283847},
-{-4.400000, -1.158782, 82.714023},
-{-4.000000, -1.107201, 85.910046},
-{-3.600000, -1.110696, 77.183173},
-{-3.400000, -1.023838, 82.330119},
 {-3.000000, -1.449471, 62.978949},
-{-2.800000, -1.176213, 87.016262},
-{-2.000000, -1.109283, 94.428050},
-{-1.400000, -1.368909, 72.736598},
-{-1.000000, -1.067667, 102.041489},
-{-0.600000, -1.517938, 85.815596},
-{-0.400000, -1.066262, 99.397442},
 
 
 };
@@ -319,11 +322,15 @@ void generateTrees()
 	double scale = 0.05;
 	for (int i = 0; i < treePostions.size(); i++)
 	{
-		if (i < 35)
+		if (i < 42)
 		{
 			glm::mat4 treeModel = glm::mat4(1.0);
 			treeModel = glm::translate(treeModel, glm::vec3(treePostions[i]));
-			treeModel = glm::scale(treeModel, glm::vec3(0.2f));
+			
+			if (i <2)
+				treeModel = glm::scale(treeModel, glm::vec3(0.3f));
+			else
+				treeModel = glm::scale(treeModel, glm::vec3(0.2f));
 			objShader.SetMat4("model", treeModel);
 			plants[0].Draw(objShader);
 		}
@@ -356,7 +363,7 @@ void generateFences()
 		structures[0].Draw(objShader);
 	}
 
-	for (int i = 12; i < 19; i++)
+	for (int i = 12; i < 21; i++)
 	{
 		glm::mat4 fenceModel = glm::mat4(1.0);
 		fenceModel = glm::translate(fenceModel, glm::vec3(11.f, -1.5f, 12.f + (i * 4.5f)));
@@ -390,9 +397,9 @@ void generateFences()
 		aux = 0.1;
 	}
 
-	endFence = 90.8;
+	endFence = 104.3;
 	aux = 0.1;
-	for (int i = 0; i < 5; i++)
+	for (int i = 0; i < 4; i++)
 	{
 		for (int i = 0; i < 3; i++)
 		{
@@ -409,7 +416,7 @@ void generateFences()
 			objShader.SetMat4("model", fenceModel);
 			structures[0].Draw(objShader);
 		}
-		endFence -= 27;
+		endFence -= 13.5;
 		
 		aux = 0.1;
 	}
@@ -474,6 +481,49 @@ void generateFences()
 
 		objShader.SetMat4("model", fenceModel);
 		structures[0].Draw(objShader);
+	}
+
+}
+
+void generateWalls() {
+	for (int i = 0; i < 26; i++)
+	{
+		glm::mat4 WallModel = glm::mat4(1.0);
+		WallModel = glm::translate(WallModel, glm::vec3(28.f, 2.f, 0.f + (i * 4.5f)));
+		WallModel = glm::rotate(WallModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		WallModel = glm::scale(WallModel, glm::vec3(1.6f));
+		objShader.SetMat4("model", WallModel);
+		structures[3].Draw(objShader);
+	}
+
+	for (int i = 0; i < 9; i++)
+	{
+		glm::mat4 WallModel = glm::mat4(1.0);
+		WallModel = glm::translate(WallModel, glm::vec3(26.5f - (i * 4.5f), 1.9f, 114.5f));
+		WallModel = glm::rotate(WallModel, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		WallModel = glm::scale(WallModel, glm::vec3(1.7f));
+		objShader.SetMat4("model", WallModel);
+		structures[3].Draw(objShader);
+	}
+
+	for (int i = 0; i < 26; i++)
+	{
+		glm::mat4 WallModel = glm::mat4(1.0);
+		WallModel = glm::translate(WallModel, glm::vec3(-12.f, 2.f, 0.f + (i * 4.5f)));
+		WallModel = glm::rotate(WallModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		WallModel = glm::scale(WallModel, glm::vec3(1.6f));
+		objShader.SetMat4("model", WallModel);
+		structures[3].Draw(objShader);
+	}
+
+	for (int i = 0; i < 9; i++)
+	{
+		glm::mat4 WallModel = glm::mat4(1.0);
+		WallModel = glm::translate(WallModel, glm::vec3(26.5f - (i * 4.5f), 1.8f, -4.7f));
+		WallModel = glm::rotate(WallModel, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		WallModel = glm::scale(WallModel, glm::vec3(1.7f));
+		objShader.SetMat4("model", WallModel);
+		structures[3].Draw(objShader);
 	}
 
 }
@@ -589,6 +639,15 @@ void RenderFrame()
 	objShader.SetMat4("model", babygiraffeModel);
 	animals[0].Draw(objShader);
 
+
+	glm::mat4 elephantModel = glm::mat4(1.0);
+	elephantModel = glm::translate(elephantModel, glm::vec3(-3.f, -1.f, 85.0f));
+	elephantModel = glm::rotate(elephantModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	elephantModel = glm::scale(elephantModel, glm::vec3(12.f));
+	objShader.SetMat4("model", elephantModel);
+	animals[6].Draw(objShader);
+
+
 	glm::mat4 SeaLionModel = glm::mat4(1.0);
 	SeaLionModel = glm::translate(SeaLionModel, glm::vec3(-2.0f, -1.0f, 0.0f));
 	SeaLionModel = glm::scale(SeaLionModel, glm::vec3(0.01f));  // Changed from 0.3f to 0.01f
@@ -700,12 +759,7 @@ void RenderFrame()
 	}
 
 
-	glm::mat4 elephantModel = glm::mat4(1.0);
-	elephantModel = glm::translate(elephantModel, glm::vec3(15.f, -1.f, 0.f));
-	elephantModel = glm::scale(elephantModel, glm::vec3(10.f));
-	objShader.SetMat4("model", elephantModel);
-	animals[6].Draw(objShader);
-
+	
 
 	glm::mat4 lionModel = glm::mat4(1.0);
 	lionModel = glm::translate(lionModel, glm::vec3(18.f, -1.f, 0.f));
@@ -714,18 +768,18 @@ void RenderFrame()
 	animals[7].Draw(objShader);//14
 
 	glm::mat4 bearModel = glm::mat4(1.0);
-	bearModel = glm::translate(bearModel, glm::vec3(20.f, -1.f, 0.f));
-	bearModel = glm::scale(bearModel, glm::vec3(15.f));
+	bearModel = glm::translate(bearModel, glm::vec3(-8.f, -0.5f, 13.f));
+	bearModel = glm::scale(bearModel, glm::vec3(10.f));
 	objShader.SetMat4("model", bearModel);
 	animals[8].Draw(objShader);
 
-	for (int i = 0; i < 10; i++) {
-		glm::mat4 zebraModel = glm::mat4(1.0);
-		zebraModel = glm::translate(zebraModel, glm::vec3(15.f + (i * 3.2f), -1.f, 5.f));
-		zebraModel = glm::scale(zebraModel, glm::vec3(10.f));
-		objShader.SetMat4("model", zebraModel);
-		animals[9].Draw(objShader);
-
+	for (int i = 1; i <= 6; i+=2) {
+			glm::mat4 zebraModel = glm::mat4(1.0);
+			zebraModel = glm::translate(zebraModel, glm::vec3(i * 0.6f + 12.f, -1.f, 25.5f + i*2));
+			zebraModel = glm::scale(zebraModel, glm::vec3(10.f));
+			zebraModel = glm::rotate(zebraModel, glm::radians(-35.0f*i), glm::vec3(0.f, 1.0f, 0.0f));
+			objShader.SetMat4("model", zebraModel);
+			animals[9].Draw(objShader);
 	}
 
 	glm::mat4 apeModel = glm::mat4(1.0);
@@ -775,15 +829,7 @@ void RenderFrame()
 	objShader.SetMat4("model", stationModel);
 	structures[2].Draw(objShader);
 
-	
-
-
-	glm::mat4 WallModel = glm::mat4(1.0);
-	WallModel = glm::translate(WallModel, glm::vec3(8.0f, 0.0f, 10.0f));
-	WallModel = glm::rotate(WallModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	WallModel = glm::scale(WallModel, glm::vec3(4.f));
-	objShader.SetMat4("model", WallModel);
-	structures[3].Draw(objShader);
+	generateWalls();
 
 	glm::mat4 crocodileModel = glm::mat4(1.0);
 	// Keep same position
