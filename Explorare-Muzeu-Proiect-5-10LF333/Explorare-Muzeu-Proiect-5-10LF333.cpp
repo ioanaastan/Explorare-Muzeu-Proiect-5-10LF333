@@ -841,6 +841,11 @@ void RenderFrame()
 	objShader.SetMat4("model", crocodileModel);
 	animals[14].Draw(objShader);
 
+	glm::mat4 pondModel = glm::mat4(1.0);
+	pondModel = glm::translate(pondModel, glm::vec3(3.0f, 5.0f, 0.0f));
+	pondModel = glm::scale(pondModel, glm::vec3(0.01f));
+	objShader.SetMat4("model", pondModel);
+	structures[5].Draw(objShader);
 
 	//glm::mat4 fence2Model = glm::mat4(1.0);
 	//fence2Model = glm::translate(fence2Model, glm::vec3(1.f, -1.5f, 40.f));
@@ -1044,7 +1049,6 @@ int main()
 	std::string kangarooPath = currentPath + "\\Models\\kangaroo\\kangaroo.obj";
 	animals.emplace_back(kangarooPath, false);
 
-	//yes, this thing is actually a plant
 	std::string hayBalePath = currentPath + "\\Models\\hayBale\\hayBale.obj";
 	plants.emplace_back(hayBalePath, false);
 
@@ -1076,8 +1080,8 @@ int main()
 	std::string butterflyPath = currentPath + "\\Models\\Butterfly\\ImageToStl.com_monarch butterfly.obj";
 	animals.emplace_back(butterflyPath, false);
 
-
-
+	std::string pondPath = currentPath + "\\Models\\Pond\\Pond_FBX.obj";
+	structures.emplace_back(pondPath, false);
 
 	//********************************************************************************************************************
 	// Load the terrain model
@@ -1085,51 +1089,8 @@ int main()
 	terrain = std::make_unique<Model>(Terrain, false);
 
 	while (!glfwWindowShouldClose(window)) {
-		//double currentFrame = glfwGetTime();
-		//deltaTime = currentFrame - lastFrame;
-		//lastFrame = currentFrame;
 
 		processInput(window);
-		//  
-			  //glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-			  //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-			  //float lightSpeed = currentFrame * 30.f;
-			  //float lightRadius = 1.f; // distanta 
-
-			  //lightPos.x = lightRadius * glm::sin(glm::radians(lightSpeed));
-			  //lightPos.y = lightRadius * glm::sin(glm::radians(lightSpeed));
-			  //lightPos.z = lightRadius * glm::cos(glm::radians(lightSpeed));
-
-			  //
-			  //lightingShader.Use();
-			  //lightingShader.SetVec3("objectColor", 0.5f, 1.0f, 0.31f);
-			  //lightingShader.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
-			  //lightingShader.SetVec3("lightPos", lightPos);
-			  //lightingShader.SetFloat("KA", g_fKA);
-			  //lightingShader.SetFloat("KD", g_fKD);
-			  //lightingShader.SetFloat("KS", g_fKS);
-			  //
-			  //lightingShader.SetVec3("viewPos", pCamera->GetPosition());
-			  //lightingShader.SetMat4("projection", pCamera->GetProjectionMatrix());
-			  //lightingShader.SetMat4("view", pCamera->GetViewMatrix());
-
-			  //glm::mat4 model = glm::scale(glm::mat4(1.0), glm::vec3(1.0f));
-			  //lightingShader.SetMat4("model", model);
-
-			  //RenderCube();
-
-			  //lampShader.Use();
-			  //lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
-			  //lampShader.SetMat4("view", pCamera->GetViewMatrix());
-			  //model = glm::translate(glm::mat4(1.0), lightPos);
-			  //model = glm::scale(model, glm::vec3(0.05f)); // a smaller cube
-			  //lampShader.SetMat4("model", model);
-
-			  /*glBindVertexArray(lightVAO);
-			  glDrawArrays(GL_TRIANGLES, 0, 36);*/
-
-
 
 		RenderFrame();
 
