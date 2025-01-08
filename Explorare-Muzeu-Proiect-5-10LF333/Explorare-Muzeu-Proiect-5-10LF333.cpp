@@ -809,10 +809,11 @@ void RenderFrame()
 	glm::mat4 pirateModel = glm::mat4(1.0);
 	//cu translate ii setezi pozitia, translate returneaza matrice in 4 dimensiuni cu chestiile noi, tot ce e de stiut e ca ii dai intai variabila pe care vrei sa o modifice si apoi vectorul cu coordonatele
 	//coordonatele alea reprezinta x,y,z, unde x = stanga-, dreapta+, y = jos-, sus+, z = fata-, spate+
-	pirateModel = glm::translate(pirateModel, glm::vec3(2.f, -1.f, 0.f));
+	pirateModel = glm::translate(pirateModel, glm::vec3(16.f, -1.f, 48.5f));
 	//scale e pentru scalare, adica cat de mare vrei sa fie modelul, in cazul asta e 0.5, adica jumatate din marimea originala
 	pirateModel = glm::scale(pirateModel, glm::vec3(.5f));
 	//aici ii setezi modelul, spui la shader ce urmeaza sa deseneze, in cazul asta e primul model din vectorul de modele
+	pirateModel = glm::rotate(pirateModel, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	objShader.SetMat4("model", pirateModel);
 	//aici desenezi modelul, destul de bine explicat sper
 	characters[0].Draw(objShader);
