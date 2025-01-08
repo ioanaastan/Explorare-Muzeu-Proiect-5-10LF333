@@ -94,6 +94,8 @@ float g_fKS = 0.8f;
 
 int offsetGlobal = 0;
 
+tm inGameTime;
+
 bool isCursorVisible = false;
 
 Shader ShaderProgram;
@@ -660,7 +662,10 @@ void RenderFrame()
 	tm localTime;
 	localtime_s(&localTime, &now);
 
-	if (localTime.tm_hour >= 6 && localTime.tm_hour < 18)
+	inGameTime = localTime;
+	inGameTime.tm_hour += offsetGlobal;
+
+	if (inGameTime.tm_hour >= 6 && inGameTime.tm_hour < 18)
 	{
 		glClearColor(0.5f, 0.7f, 1.0f, 1.0f); // Light blue background color
 		g_fKA = 0.5f;
@@ -674,8 +679,8 @@ void RenderFrame()
 		g_fKD = 0.1f;
 		g_fKS = 0.1f;
 	}
-	float lightSpeed = ((localTime.tm_sec + (localTime.tm_hour+ offsetGlobal) * 60  +localTime.tm_min) * 60)/ 86400.f * glm::two_pi<float>();
-	float lightRadius = 10.f; // distanta 
+	float lightSpeed = (localTime.tm_sec + ((inGameTime.tm_hour - 6) * 60 + localTime.tm_min) * 60)/ 1648.f * glm::two_pi<float>();
+	float lightRadius = 50.f; // distanta 
 
 	sunPos.x = lightRadius * glm::sin(glm::radians(lightSpeed));
 	sunPos.y = lightRadius * glm::sin(glm::radians(lightSpeed));
@@ -685,56 +690,7 @@ void RenderFrame()
 	moonPos.y = lightRadius * glm::sin(glm::radians(lightSpeed + 180));
 	moonPos.z = lightRadius * glm::cos(glm::radians(lightSpeed + 180));
 
-	std::cout << sunPos.y << "\n";
-
-	//glm::vec3 cubePositions[] = {
-	// glm::vec3(0.0f,  0.0f,   0.0f),
-	// glm::vec3(-5.0f,  5.0f,  5.0f),
-	// glm::vec3(-5.0f, -5.0f,  5.0f),
-	// glm::vec3(5.0f, -5.0f,  5.0f),
-	// glm::vec3(5.0f,  5.0f,  5.0f),
-	// glm::vec3(-5.0f,  5.0f, -5.0f),
-	// glm::vec3(-5.0f, -5.0f, -5.0f),
-	// glm::vec3(5.0f, -5.0f, -5.0f),
-	// glm::vec3(5.0f,  5.0f, -5.0f),
-	//};
-
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-	//ShaderProgram.Use();
-	//ShaderProgram.Use();
-	//ShaderProgram.SetVec3("objectColor", 0.5f, 1.0f, 0.31f);
-	//ShaderProgram.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
-	//ShaderProgram.SetVec3("lightPos", sunPos);
-	//ShaderProgram.SetFloat("KA", g_fKA);
-	//ShaderProgram.SetFloat("KD", g_fKD);
-	//ShaderProgram.SetFloat("KS", g_fKS);
-
-	//ShaderProgram.SetVec3("viewPos", pCamera->GetPosition());
-
-	//ShaderProgram.SetMat4("projection", pCamera->GetProjectionMatrix());
-	//ShaderProgram.SetMat4("view", pCamera->GetViewMatrix());
-
-
-	//glm::mat4 model = glm::scale(glm::mat4(1.0), glm::vec3(1.0f));
-	//ShaderProgram.SetMat4("model", model);
-
-	//glm::mat4 projection = pCamera->GetProjectionMatrix();
-	//ShaderProgram.SetMat4("projection", projection);
-
-	////astea se comenteaza si se invarte
-	//glm::mat4 view = pCamera->GetViewMatrix();
-	//ShaderProgram.SetMat4("view", view);
-
-	//asta face invartirea
-	/*glm::mat4 view;
-	float radius = 10.0f;
-	float camX = (float)sin(glfwGetTime()) * radius;
-	float camZ = (float)cos(glfwGetTime()) * radius;
-	view = glm::lookAt(glm::vec3(camX, 0.0f, camZ), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	glUniformMatrix4fv(ViewMatrixLocation, 1, GL_FALSE, glm::value_ptr(view));*/
-
-	//Here we render the models
 
 	objShader.Use();
 	objShader.SetVec3("objectColor", 0.5f, 1.0f, 0.31f);
@@ -971,13 +927,13 @@ void RenderFrame()
 
 	glm::mat4 sunModel = glm::mat4(1.0);
 	sunModel = glm::translate(sunModel, sunPos);
-	sunModel = glm::scale(sunModel, glm::vec3(5.0f));
+	sunModel = glm::scale(sunModel, glm::vec3(10.0f));
 	objShader.SetMat4("model", sunModel);
 	sun->Draw(objShader);
 
 	glm::mat4 moonModel = glm::mat4(1.0);
 	moonModel = glm::translate(moonModel, moonPos);
-	moonModel = glm::scale(moonModel, glm::vec3(0.01f));
+	moonModel = glm::scale(moonModel, glm::vec3(0.02f));
 	objShader.SetMat4("model", moonModel);
 	moon->Draw(objShader);
 
@@ -988,12 +944,12 @@ void RenderFrame()
 	lampShader.SetMat4("view", pCamera->GetViewMatrix());
 	glm::mat4 sunLightModel = glm::mat4(1.0);
 	sunLightModel = glm::translate(sunLightModel, sunPos);
-	sunLightModel = glm::scale(sunLightModel, glm::vec3(0.2f)); // a smaller cube
+	sunLightModel = glm::scale(sunLightModel, glm::vec3(5.0f)); // a smaller cube
 	lampShader.SetMat4("model", sunLightModel);
 
 	glm::mat4 moonLightModel = glm::mat4(1.0);
 	moonLightModel = glm::translate(moonLightModel, moonPos);
-	moonLightModel = glm::scale(moonLightModel, glm::vec3(0.2f)); // a smaller cube
+	moonLightModel = glm::scale(moonLightModel, glm::vec3(2.0f)); // a smaller cube
 	lampShader.SetMat4("model", moonLightModel);
 	
 }
@@ -1253,11 +1209,17 @@ void processInput(GLFWwindow* window)
 
 	if (glfwGetKey(window, GLFW_KEY_N) == GLFW_PRESS)
 	{
-		offsetGlobal++;
+		if (inGameTime.tm_hour < 24)
+			offsetGlobal++;
+		else
+			offsetGlobal -= 24;
 	}
 	if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS)
 	{
-		offsetGlobal--;
+		if (inGameTime.tm_hour > 0)
+			offsetGlobal--;
+		else
+			offsetGlobal += 24;
 	}
 
 }
