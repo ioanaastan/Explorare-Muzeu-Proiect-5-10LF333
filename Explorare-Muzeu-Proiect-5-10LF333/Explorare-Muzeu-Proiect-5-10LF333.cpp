@@ -872,7 +872,7 @@ void RenderFrame()
 	generateTrees();
 
 	glm::mat4 catModel = glm::mat4(1.0);
-	catModel = glm::translate(catModel, glm::vec3(2.f, -1.f, 12.5f));
+	catModel = glm::translate(catModel, glm::vec3(3.0f, -1.2f, 12.5f));
 	catModel = glm::scale(catModel, glm::vec3(0.01f));
 	//catModel = glm::rotate(catModel, glm::radians(10.0f), glm::vec3(0.0f, 0.0f, 1.0f));// iti roteste invers modelul
 	//catModel = glm::rotate(catModel, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));// iti roteste introparte  modelul
