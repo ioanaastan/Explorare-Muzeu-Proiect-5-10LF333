@@ -225,6 +225,7 @@ void RenderCube()
 std::vector<glm::vec3> treePostions{
 
 {13.300000, -0.2, 83.5},
+{21.100000, -0.2, 65},
 {14.000000, -1.338057, 99.466332},
 {16.100000, -1.436723, 96.326366},
 
@@ -307,6 +308,7 @@ std::vector<glm::vec3> treePostions{
 
 {-6.800000, -0.425941, 103.904138},
 
+
 {-11.000000, -0.847032, 96.675356},
 {-8.200000, -0.214220, 96.471143},
 
@@ -333,8 +335,10 @@ void generateTrees()
 			glm::mat4 treeModel = glm::mat4(1.0);
 			treeModel = glm::translate(treeModel, glm::vec3(treePostions[i]));
 			
-			if (i <2)
+			if (i ==0)
 				treeModel = glm::scale(treeModel, glm::vec3(0.3f));
+			else if (i==1)
+				treeModel = glm::scale(treeModel, glm::vec3(0.4f));
 			else
 				treeModel = glm::scale(treeModel, glm::vec3(0.2f));
 			objShader.SetMat4("model", treeModel);
@@ -905,10 +909,8 @@ void RenderFrame()
 
 	for (int i = 1; i <= 3; i++) {
 		glm::mat4 benchModel = glm::mat4(1.0);
-		// Position to the right of the lamp (+2 units on x axis), same z position as lamps
-		benchModel = glm::translate(benchModel, glm::vec3(10.f, -1.4f, (i * 10.6f) + 1.5f));		// Rotate 270 degrees so the bench faces away from the fence
+		benchModel = glm::translate(benchModel, glm::vec3(10.f, -1.4f, (i * 10.6f) - 1.5f));
 		benchModel = glm::rotate(benchModel, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		// Reduce the scale to make it smaller
 		benchModel = glm::scale(benchModel, glm::vec3(0.8f));
 		objShader.SetMat4("model", benchModel);
 		structures[structures.size() - 1].Draw(objShader);
@@ -955,11 +957,11 @@ void RenderFrame()
 
 	// ********************************************************************************************************************
 
-	glm::mat4 hayBaleModel = glm::mat4(1.0);
-	hayBaleModel = glm::translate(hayBaleModel, glm::vec3(7.f, -1.f, 2.f));
-	hayBaleModel = glm::scale(hayBaleModel, glm::vec3(0.5f));
-	objShader.SetMat4("model", hayBaleModel);
-	plants[4].Draw(objShader);
+	//glm::mat4 hayBaleModel = glm::mat4(1.0);
+	//hayBaleModel = glm::translate(hayBaleModel, glm::vec3(7.f, -1.f, 2.f));
+	//hayBaleModel = glm::scale(hayBaleModel, glm::vec3(0.5f));
+	//objShader.SetMat4("model", hayBaleModel);
+	//plants[4].Draw(objShader);
 
 
 	glm::mat4 bush2Model = glm::mat4(1.0);
