@@ -658,8 +658,23 @@ void RenderFrame()
 	tm localTime;
 	localtime_s(&localTime, &now);
 
-	float lightSpeed = (localTime.tm_sec + (localTime.tm_hour * 60 + localTime.tm_min) * 60) * .0416f * 0.048f;
-	float lightRadius = 10.f; // distanta 
+	if (localTime.tm_hour >= 6 && localTime.tm_hour < 18)
+	{
+		glClearColor(0.5f, 0.7f, 1.0f, 1.0f); // Light blue background color
+		g_fKA = 0.5f;
+		g_fKD = 0.5f;
+		g_fKS = 0.5f;
+	}
+	else
+	{
+		glClearColor(0.0f, 0.0f, 0.0f, 1.0f); // Black background color
+		g_fKA = 0.1f;
+		g_fKD = 0.1f;
+		g_fKS = 0.1f;
+	}
+
+	float lightSpeed = (localTime.tm_sec + (localTime.tm_hour * 60 + localTime.tm_min) * 60) / 86400.f * glm::two_pi<float>();
+	float lightRadius = 50.f; // distanta 
 
 	sunPos.x = lightRadius * glm::sin(glm::radians(lightSpeed));
 	sunPos.y = lightRadius * glm::sin(glm::radians(lightSpeed));
@@ -669,44 +684,46 @@ void RenderFrame()
 	moonPos.y = lightRadius * glm::sin(glm::radians(lightSpeed + 180));
 	moonPos.z = lightRadius * glm::cos(glm::radians(lightSpeed + 180));
 
-	glm::vec3 cubePositions[] = {
-	 glm::vec3(0.0f,  0.0f,   0.0f),
-	 glm::vec3(-5.0f,  5.0f,  5.0f),
-	 glm::vec3(-5.0f, -5.0f,  5.0f),
-	 glm::vec3(5.0f, -5.0f,  5.0f),
-	 glm::vec3(5.0f,  5.0f,  5.0f),
-	 glm::vec3(-5.0f,  5.0f, -5.0f),
-	 glm::vec3(-5.0f, -5.0f, -5.0f),
-	 glm::vec3(5.0f, -5.0f, -5.0f),
-	 glm::vec3(5.0f,  5.0f, -5.0f),
-	};
+	std::cout << sunPos.y << "\n";
+
+	//glm::vec3 cubePositions[] = {
+	// glm::vec3(0.0f,  0.0f,   0.0f),
+	// glm::vec3(-5.0f,  5.0f,  5.0f),
+	// glm::vec3(-5.0f, -5.0f,  5.0f),
+	// glm::vec3(5.0f, -5.0f,  5.0f),
+	// glm::vec3(5.0f,  5.0f,  5.0f),
+	// glm::vec3(-5.0f,  5.0f, -5.0f),
+	// glm::vec3(-5.0f, -5.0f, -5.0f),
+	// glm::vec3(5.0f, -5.0f, -5.0f),
+	// glm::vec3(5.0f,  5.0f, -5.0f),
+	//};
 
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	ShaderProgram.Use();
-	ShaderProgram.Use();
-	ShaderProgram.SetVec3("objectColor", 0.5f, 1.0f, 0.31f);
-	ShaderProgram.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
-	ShaderProgram.SetVec3("lightPos", sunPos);
-	ShaderProgram.SetFloat("KA", g_fKA);
-	ShaderProgram.SetFloat("KD", g_fKD);
-	ShaderProgram.SetFloat("KS", g_fKS);
+	//ShaderProgram.Use();
+	//ShaderProgram.Use();
+	//ShaderProgram.SetVec3("objectColor", 0.5f, 1.0f, 0.31f);
+	//ShaderProgram.SetVec3("lightColor", 1.0f, 1.0f, 1.0f);
+	//ShaderProgram.SetVec3("lightPos", sunPos);
+	//ShaderProgram.SetFloat("KA", g_fKA);
+	//ShaderProgram.SetFloat("KD", g_fKD);
+	//ShaderProgram.SetFloat("KS", g_fKS);
 
-	ShaderProgram.SetVec3("viewPos", pCamera->GetPosition());
+	//ShaderProgram.SetVec3("viewPos", pCamera->GetPosition());
 
-	ShaderProgram.SetMat4("projection", pCamera->GetProjectionMatrix());
-	ShaderProgram.SetMat4("view", pCamera->GetViewMatrix());
+	//ShaderProgram.SetMat4("projection", pCamera->GetProjectionMatrix());
+	//ShaderProgram.SetMat4("view", pCamera->GetViewMatrix());
 
 
-	glm::mat4 model = glm::scale(glm::mat4(1.0), glm::vec3(1.0f));
-	ShaderProgram.SetMat4("model", model);
+	//glm::mat4 model = glm::scale(glm::mat4(1.0), glm::vec3(1.0f));
+	//ShaderProgram.SetMat4("model", model);
 
-	glm::mat4 projection = pCamera->GetProjectionMatrix();
-	ShaderProgram.SetMat4("projection", projection);
+	//glm::mat4 projection = pCamera->GetProjectionMatrix();
+	//ShaderProgram.SetMat4("projection", projection);
 
-	//astea se comenteaza si se invarte
-	glm::mat4 view = pCamera->GetViewMatrix();
-	ShaderProgram.SetMat4("view", view);
+	////astea se comenteaza si se invarte
+	//glm::mat4 view = pCamera->GetViewMatrix();
+	//ShaderProgram.SetMat4("view", view);
 
 	//asta face invartirea
 	/*glm::mat4 view;
@@ -968,9 +985,16 @@ void RenderFrame()
 	lampShader.Use();
 	lampShader.SetMat4("projection", pCamera->GetProjectionMatrix());
 	lampShader.SetMat4("view", pCamera->GetViewMatrix());
-	model = glm::translate(glm::mat4(1.0), sunPos);
-	model = glm::scale(model, glm::vec3(0.2f)); // a smaller cube
-	lampShader.SetMat4("model", model);
+	glm::mat4 sunLightModel = glm::mat4(1.0);
+	sunLightModel = glm::translate(sunLightModel, sunPos);
+	sunLightModel = glm::scale(sunLightModel, glm::vec3(0.2f)); // a smaller cube
+	lampShader.SetMat4("model", sunLightModel);
+
+	glm::mat4 moonLightModel = glm::mat4(1.0);
+	moonLightModel = glm::translate(moonLightModel, moonPos);
+	moonLightModel = glm::scale(moonLightModel, glm::vec3(0.2f)); // a smaller cube
+	lampShader.SetMat4("model", moonLightModel);
+	
 }
 
 
