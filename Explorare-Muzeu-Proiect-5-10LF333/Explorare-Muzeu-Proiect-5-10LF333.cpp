@@ -92,6 +92,8 @@ float g_fKA = 0.5f;
 float g_fKD = 0.8f;
 float g_fKS = 0.8f;
 
+int offsetGlobal = 0;
+
 bool isCursorVisible = false;
 
 Shader ShaderProgram;
@@ -672,9 +674,8 @@ void RenderFrame()
 		g_fKD = 0.1f;
 		g_fKS = 0.1f;
 	}
-
-	float lightSpeed = (localTime.tm_sec + (localTime.tm_hour * 60 + localTime.tm_min) * 60) / 86400.f * glm::two_pi<float>();
-	float lightRadius = 50.f; // distanta 
+	float lightSpeed = ((localTime.tm_sec + (localTime.tm_hour+ offsetGlobal) * 60  +localTime.tm_min) * 60)/ 86400.f * glm::two_pi<float>();
+	float lightRadius = 10.f; // distanta 
 
 	sunPos.x = lightRadius * glm::sin(glm::radians(lightSpeed));
 	sunPos.y = lightRadius * glm::sin(glm::radians(lightSpeed));
@@ -1249,5 +1250,15 @@ void processInput(GLFWwindow* window)
 			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		isCursorVisible = !isCursorVisible;
 	}
+
+	if (glfwGetKey(window, GLFW_KEY_N) == GLFW_PRESS)
+	{
+		offsetGlobal++;
+	}
+	if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS)
+	{
+		offsetGlobal--;
+	}
+
 }
 
