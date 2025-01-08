@@ -647,6 +647,71 @@ void placeWolf()
 		animals[2].Draw(objShader);
 	}
 
+void generateBush() {
+	for (int i = 0; i < 2; ++i) {
+		glm::vec3 position = glm::vec3(18.5f, -0.2f, 60.f - i * 21.f);
+		glm::mat4 bushModel = glm::mat4(1.0);
+		bushModel = glm::translate(bushModel, position);
+		bushModel = glm::scale(bushModel, glm::vec3(0.5f));
+		objShader.SetMat4("model", bushModel);
+		plants[6].Draw(objShader);
+	}
+
+	for (int i = 0; i < 7; ++i) {
+
+		float offsetX = (i % 2 == 0) ? -1.0f : 1.0f;
+		float posX = 0.f + offsetX;
+		float posZ = -3.f + i * 2.0f;
+
+
+		glm::vec3 position = glm::vec3(posX, -1.5f, posZ);
+		glm::mat4 bushModel = glm::mat4(1.0f);
+		bushModel = glm::translate(bushModel, position);
+		bushModel = glm::scale(bushModel, glm::vec3(0.5f));
+
+		objShader.SetMat4("model", bushModel);
+		plants[6].Draw(objShader);
+	}
+
+	for (int i = 0; i < 7; ++i) {
+
+		float offsetX = (i % 2 == 0) ? -1.0f : 1.0f;
+		float posX = 19.f + offsetX;
+		float posZ = -3.5f + i * 2.0f;
+
+
+		glm::vec3 position = glm::vec3(posX, -1.5f, posZ);
+		glm::mat4 bushModel = glm::mat4(1.0f);
+		bushModel = glm::translate(bushModel, position);
+		bushModel = glm::scale(bushModel, glm::vec3(0.5f));
+
+		objShader.SetMat4("model", bushModel);
+		plants[6].Draw(objShader);
+	}
+
+}
+
+void generateLamps() {
+	for (int i = 1;i <= 10;i += 2) {
+		glm::mat4 lampModel = glm::mat4(1.0);
+		lampModel = glm::translate(lampModel, glm::vec3(10.f, -1.5f, i * 10.2f));
+		lampModel = glm::scale(lampModel, glm::vec3(0.1f));
+
+		objShader.SetMat4("model", lampModel);
+		structures[1].Draw(objShader);
+	}
+
+	for (int i = 1;i <= 10;i++) {
+		if (i % 2 != 0) {
+			glm::mat4 lampModel = glm::mat4(1.0);
+			lampModel = glm::translate(lampModel, glm::vec3(3.f, -1.5f, i * 10.2f));
+			lampModel = glm::scale(lampModel, glm::vec3(0.1f));
+			objShader.SetMat4("model", lampModel);
+			structures[1].Draw(objShader);
+		}
+	}
+}
+
 void RenderFrame()
 {
 	glClearColor(0.5f, 0.7f, 1.0f, 1.0f); // Light blue background color
@@ -832,6 +897,8 @@ void RenderFrame()
 
 	placeDeer();
 	generateFences();
+	generateBush();
+	generateLamps();
 
 	for (int i = 1;i <=3;i++) {
 		glm::mat4 lampModel = glm::mat4(1.0);
