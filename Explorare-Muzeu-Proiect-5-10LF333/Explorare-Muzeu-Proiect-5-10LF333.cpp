@@ -548,8 +548,6 @@ void placeDeer()
 	objShader.SetMat4("model", deerModel);
 	animals[5].Draw(objShader);
 
-	
-
 
 	// Place deer2
 	glm::mat4 deer2Model = glm::mat4(1.0);
@@ -616,6 +614,36 @@ void placeKangaroo() {
 	objShader.SetMat4("model", kangarooModel3);
 	animals[12].Draw(objShader);
 }
+
+void placeWolf()
+	{
+		glm::mat4 wolf1Model = glm::mat4(1.0);
+		wolf1Model = glm::translate(wolf1Model, glm::vec3(-7.f, -0.5f, 30.5f));
+		wolf1Model = glm::scale(wolf1Model, glm::vec3(2.5f));
+		objShader.SetMat4("model", wolf1Model);
+		animals[2].Draw(objShader);
+
+		glm::mat4 wolf2Model = glm::mat4(1.0);
+		wolf2Model = glm::translate(wolf2Model, glm::vec3(-2.f, -1.f, 42.5f));
+		wolf2Model = glm::scale(wolf2Model, glm::vec3(2.5f));
+		wolf2Model = glm::rotate(wolf2Model, glm::radians(90.0f), glm::vec3(0.f, 1.0f, 0.0f));
+		objShader.SetMat4("model", wolf2Model);
+		animals[2].Draw(objShader);
+
+		glm::mat4 wolf3Model = glm::mat4(1.0);
+		wolf3Model = glm::translate(wolf3Model, glm::vec3(-8.f, 0.f, 40.5f));
+		wolf3Model = glm::scale(wolf3Model, glm::vec3(2.5f));
+		wolf3Model = glm::rotate(wolf3Model, glm::radians(180.0f), glm::vec3(0.f, 1.0f, 0.0f));
+		objShader.SetMat4("model", wolf3Model);
+		animals[2].Draw(objShader);
+
+		glm::mat4 wolf4Model = glm::mat4(1.0);
+		wolf4Model = glm::translate(wolf4Model, glm::vec3(-5.f, -0.5f, 28.5f));
+		//wolf4Model = glm::rotate(wolf4Model, glm::radians(15.0f), glm::vec3(0.f, 0.0f, 1.0f));
+		wolf4Model = glm::scale(wolf4Model, glm::vec3(2.5f));
+		objShader.SetMat4("model", wolf4Model);
+		animals[2].Draw(objShader);
+	}
 
 void RenderFrame()
 {
@@ -716,6 +744,34 @@ void RenderFrame()
 	//aici desenezi modelul, destul de bine explicat sper
 	characters[0].Draw(objShader);
 
+	// Hay bale for lion's cage
+	glm::mat4 lionHayModel = glm::mat4(1.0);
+	lionHayModel = glm::translate(lionHayModel, glm::vec3(16.f, -1.f, 65.f));
+	lionHayModel = glm::scale(lionHayModel, glm::vec3(0.7f));
+	objShader.SetMat4("model", lionHayModel);
+	plants[4].Draw(objShader);
+
+	// Second hay bale for lion's cage
+	glm::mat4 lionHayModel2 = glm::mat4(1.0);
+	lionHayModel2 = glm::translate(lionHayModel2, glm::vec3(12.f, -1.f, 69.f));
+	lionHayModel2 = glm::scale(lionHayModel2, glm::vec3(0.6f));
+	objShader.SetMat4("model", lionHayModel2);
+	plants[4].Draw(objShader);
+
+	// Hay bale for giraffe's area
+	glm::mat4 giraffeHayModel = glm::mat4(1.0);
+	giraffeHayModel = glm::translate(giraffeHayModel, glm::vec3(-5.f, -1.f, 51.f));
+	giraffeHayModel = glm::scale(giraffeHayModel, glm::vec3(0.8f));
+	objShader.SetMat4("model", giraffeHayModel);
+	plants[4].Draw(objShader);
+
+	// Second hay bale for giraffe's area
+	glm::mat4 giraffeHayModel2 = glm::mat4(1.0);
+	giraffeHayModel2 = glm::translate(giraffeHayModel2, glm::vec3(-1.f, -1.f, 54.f));
+	giraffeHayModel2 = glm::scale(giraffeHayModel2, glm::vec3(0.7f));
+	objShader.SetMat4("model", giraffeHayModel2);
+	plants[4].Draw(objShader);
+
 	glm::mat4 giraffeModel = glm::mat4(1.0);
 	giraffeModel = glm::translate(giraffeModel, glm::vec3( - 3.f, 1.2f, 53.0f));
 	giraffeModel = glm::rotate(giraffeModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -739,101 +795,22 @@ void RenderFrame()
 	objShader.SetMat4("model", elephantModel);
 	animals[6].Draw(objShader);
 
-
-	glm::mat4 SeaLionModel = glm::mat4(1.0);
-	SeaLionModel = glm::translate(SeaLionModel, glm::vec3(-2.0f, -1.0f, 0.0f));
-	SeaLionModel = glm::scale(SeaLionModel, glm::vec3(0.01f));  // Changed from 0.3f to 0.01f
-	// Set the model matrix in the shader
-	objShader.SetMat4("model", SeaLionModel);
-	animals[1].Draw(objShader);
-
-
-	glm::mat4 wolfModel = glm::mat4(1.0);
-	wolfModel = glm::translate(wolfModel, glm::vec3(2.f, -1.f, 0.5f));
-	wolfModel = glm::scale(wolfModel, glm::vec3(1.f));
-	objShader.SetMat4("model", wolfModel);
-	animals[2].Draw(objShader);
-
-
+	placeWolf();
 	generateTrees();
 
-
-
-	for (int i = 0; i < 10; i++) { // Place 10 instances
-		glm::mat4 grassModel = glm::mat4(1.0);
-		// Translate the model along the X-axis based on the loop index
-		grassModel = glm::translate(grassModel, glm::vec3(2.f + (i * 3.f), -1.2f, 0.5f));
-		// Rotate the model
-		grassModel = glm::rotate(grassModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		if (i % 2 == 0)
-			grassModel = glm::rotate(grassModel, glm::radians(270.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		// Scale the model
-		grassModel = glm::scale(grassModel, glm::vec3(0.01f));
-		// Set the transformation matrix
-		objShader.SetMat4("model", grassModel);
-		// Draw the model
-		plants[1].Draw(objShader);
-	}
-
-
 	glm::mat4 catModel = glm::mat4(1.0);
-	catModel = glm::translate(catModel, glm::vec3(0.f, -1.f, 2.5f));
+	catModel = glm::translate(catModel, glm::vec3(2.f, -1.f, 12.5f));
 	catModel = glm::scale(catModel, glm::vec3(0.01f));
-	//catModel = glm::rotate(catModel, glm::radians(180.0f), glm::vec3(0.0f, 0.0f, 1.0f));// iti roteste invers modelul
+	//catModel = glm::rotate(catModel, glm::radians(10.0f), glm::vec3(0.0f, 0.0f, 1.0f));// iti roteste invers modelul
 	//catModel = glm::rotate(catModel, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));// iti roteste introparte  modelul
 	catModel = glm::rotate(catModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));// iti roteste introparte  modelul
 	objShader.SetMat4("model", catModel);
 	animals[3].Draw(objShader);
 
-
 	glm::mat4 tree2Model = glm::mat4(1.0);
 	tree2Model = glm::translate(tree2Model, glm::vec3(0.f, -1.f, 2.5f));
-	//tree2Model = glm::scale(tree2Model, glm::vec3(0.3f));
 	objShader.SetMat4("model", tree2Model);
 	plants[2].Draw(objShader);
-
-	glm::mat4 tree3Model = glm::mat4(1.0);
-	tree3Model = glm::translate(tree3Model, glm::vec3(0.f, -3.f, 0.f));
-	tree3Model = glm::scale(tree3Model, glm::vec3(0.5f));
-	objShader.SetMat4("model", tree3Model);
-	plants[3].Draw(objShader);
-
-	glm::mat4 condorModel = glm::mat4(1.0);
-	// Position the condor - adjust these values to place it where you want
-	condorModel = glm::translate(condorModel, glm::vec3(10.0f, 2.0f, 0.0f));  // Placed slightly higher since it's a flying bird
-	// Scale the condor - adjust based on its original size
-	condorModel = glm::scale(condorModel, glm::vec3(0.5f));
-	// You can add rotation if needed, for example to make it face a certain direction:
-	condorModel = glm::rotate(condorModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	// Set the model matrix in the shader
-	objShader.SetMat4("model", condorModel);
-	// Draw the condor - the index should be the position where you added it in the models vector
-	animals[13].Draw(objShader);  // Assuming it's the 14th model (index 13)
-
-	//glm::mat4 horseModel = glm::mat4(1.0);
-	//horseModel = glm::translate(horseModel, glm::vec3(0.f, -1.f, 2.5f));
-	//horseModel = glm::scale(horseModel, glm::vec3(100.0f));
-	//objShader.SetMat4("model", horseModel);
-	//models[9].Draw(objShader);
-
-	//bool move = false;
-	//for (int i = 0; i < 5; i++)
-	//{
-	//	glm::mat4 deerModel = glm::mat4(1.0);
-	//	if (i % 2 == 0)
-	//		deerModel = glm::translate(deerModel, glm::vec3(i * 0.6f + 12.f, -1.f, 15.5f + move));
-	//	else
-	//		deerModel = glm::translate(deerModel, glm::vec3(i * 0.6f + 12.f, -1.f, 15.f + move));
-
-	//	deerModel = glm::scale(deerModel, glm::vec3(0.04f));
-	//	deerModel = glm::rotate(deerModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-	//	deerModel = glm::rotate(deerModel, glm::radians(270.0f), glm::vec3(0.f, 0.0f, 1.0f));
-	//	deerModel = glm::rotate(deerModel, glm::radians(-90.0f), glm::vec3(0.f, 0.0f, 1.0f));
-	//	objShader.SetMat4("model", deerModel);
-	//	animals[5].Draw(objShader);
-	//	if (i % 3 == 0)
-	//		move = !move;
-	//}
 
 	placeDeer();
 	generateFences();
@@ -850,8 +827,17 @@ void RenderFrame()
 		structures[1].Draw(objShader);
 	}
 
-
-	
+	for (int i = 1; i <= 3; i++) {
+		glm::mat4 benchModel = glm::mat4(1.0);
+		// Position to the right of the lamp (+2 units on x axis), same z position as lamps
+		benchModel = glm::translate(benchModel, glm::vec3(10.f, -1.4f, (i * 10.6f) - 1.5f));
+		// Rotate 270 degrees so the bench faces away from the fence
+		benchModel = glm::rotate(benchModel, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		// Reduce the scale to make it smaller
+		benchModel = glm::scale(benchModel, glm::vec3(0.8f));
+		objShader.SetMat4("model", benchModel);
+		structures[structures.size() - 1].Draw(objShader);
+	}
 
 	glm::mat4 lionModel = glm::mat4(1.0);
 	lionModel = glm::translate(lionModel, glm::vec3(14.f, -0.8f, 67.f));
@@ -922,25 +908,7 @@ void RenderFrame()
 
 	generateWalls();
 
-	glm::mat4 crocodileModel = glm::mat4(1.0);
-	// Keep same position
-	crocodileModel = glm::translate(crocodileModel, glm::vec3(3.0f, -1.0f, 0.0f));
-	// Keep same scale
-	crocodileModel = glm::scale(crocodileModel, glm::vec3(2.0f));
-	// Let's do a single rotation sequence to get it oriented correctly
-	crocodileModel = glm::rotate(crocodileModel, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));  // Turn it to face forward
-	objShader.SetMat4("model", crocodileModel);
-	animals[14].Draw(objShader);
-
-	//glm::mat4 fence2Model = glm::mat4(1.0);
-	//fence2Model = glm::translate(fence2Model, glm::vec3(1.f, -1.5f, 40.f));
-	//fence2Model = glm::rotate(fence2Model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-
-	//fence2Model = glm::scale(fence2Model, glm::vec3(0.01f));
-	//objShader.SetMat4("model", fence2Model);
-	//models[26].Draw(objShader);
-
-
+	
 
 	// ********************************************************************************************************************
 	// the grround must be placed at the end 
@@ -1178,6 +1146,9 @@ int main()
 
 	std::string sunPath = currentPath + "\\Models\\Sun\\ImageToStl.com_sun.obj";
 	sun = std::make_unique<Model>(sunPath, false);
+	std::string benchPath = currentPath + "\\Models\\bench\\ImageToStl.com_outdoor bench 01.obj";
+	structures.emplace_back(benchPath, false);
+
 
 	std::string moonPath = currentPath + "\\Models\\Moon\\moon.obj";
 	moon = std::make_unique<Model>(moonPath, false);
