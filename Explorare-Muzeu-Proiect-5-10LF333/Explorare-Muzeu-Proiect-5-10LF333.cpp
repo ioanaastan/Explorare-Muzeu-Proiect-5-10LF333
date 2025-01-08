@@ -794,6 +794,17 @@ void RenderFrame()
 		structures[1].Draw(objShader);
 	}
 
+	for (int i = 1; i <= 3; i++) {
+		glm::mat4 benchModel = glm::mat4(1.0);
+		// Position to the right of the lamp (+2 units on x axis), same z position as lamps
+		benchModel = glm::translate(benchModel, glm::vec3(10.f, -1.4f, (i * 10.6f) - 1.5f));
+		// Rotate 270 degrees so the bench faces away from the fence
+		benchModel = glm::rotate(benchModel, glm::radians(270.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		// Reduce the scale to make it smaller
+		benchModel = glm::scale(benchModel, glm::vec3(0.8f));
+		objShader.SetMat4("model", benchModel);
+		structures[structures.size() - 1].Draw(objShader);
+	}
 
 	glm::mat4 lionModel = glm::mat4(1.0);
 	lionModel = glm::translate(lionModel, glm::vec3(14.f, -0.8f, 67.f));
@@ -1089,6 +1100,9 @@ int main()
 
 	std::string butterflyPath = currentPath + "\\Models\\Butterfly\\ImageToStl.com_monarch butterfly.obj";
 	animals.emplace_back(butterflyPath, false);
+
+	std::string benchPath = currentPath + "\\Models\\bench\\ImageToStl.com_outdoor bench 01.obj";
+	structures.emplace_back(benchPath, false);
 
 
 
