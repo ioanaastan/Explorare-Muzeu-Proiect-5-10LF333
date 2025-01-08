@@ -528,6 +528,69 @@ void generateWalls() {
 
 }
 
+void placeDeer()
+{
+	static double moveforword = 0.0;
+	static float moveCircle = 0.0;
+	static bool leftDirection = true;
+
+	static int waitingTime = 30;
+	// Place deer1
+	glm::mat4 deerModel = glm::mat4(1.0);
+	deerModel = glm::translate(deerModel, glm::vec3(0.6f + 12.f, -1.f, 14.5f));
+	deerModel = glm::scale(deerModel, glm::vec3(0.04f));
+	deerModel = glm::rotate(deerModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	deerModel = glm::rotate(deerModel, glm::radians(270.0f), glm::vec3(0.f, 0.0f, 1.0f));
+	deerModel = glm::rotate(deerModel, glm::radians(-90.0f), glm::vec3(0.f, 0.0f, 1.0f));
+    deerModel = glm::rotate(deerModel, glm::radians(0.0f + moveCircle), glm::vec3(0.f, 0.0f, 1.0f));
+	objShader.SetMat4("model", deerModel);
+	animals[5].Draw(objShader);
+
+	
+
+
+	// Place deer2
+	glm::mat4 deer2Model = glm::mat4(1.0);
+	deer2Model = glm::translate(deer2Model, glm::vec3(2.f + 12.f - moveforword, -1.f, 18.0f + moveforword));
+	deer2Model = glm::scale(deer2Model, glm::vec3(0.04f));
+	deer2Model = glm::rotate(deer2Model, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	deer2Model = glm::rotate(deer2Model, glm::radians(15.0f), glm::vec3(0.f, 0.0f, 1.0f));
+	deer2Model = glm::rotate(deer2Model, glm::radians(270.0f), glm::vec3(0.f, 0.0f, 1.0f));
+	deer2Model = glm::rotate(deer2Model, glm::radians(-90.0f), glm::vec3(0.f, 0.0f, 1.0f));
+	if (moveforword <= 2)
+		moveforword += 0.01;
+	else 
+		deer2Model = glm::rotate(deer2Model, glm::radians(0.0f - moveCircle), glm::vec3(0.f, 0.0f, 1.0f));
+	objShader.SetMat4("model", deer2Model);
+	animals[5].Draw(objShader);
+	
+
+	if (moveCircle < 30 && leftDirection)
+		moveCircle += 1;
+	else
+		if (moveCircle > 0 && !leftDirection)
+			moveCircle -= 1;
+		else
+			if (waitingTime == 0)
+			{
+				leftDirection = !leftDirection;
+				waitingTime = 60;
+			}
+			else waitingTime--;
+
+	// Place deer3
+	glm::mat4 deer3Model = glm::mat4(1.0);
+	deer3Model = glm::translate(deer3Model, glm::vec3(2.f + 12.f, -1.f, 19.5f));
+	deer3Model = glm::scale(deer3Model, glm::vec3(0.04f));
+	deer3Model = glm::rotate(deer3Model, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	deer3Model = glm::rotate(deer3Model, glm::radians(30.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+	deer3Model = glm::rotate(deer3Model, glm::radians(270.0f), glm::vec3(0.f, 0.0f, 1.0f));
+	deer3Model = glm::rotate(deer3Model, glm::radians(-90.0f), glm::vec3(0.f, 0.0f, 1.0f));
+	objShader.SetMat4("model", deer3Model);
+	animals[5].Draw(objShader);
+}
+
+
 void RenderFrame()
 {
 	glClearColor(0.5f, 0.7f, 1.0f, 1.0f); // Light blue background color
@@ -724,26 +787,26 @@ void RenderFrame()
 	//objShader.SetMat4("model", horseModel);
 	//models[9].Draw(objShader);
 
-	bool move = false;
-	for (int i = 0; i < 5; i++)
-	{
-		glm::mat4 deerModel = glm::mat4(1.0);
-		if (i % 2 == 0)
-			deerModel = glm::translate(deerModel, glm::vec3(i * 0.6f + 12.f, -1.f, 15.5f + move));
-		else
-			deerModel = glm::translate(deerModel, glm::vec3(i * 0.6f + 12.f, -1.f, 15.f + move));
+	//bool move = false;
+	//for (int i = 0; i < 5; i++)
+	//{
+	//	glm::mat4 deerModel = glm::mat4(1.0);
+	//	if (i % 2 == 0)
+	//		deerModel = glm::translate(deerModel, glm::vec3(i * 0.6f + 12.f, -1.f, 15.5f + move));
+	//	else
+	//		deerModel = glm::translate(deerModel, glm::vec3(i * 0.6f + 12.f, -1.f, 15.f + move));
 
-		deerModel = glm::scale(deerModel, glm::vec3(0.04f));
-		deerModel = glm::rotate(deerModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-		deerModel = glm::rotate(deerModel, glm::radians(270.0f), glm::vec3(0.f, 0.0f, 1.0f));
-		deerModel = glm::rotate(deerModel, glm::radians(-90.0f), glm::vec3(0.f, 0.0f, 1.0f));
-		objShader.SetMat4("model", deerModel);
-		animals[5].Draw(objShader);
-		if (i % 3 == 0)
-			move = !move;
-	}
+	//	deerModel = glm::scale(deerModel, glm::vec3(0.04f));
+	//	deerModel = glm::rotate(deerModel, glm::radians(270.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	//	deerModel = glm::rotate(deerModel, glm::radians(270.0f), glm::vec3(0.f, 0.0f, 1.0f));
+	//	deerModel = glm::rotate(deerModel, glm::radians(-90.0f), glm::vec3(0.f, 0.0f, 1.0f));
+	//	objShader.SetMat4("model", deerModel);
+	//	animals[5].Draw(objShader);
+	//	if (i % 3 == 0)
+	//		move = !move;
+	//}
 
-
+	placeDeer();
 	generateFences();
 
 	for (int i = 1;i <=3;i++) {
