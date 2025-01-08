@@ -739,6 +739,34 @@ void RenderFrame()
 	//aici desenezi modelul, destul de bine explicat sper
 	characters[0].Draw(objShader);
 
+	// Hay bale for lion's cage
+	glm::mat4 lionHayModel = glm::mat4(1.0);
+	lionHayModel = glm::translate(lionHayModel, glm::vec3(16.f, -1.f, 65.f));
+	lionHayModel = glm::scale(lionHayModel, glm::vec3(0.7f));
+	objShader.SetMat4("model", lionHayModel);
+	plants[4].Draw(objShader);
+
+	// Second hay bale for lion's cage
+	glm::mat4 lionHayModel2 = glm::mat4(1.0);
+	lionHayModel2 = glm::translate(lionHayModel2, glm::vec3(12.f, -1.f, 69.f));
+	lionHayModel2 = glm::scale(lionHayModel2, glm::vec3(0.6f));
+	objShader.SetMat4("model", lionHayModel2);
+	plants[4].Draw(objShader);
+
+	// Hay bale for giraffe's area
+	glm::mat4 giraffeHayModel = glm::mat4(1.0);
+	giraffeHayModel = glm::translate(giraffeHayModel, glm::vec3(-5.f, -1.f, 51.f));
+	giraffeHayModel = glm::scale(giraffeHayModel, glm::vec3(0.8f));
+	objShader.SetMat4("model", giraffeHayModel);
+	plants[4].Draw(objShader);
+
+	// Second hay bale for giraffe's area
+	glm::mat4 giraffeHayModel2 = glm::mat4(1.0);
+	giraffeHayModel2 = glm::translate(giraffeHayModel2, glm::vec3(-1.f, -1.f, 54.f));
+	giraffeHayModel2 = glm::scale(giraffeHayModel2, glm::vec3(0.7f));
+	objShader.SetMat4("model", giraffeHayModel2);
+	plants[4].Draw(objShader);
+
 	glm::mat4 giraffeModel = glm::mat4(1.0);
 	giraffeModel = glm::translate(giraffeModel, glm::vec3( - 3.f, 1.2f, 53.0f));
 	giraffeModel = glm::rotate(giraffeModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
