@@ -336,11 +336,11 @@ void generateTrees()
 		}
 	}
 
-	glm::mat4 tree2Model = glm::mat4(1.0);
-	tree2Model = glm::translate(tree2Model, glm::vec3(-8.f, -0.5f, 55.442307f));
-	tree2Model = glm::scale(tree2Model, glm::vec3(1.2f));
-	objShader.SetMat4("model", tree2Model);
-	models[7].Draw(objShader);
+	//glm::mat4 tree2Model = glm::mat4(1.0);
+	//tree2Model = glm::translate(tree2Model, glm::vec3(-8.f, -0.5f, 55.442307f));
+	//tree2Model = glm::scale(tree2Model, glm::vec3(1.2f));
+	//objShader.SetMat4("model", tree2Model);
+	//plants[7].Draw(objShader);
 }
 
 void generateFences()
@@ -478,6 +478,49 @@ void generateFences()
 
 }
 
+void generateWalls() {
+	for (int i = 0; i < 26; i++)
+	{
+		glm::mat4 WallModel = glm::mat4(1.0);
+		WallModel = glm::translate(WallModel, glm::vec3(28.f, 2.f, 0.f + (i * 4.5f)));
+		WallModel = glm::rotate(WallModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		WallModel = glm::scale(WallModel, glm::vec3(1.6f));
+		objShader.SetMat4("model", WallModel);
+		structures[3].Draw(objShader);
+	}
+
+	for (int i = 0; i < 9; i++)
+	{
+		glm::mat4 WallModel = glm::mat4(1.0);
+		WallModel = glm::translate(WallModel, glm::vec3(26.5f - (i * 4.5f), 1.9f, 114.5f));
+		WallModel = glm::rotate(WallModel, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		WallModel = glm::scale(WallModel, glm::vec3(1.7f));
+		objShader.SetMat4("model", WallModel);
+		structures[3].Draw(objShader);
+	}
+
+	for (int i = 0; i < 26; i++)
+	{
+		glm::mat4 WallModel = glm::mat4(1.0);
+		WallModel = glm::translate(WallModel, glm::vec3(-12.f, 2.f, 0.f + (i * 4.5f)));
+		WallModel = glm::rotate(WallModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		WallModel = glm::scale(WallModel, glm::vec3(1.6f));
+		objShader.SetMat4("model", WallModel);
+		structures[3].Draw(objShader);
+	}
+
+	for (int i = 0; i < 9; i++)
+	{
+		glm::mat4 WallModel = glm::mat4(1.0);
+		WallModel = glm::translate(WallModel, glm::vec3(26.5f - (i * 4.5f), 1.8f, -4.7f));
+		WallModel = glm::rotate(WallModel, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		WallModel = glm::scale(WallModel, glm::vec3(1.7f));
+		objShader.SetMat4("model", WallModel);
+		structures[3].Draw(objShader);
+	}
+
+}
+
 void RenderFrame()
 {
 	glClearColor(0.5f, 0.7f, 1.0f, 1.0f); // Light blue background color
@@ -581,13 +624,13 @@ void RenderFrame()
 	objShader.SetMat4("model", giraffeModel);
 	animals[0].Draw(objShader);
 
-	glm::mat4 babygiraffeModel = glm::mat4(1.0);
-	babygiraffeModel = glm::translate(babygiraffeModel, glm::vec3(-3.5f, -0.1f, 53.0f));
-	babygiraffeModel = glm::rotate(babygiraffeModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	babygiraffeModel = glm::rotate(babygiraffeModel, glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	babygiraffeModel = glm::scale(babygiraffeModel, glm::vec3(0.8f));
-	objShader.SetMat4("model", babygiraffeModel);
-	models[1].Draw(objShader);
+	//glm::mat4 babygiraffeModel = glm::mat4(1.0);
+	//babygiraffeModel = glm::translate(babygiraffeModel, glm::vec3(-3.5f, -0.1f, 53.0f));
+	//babygiraffeModel = glm::rotate(babygiraffeModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//babygiraffeModel = glm::rotate(babygiraffeModel, glm::radians(45.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+	//babygiraffeModel = glm::scale(babygiraffeModel, glm::vec3(0.8f));
+	//objShader.SetMat4("model", babygiraffeModel);
+	//animals[1].Draw(objShader);
 
 	glm::mat4 SeaLionModel = glm::mat4(1.0);
 	SeaLionModel = glm::translate(SeaLionModel, glm::vec3(-2.0f, -1.0f, 0.0f));
@@ -714,18 +757,18 @@ void RenderFrame()
 	animals[7].Draw(objShader);//14
 
 	glm::mat4 bearModel = glm::mat4(1.0);
-	bearModel = glm::translate(bearModel, glm::vec3(20.f, -1.f, 0.f));
-	bearModel = glm::scale(bearModel, glm::vec3(15.f));
+	bearModel = glm::translate(bearModel, glm::vec3(-8.f, -0.5f, 13.f));
+	bearModel = glm::scale(bearModel, glm::vec3(10.f));
 	objShader.SetMat4("model", bearModel);
 	animals[8].Draw(objShader);
 
-	for (int i = 0; i < 10; i++) {
-		glm::mat4 zebraModel = glm::mat4(1.0);
-		zebraModel = glm::translate(zebraModel, glm::vec3(15.f + (i * 3.2f), -1.f, 5.f));
-		zebraModel = glm::scale(zebraModel, glm::vec3(10.f));
-		objShader.SetMat4("model", zebraModel);
-		animals[9].Draw(objShader);
-
+	for (int i = 1; i <= 6; i+=2) {
+			glm::mat4 zebraModel = glm::mat4(1.0);
+			zebraModel = glm::translate(zebraModel, glm::vec3(i * 0.6f + 12.f, -1.f, 25.5f + i*2));
+			zebraModel = glm::scale(zebraModel, glm::vec3(10.f));
+			zebraModel = glm::rotate(zebraModel, glm::radians(-35.0f*i), glm::vec3(0.f, 1.0f, 0.0f));
+			objShader.SetMat4("model", zebraModel);
+			animals[9].Draw(objShader);
 	}
 
 	glm::mat4 apeModel = glm::mat4(1.0);
@@ -775,15 +818,7 @@ void RenderFrame()
 	objShader.SetMat4("model", stationModel);
 	structures[2].Draw(objShader);
 
-	
-
-
-	glm::mat4 WallModel = glm::mat4(1.0);
-	WallModel = glm::translate(WallModel, glm::vec3(8.0f, 0.0f, 10.0f));
-	WallModel = glm::rotate(WallModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-	WallModel = glm::scale(WallModel, glm::vec3(4.f));
-	objShader.SetMat4("model", WallModel);
-	structures[3].Draw(objShader);
+	generateWalls();
 
 	glm::mat4 crocodileModel = glm::mat4(1.0);
 	// Keep same position
